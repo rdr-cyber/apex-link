@@ -1,0 +1,67 @@
+# TRACE-NET — Render Deployment Configuration (Blueprint)
+#
+# This file describes the services for Render Blueprint deployment.
+# Secrets (DATABASE_URL, SECRET_KEY, etc.) must be set manually in the
+# Render dashboard or via `render secret set`.
+#
+# See DEPLOYMENT.md for full step-by-step setup instructions.
+#
+# IMPORTANT: After Render creates the frontend service, you must:
+#   1. Copy the frontend URL into the backend CORS_ORIGINS env var
+#   2. Copy the frontend URL into the backend FRONTEND_BASE_URL env var
+#   3. Copy the backend URL into the frontend VITE_API_BASE_URL env var
+#   4. Trigger a redeploy of both services
+
+services:
+  # ── Backend ──────────────────────────────────────────────
+  - type: web
+    name: trace-net-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: DEBUG
+        value: "false"
+      - key: EMAIL_PROVIDER
+        value: "demo"
+      - key: STORAGE_MODE
+        value: "local"
+      - key: LOCAL_STORAGE_PATH
+        value: "./storage/evidence"
+      # ── Secrets (set manually in Render dashboard) ──
+      - key: DATABASE_URL
+        sync: false  # Supabase PostgreSQL async connection string
+      - key: DATABASE_URL_SYNC
+        sync: false  # Supabase PostgreSQL sync connection string (for Alembic)
+      - key: SECRET_KEY
+        sync: false  # Generate: openssl rand -hex 32
+      - key: CORS_ORIGINS
+        sync: false  # After frontend is created: https://<frontend>.onrender.com
+      - key: FRONTEND_BASE_URL
+        sync: false  # After frontend is created: https://<frontend>.onrender.com
+      - key: ADMIN_PASSWORD
+        sync: false  # Strong password for demo admin
+      - key: INVESTIGATOR_PASSWORD
+        sync: false
+      - key: ANALYST_PASSWORD
+        sync: false
+
+  # ── Frontend ─────────────────────────────────────────────
+  - type: web
+    name: trace-net-frontend
+    runtime: static
+    plan: free
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false  # After backend is created: https://<backend>.onrender.com
+
+# ── SPA Routing ──────────────────────────────────────────
+# Render Static Sites serve index.html for all routes by default.
+# If deep links return 404, add a Rewrite rule manually:
+#   Source: /*
+#   Destination: /index.html
+#   Type: Rewrite

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="shield" x1="32" y1="4" x2="32" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield shape -->
+  <path d="M32 4 L56 14 L56 32 C56 46 32 60 32 60 C32 60 8 46 8 32 L8 14 Z" fill="url(#shield)" stroke="#312e81" stroke-width="1.5"/>
+  <!-- Inner network lines -->
+  <circle cx="24" cy="28" r="3" fill="#fff" opacity="0.9"/>
+  <circle cx="40" cy="28" r="3" fill="#fff" opacity="0.9"/>
+  <circle cx="32" cy="20" r="3" fill="#fff" opacity="0.9"/>
+  <circle cx="20" cy="40" r="2.5" fill="#fff" opacity="0.9"/>
+  <circle cx="44" cy="40" r="2.5" fill="#fff" opacity="0.9"/>
+  <circle cx="32" cy="44" r="2.5" fill="#fff" opacity="0.9"/>
+  <!-- Network connections -->
+  <line x1="24" y1="28" x2="32" y2="20" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <line x1="40" y1="28" x2="32" y2="20" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <line x1="24" y1="28" x2="20" y2="40" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <line x1="40" y1="28" x2="44" y2="40" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <line x1="20" y1="40" x2="32" y2="44" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <line x1="44" y1="40" x2="32" y2="44" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <line x1="24" y1="28" x2="40" y2="28" stroke="#fff" stroke-width="1.2" opacity="0.5"/>
+  <line x1="24" y1="28" x2="32" y2="44" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
+  <line x1="40" y1="28" x2="32" y2="44" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
+</svg>
