@@ -11,10 +11,18 @@ settings = get_settings()
 db_url = settings.DATABASE_URL
 is_postgres = db_url.startswith("postgresql")
 
+# For Supabase/managed PostgreSQL, SSL is typically required.
+# asyncpg uses 'ssl' connect_arg; add it if DATABASE_URL doesn't already include sslmode.
+import ssl as _ssl
+_connect_args = {}
+if is_postgres and "sslmode" not in db_url and "ssl" not in db_url:
+    _connect_args["ssl"] = "require"
+
 engine = create_async_engine(
     db_url,
     echo=settings.DEBUG,
     future=True,
+    connect_args=_connect_args if _connect_args else None,
     **(
         {
             "pool_size": settings.DB_POOL_SIZE,
