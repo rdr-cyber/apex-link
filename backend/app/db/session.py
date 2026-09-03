@@ -18,23 +18,22 @@ _connect_args = {}
 if is_postgres and "sslmode" not in db_url and "ssl" not in db_url:
     _connect_args["ssl"] = "require"
 
-engine = create_async_engine(
-    db_url,
-    echo=settings.DEBUG,
-    future=True,
-    connect_args=_connect_args if _connect_args else None,
-    **(
-        {
-            "pool_size": settings.DB_POOL_SIZE,
-            "max_overflow": settings.DB_MAX_OVERFLOW,
-            "pool_timeout": settings.DB_POOL_TIMEOUT,
-            "pool_recycle": settings.DB_POOL_RECYCLE,
-            "pool_pre_ping": True,
-        }
-        if is_postgres
-        else {}
-    ),
-)
+engine_kwargs = {
+    "echo": settings.DEBUG,
+    "future": True,
+}
+if _connect_args:
+    engine_kwargs["connect_args"] = _connect_args
+if is_postgres:
+    engine_kwargs.update({
+        "pool_size": settings.DB_POOL_SIZE,
+        "max_overflow": settings.DB_MAX_OVERFLOW,
+        "pool_timeout": settings.DB_POOL_TIMEOUT,
+        "pool_recycle": settings.DB_POOL_RECYCLE,
+        "pool_pre_ping": True,
+    })
+
+engine = create_async_engine(db_url, **engine_kwargs)
 async_session_factory = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
