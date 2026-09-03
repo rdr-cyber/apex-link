@@ -16,7 +16,8 @@ is_postgres = db_url.startswith("postgresql")
 import ssl as _ssl
 _connect_args = {}
 if is_postgres and "sslmode" not in db_url and "ssl" not in db_url:
-    _connect_args["ssl"] = "require"
+    # asyncpg expects ssl=True or ssl=SSLContext, not the string "require"
+    _connect_args["ssl"] = True
 
 engine_kwargs = {
     "echo": settings.DEBUG,
