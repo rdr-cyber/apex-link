@@ -1,51 +1,10 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { Shield, AlertCircle, MailCheck, Mail, Calculator } from 'lucide-react'
 import { api, authApi } from '@/api'
 
 type LoginPageStep = 'credentials' | 'challenge'
-
-function FloatingParticles() {
-  const particles = useMemo(() =>
-    Array.from({ length: 25 }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      size: Math.random() * 5 + 2,
-      duration: Math.random() * 18 + 12,
-      delay: Math.random() * 12,
-      opacity: Math.random() * 0.5 + 0.15,
-    })), [])
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="particle"
-          style={{
-            left: p.left,
-            width: p.size,
-            height: p.size,
-            opacity: p.opacity,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-function FloatingOrbs() {
-  return (
-    <>
-      <div className="absolute top-[15%] left-[10%] w-64 h-64 bg-trace-500/10 rounded-full blur-3xl pointer-events-none" style={{ animation: 'float 8s ease-in-out infinite' }} />
-      <div className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-indigo-500/8 rounded-full blur-3xl pointer-events-none" style={{ animation: 'float 10s ease-in-out infinite 2s' }} />
-      <div className="absolute top-[60%] left-[50%] w-48 h-48 bg-purple-500/6 rounded-full blur-3xl pointer-events-none" style={{ animation: 'float 12s ease-in-out infinite 4s' }} />
-    </>
-  )
-}
 
 export function LoginPage() {
   const { loginWithOtp } = useAuth()
@@ -65,10 +24,8 @@ export function LoginPage() {
   const [resendMessage, setResendMessage] = useState('')
 
   const [mounted, setMounted] = useState(false)
-  const [cardMounted, setCardMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
-    setTimeout(() => setCardMounted(true), 100)
   }, [])
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
@@ -162,33 +119,32 @@ export function LoginPage() {
   }
 
   return (
-    <div className="login-bg flex min-h-screen items-center justify-center px-4 relative">
-      <FloatingParticles />
-      <FloatingOrbs />
-
-      <div className={`w-full max-w-md transition-all duration-700 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+    <div className="login-bg flex min-h-screen items-center justify-center px-4">
+      <div className={`w-full max-w-sm transition-all duration-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         {/* Logo */}
-        <div className="mb-10 text-center">
-          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-trace-500 via-indigo-500 to-purple-600 shadow-2xl shield-glow">
-            <Shield className="h-11 w-11 text-white" />
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-dossier text-charcoal">
+            <Shield className="h-7 w-7" />
           </div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight" style={{ textShadow: '0 0 40px rgba(99, 102, 241, 0.3)' }}>
+          <h1 className="text-xl font-extrabold text-white tracking-wider font-mono">
             TRACE-NET
           </h1>
-          <p className="mt-1.5 text-sm text-indigo-200/60 font-medium">Investigation Intelligence Platform</p>
+          <p className="mt-1 text-xs text-gray-400 font-mono uppercase tracking-[0.15em]">
+            Investigation Intelligence Platform
+          </p>
         </div>
 
         {/* Card */}
-        <div className={`card-glass shadow-2xl transition-all duration-500 ease-out ${cardMounted ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-6 scale-95'}`}>
+        <div className="card-glass shadow-xl">
           {step === 'credentials' ? (
-            <form onSubmit={handleCredentialsSubmit} className="space-y-5" key="credentials">
+            <form onSubmit={handleCredentialsSubmit} className="space-y-4" key="credentials">
               {error && (
-                <div className={`alert-enter flex items-start gap-2.5 rounded-xl p-3.5 text-sm ${
+                <div className={`alert-enter flex items-start gap-2 rounded p-3 text-sm ${
                   errorCode === 'EMAIL_NOT_VERIFIED'
-                    ? 'bg-amber-50/80 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-200/50'
+                    ? 'bg-dossier/10 text-dossier-dim border border-dossier/20'
                     : errorCode === 'ACCOUNT_INACTIVE'
-                    ? 'bg-gray-50/80 dark:bg-gray-800/50 text-gray-700 dark:text-gray-400 border border-gray-200/50'
-                    : 'bg-red-50/80 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200/50'
+                    ? 'bg-gray-100 text-gray-600 border border-mist-dark'
+                    : 'bg-alert/10 text-alert border border-alert/20'
                 }`}>
                   {errorCode === 'EMAIL_NOT_VERIFIED' ? (
                     <MailCheck className="h-4 w-4 shrink-0 mt-0.5" />
@@ -199,26 +155,26 @@ export function LoginPage() {
                 </div>
               )}
 
-              <div className="space-y-1.5">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Username</label>
+              <div className="space-y-1">
+                <label className="block text-label text-gray-500">Username</label>
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="input-field"
+                  className="input-field font-mono"
                   required
                   autoFocus
                   autoComplete="username"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
+              <div className="space-y-1">
+                <label className="block text-label text-gray-500">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input-field"
+                  className="input-field font-mono"
                   required
                   autoComplete="current-password"
                 />
@@ -227,8 +183,8 @@ export function LoginPage() {
               <button type="submit" disabled={loading} className="btn-primary w-full">
                 {loading ? (
                   <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                    Signing in...
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-charcoal border-t-transparent" />
+                    Authenticating...
                   </span>
                 ) : (
                   'Sign In'
@@ -237,37 +193,37 @@ export function LoginPage() {
             </form>
           ) : (
             <div key="challenge">
-              <div className="text-center mb-5">
-                <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-trace-500 to-indigo-600 shadow-lg" style={{ animation: 'float 3s ease-in-out infinite' }}>
-                  <Calculator className="h-7 w-7 text-white" />
+              <div className="text-center mb-4">
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded bg-dossier/10 text-dossier">
+                  <Calculator className="h-5 w-5" />
                 </div>
-                <h2 className="text-lg font-bold text-gray-900 dark:text-white">Verify Your Identity</h2>
-                <p className="mt-1 text-sm text-gray-500">Solve this simple challenge to continue</p>
+                <h2 className="text-sm font-bold text-ink">Identity Verification</h2>
+                <p className="mt-0.5 text-xs text-gray-500">Solve to continue</p>
               </div>
 
-              <div className="mb-5 p-5 rounded-xl text-center" style={{ background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.06) 100%)', border: '1px solid rgba(99, 102, 241, 0.15)' }}>
-                <p className="text-2xl font-extrabold text-trace-700 dark:text-trace-300" style={{ animation: 'neon-pulse 2s ease-in-out infinite' }}>
+              <div className="mb-4 p-4 rounded bg-charcoal text-center border border-charcoal-light">
+                <p className="text-xl font-extrabold font-mono text-dossier tracking-wider">
                   {challengeQuestion}
                 </p>
-                <p className="mt-2 text-xs text-gray-500">
+                <p className="mt-2 text-[10px] text-gray-500 font-mono">
                   Expires in {Math.floor(challengeExpiresIn / 60)}m {challengeExpiresIn % 60}s
                 </p>
               </div>
 
-              <form onSubmit={handleChallengeSubmit} className="space-y-4">
+              <form onSubmit={handleChallengeSubmit} className="space-y-3">
                 {error && (
-                  <div className="alert-enter flex items-start gap-2.5 rounded-xl bg-red-50/80 dark:bg-red-900/20 p-3.5 text-sm text-red-700 dark:text-red-400 border border-red-200/50">
+                  <div className="alert-enter flex items-start gap-2 rounded bg-alert/10 p-3 text-sm text-alert border border-alert/20">
                     <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                     <span>{error}</span>
                   </div>
                 )}
 
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Your Answer</label>
+                <div className="space-y-1">
+                  <label className="block text-label text-gray-500">Answer</label>
                   <input
                     type="text"
                     name="challenge-answer"
-                    className="input-field text-center text-2xl tracking-[0.3em] font-mono font-bold"
+                    className="input-field text-center text-xl tracking-[0.4em] font-mono font-bold"
                     placeholder="?"
                     required
                     autoFocus
@@ -278,17 +234,17 @@ export function LoginPage() {
                 <button type="submit" disabled={loading} className="btn-primary w-full">
                   {loading ? (
                     <span className="flex items-center gap-2">
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-charcoal border-t-transparent" />
                       Verifying...
                     </span>
                   ) : (
-                    'Submit Answer'
+                    'Verify'
                   )}
                 </button>
               </form>
 
-              <div className="mt-4 border-t border-gray-200/50 dark:border-gray-700/50 pt-4 text-center">
-                <button onClick={handleBackToCredentials} className="btn-ghost text-sm">
+              <div className="mt-3 pt-3 border-t border-mist-dark text-center">
+                <button onClick={handleBackToCredentials} className="btn-ghost text-xs">
                   ← Back to Sign In
                 </button>
               </div>
@@ -297,23 +253,29 @@ export function LoginPage() {
 
           {/* Demo accounts */}
           {step === 'credentials' && (
-            <div className="mt-6 border-t border-gray-200/50 dark:border-gray-700/50 pt-5">
-              <p className="mb-2.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Demo Accounts</p>
-              <div className="space-y-1.5 text-xs text-gray-500 dark:text-gray-400">
+            <div className="mt-4 pt-4 border-t border-mist-dark">
+              <p className="mb-2 text-label text-gray-400">Demo Accounts</p>
+              <div className="space-y-1 text-xs text-gray-500">
                 <p className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                  <span className="font-mono font-semibold text-gray-700 dark:text-gray-300">admin</span> / <span className="font-mono">admin123</span>
-                  <span className="text-gray-400">— Admin</span>
+                  <span className="status-dot status-dot-critical" />
+                  <span className="font-mono font-semibold text-ink">admin</span>
+                  <span className="text-gray-400">/</span>
+                  <span className="font-mono">admin123</span>
+                  <span className="text-gray-400 ml-auto">Admin</span>
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                  <span className="font-mono font-semibold text-gray-700 dark:text-gray-300">investigator</span> / <span className="font-mono">investigator123</span>
-                  <span className="text-gray-400">— Investigator</span>
+                  <span className="status-dot bg-crosscase" />
+                  <span className="font-mono font-semibold text-ink">investigator</span>
+                  <span className="text-gray-400">/</span>
+                  <span className="font-mono">investigator123</span>
+                  <span className="text-gray-400 ml-auto">Investigator</span>
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                  <span className="font-mono font-semibold text-gray-700 dark:text-gray-300">analyst</span> / <span className="font-mono">analyst123</span>
-                  <span className="text-gray-400">— Analyst</span>
+                  <span className="status-dot status-dot-active" />
+                  <span className="font-mono font-semibold text-ink">analyst</span>
+                  <span className="text-gray-400">/</span>
+                  <span className="font-mono">analyst123</span>
+                  <span className="text-gray-400 ml-auto">Analyst</span>
                 </p>
               </div>
             </div>
@@ -321,9 +283,9 @@ export function LoginPage() {
 
           {/* Email verification resend */}
           {errorCode === 'EMAIL_NOT_VERIFIED' && (
-            <div className="mt-5 border-t border-gray-200/50 dark:border-gray-700/50 pt-5">
-              <form onSubmit={handleResendVerification} className="space-y-3">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+            <div className="mt-4 pt-4 border-t border-mist-dark">
+              <form onSubmit={handleResendVerification} className="space-y-2">
+                <p className="text-label text-gray-400 flex items-center gap-1.5">
                   <Mail className="h-3 w-3" /> Resend Verification
                 </p>
                 <input
@@ -345,8 +307,8 @@ export function LoginPage() {
           )}
         </div>
 
-        <p className="mt-6 text-center text-[11px] text-indigo-300/30 font-medium">
-          Prototype using synthetic data. Not for production use.
+        <p className="mt-4 text-center text-[10px] text-gray-600 font-mono">
+          Synthetic data only · Not for production use
         </p>
       </div>
     </div>

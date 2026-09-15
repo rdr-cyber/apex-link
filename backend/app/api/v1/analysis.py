@@ -19,6 +19,7 @@ from app.repositories.evidence_repo import EvidenceRepository
 from app.services.analysis_service import AnalysisService
 from app.services.cross_case_correlation import CrossCaseCorrelationService
 from app.services.graph_service import GraphService
+from app.services.lead_service import LeadService
 from app.services.pattern_detection import PatternDetectionService
 from app.services.case_access_service import require_case_access
 
@@ -32,8 +33,50 @@ async def run_analysis(
     user: User = Depends(require_role("ADMIN", "INVESTIGATOR", "ANALYST")),
     db: AsyncSession = Depends(get_db),
 ):
-    """Run the full analysis pipeline for a case."""
+    """Run the full analysis pipeline for a case.
+    
+    If the case already has completed analysis results, returns the existing
+    results instead of re-running (which would create duplicate entities).
+    This makes the endpoint idempotent and safe for repeated clicks.
+    """
     await require_case_access(db, user, case_id)
+
+    # Check for existing completed analysis
+    existing_q = await db.execute(
+        select(AnalysisResult)
+        .where(AnalysisResult.case_id == case_id, AnalysisResult.status == "completed")
+        .order_by(desc(AnalysisResult.executed_at))
+        .limit(1)
+    )
+    existing = existing_q.scalar_one_or_none()
+
+    if existing:
+        # Return existing results — don't re-run to avoid entity duplication
+        import json
+        summary = json.loads(existing.result_summary)
+        graph_service = GraphService(db)
+        graph = await graph_service.build_and_analyze(case_id)
+        lead_service = LeadService(db)
+        leads = await lead_service.get_leads_for_case(case_id)
+
+        return {
+            "analysis_id": str(existing.id),
+            "case_id": str(case_id),
+            "algorithm_version": existing.algorithm_version,
+            "cached": True,
+            "message": "Returning existing analysis results.",
+            "extraction_results": summary.get("extraction", []),
+            "relationships_generated": summary.get("relationships_generated", 0),
+            "graph": {
+                "nodes": len(graph.nodes),
+                "edges": len(graph.edges),
+                "stats": graph.stats,
+            },
+            "leads": leads,
+            "suspicious_patterns": [],
+            "key_entities": [],
+        }
+
     service = AnalysisService(db)
     result = await service.run_full_analysis(case_id, user.id)
 

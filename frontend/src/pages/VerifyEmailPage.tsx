@@ -15,10 +15,7 @@ export function VerifyEmailPage() {
   const [resendMessage, setResendMessage] = useState('')
 
   useEffect(() => {
-    if (!token) {
-      setStatus('missing')
-      return
-    }
+    if (!token) { setStatus('missing'); return }
 
     const verify = async () => {
       try {
@@ -28,23 +25,17 @@ export function VerifyEmailPage() {
       } catch (err: any) {
         const detail = err.response?.data?.detail || ''
         const errorCode = err.response?.headers?.['x-auth-error'] || ''
-
         if (errorCode === 'VERIFICATION_TOKEN_EXPIRED' || detail.toLowerCase().includes('expired')) {
-          setStatus('expired')
-          setMessage('This verification link has expired.')
+          setStatus('expired'); setMessage('This verification link has expired.')
         } else if (errorCode === 'VERIFICATION_TOKEN_USED' || detail.toLowerCase().includes('used')) {
-          setStatus('used')
-          setMessage('This verification link has already been used.')
+          setStatus('used'); setMessage('This verification link has already been used.')
         } else if (errorCode === 'INVALID_VERIFICATION_TOKEN' || detail.toLowerCase().includes('invalid')) {
-          setStatus('invalid')
-          setMessage('This verification link is invalid.')
+          setStatus('invalid'); setMessage('This verification link is invalid.')
         } else {
-          setStatus('error')
-          setMessage('An unexpected error occurred. Please try again.')
+          setStatus('error'); setMessage('An unexpected error occurred.')
         }
       }
     }
-
     verify()
   }, [token])
 
@@ -64,107 +55,69 @@ export function VerifyEmailPage() {
   }
 
   const statusConfig: Record<string, { icon: React.ReactNode; color: string; title: string }> = {
-    loading: {
-      icon: <Loader2 className="h-12 w-12 animate-spin" />,
-      color: 'text-trace-600',
-      title: 'Verifying your email...',
-    },
-    success: {
-      icon: <CheckCircle className="h-12 w-12" />,
-      color: 'text-green-600',
-      title: 'Email Verified!',
-    },
-    expired: {
-      icon: <AlertCircle className="h-12 w-12" />,
-      color: 'text-amber-600',
-      title: 'Link Expired',
-    },
-    used: {
-      icon: <CheckCircle className="h-12 w-12" />,
-      color: 'text-blue-600',
-      title: 'Already Verified',
-    },
-    invalid: {
-      icon: <XCircle className="h-12 w-12" />,
-      color: 'text-red-600',
-      title: 'Invalid Link',
-    },
-    missing: {
-      icon: <XCircle className="h-12 w-12" />,
-      color: 'text-red-600',
-      title: 'Missing Verification Link',
-    },
-    error: {
-      icon: <XCircle className="h-12 w-12" />,
-      color: 'text-red-600',
-      title: 'Verification Failed',
-    },
+    loading: { icon: <Loader2 className="h-10 w-10 animate-spin" />, color: 'text-dossier', title: 'Verifying your email...' },
+    success: { icon: <CheckCircle className="h-10 w-10" />, color: 'text-field', title: 'Email Verified' },
+    expired: { icon: <AlertCircle className="h-10 w-10" />, color: 'text-dossier-dim', title: 'Link Expired' },
+    used: { icon: <CheckCircle className="h-10 w-10" />, color: 'text-crosscase', title: 'Already Verified' },
+    invalid: { icon: <XCircle className="h-10 w-10" />, color: 'text-alert', title: 'Invalid Link' },
+    missing: { icon: <XCircle className="h-10 w-10" />, color: 'text-alert', title: 'Missing Verification Link' },
+    error: { icon: <XCircle className="h-10 w-10" />, color: 'text-alert', title: 'Verification Failed' },
   }
 
   const config = statusConfig[status]
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-trace-600">
-            <Shield className="h-10 w-10 text-white" />
+    <div className="login-bg flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-6 text-center">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-dossier text-charcoal">
+            <Shield className="h-6 w-6" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">TRACE-NET</h1>
-          <p className="mt-1 text-sm text-gray-500">Email Verification</p>
+          <h1 className="text-lg font-extrabold text-white font-mono tracking-wider">TRACE-NET</h1>
+          <p className="mt-0.5 text-xs text-gray-400 font-mono">Email Verification</p>
         </div>
 
-        {/* Status Panel */}
-        <div className="card">
-          <div className="flex flex-col items-center text-center p-6">
-            <div className={`mb-4 ${config.color}`}>{config.icon}</div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{config.title}</h2>
-            {message && <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{message}</p>}
+        <div className="card-glass shadow-xl">
+          <div className="flex flex-col items-center text-center p-4">
+            <div className={`mb-3 ${config.color}`}>{config.icon}</div>
+            <h2 className="text-sm font-bold text-ink mb-1">{config.title}</h2>
+            {message && <p className="text-xs text-gray-500 mb-3">{message}</p>}
 
             {(status === 'success' || status === 'used') && (
-              <Link to="/login" className="btn-primary mt-4">
-                Sign In
-              </Link>
+              <Link to="/login" className="btn-primary mt-3 text-xs">Sign In</Link>
             )}
 
             {(status === 'expired' || status === 'invalid' || status === 'missing' || status === 'error') && (
-              <div className="w-full mt-4">
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
-                    <Mail className="h-4 w-4" /> Resend verification email
+              <div className="w-full mt-3">
+                <div className="border-t border-mist-dark pt-3">
+                  <p className="text-xs font-mono text-gray-400 mb-2 flex items-center gap-1">
+                    <Mail className="h-3 w-3" /> Resend verification
                   </p>
-                  <form onSubmit={handleResend} className="space-y-3">
+                  <form onSubmit={handleResend} className="space-y-2">
                     <input
                       type="email"
                       value={resendEmail}
                       onChange={(e) => setResendEmail(e.target.value)}
                       placeholder="your@email.com"
-                      className="input-field"
+                      className="input-field text-xs"
                       required
                     />
-                    <button
-                      type="submit"
-                      disabled={resendLoading}
-                      className="btn-primary w-full"
-                    >
-                      {resendLoading ? 'Sending...' : 'Resend Verification Email'}
+                    <button type="submit" disabled={resendLoading} className="btn-secondary w-full text-xs">
+                      {resendLoading ? 'Sending...' : 'Send Verification Email'}
                     </button>
                   </form>
-                  {resendMessage && (
-                    <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">{resendMessage}</p>
-                  )}
+                  {resendMessage && <p className="mt-2 text-xs text-gray-500">{resendMessage}</p>}
                 </div>
               </div>
             )}
 
             {status === 'loading' && (
-              <p className="text-sm text-gray-500 mt-2">Please wait while we verify your email address...</p>
+              <p className="text-xs text-gray-400 mt-2">Please wait...</p>
             )}
           </div>
 
-          <div className="border-t border-gray-200 dark:border-gray-700 p-4 text-center">
-            <Link to="/login" className="text-sm text-trace-600 hover:text-trace-700 font-medium">
+          <div className="border-t border-mist-dark p-3 text-center">
+            <Link to="/login" className="text-xs text-crosscase hover:text-crosscase-dim font-mono">
               ← Back to Sign In
             </Link>
           </div>

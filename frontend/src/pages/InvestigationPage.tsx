@@ -12,17 +12,17 @@ import { CytoscapeComponent } from '../components/CytoscapeGraph';
 
 // Entity type colors
 const ENTITY_COLORS: Record<string, string> = {
-  PERSON: '#6366f1', PHONE: '#22c55e', EMAIL: '#3b82f6',
-  IP_ADDRESS: '#f59e0b', UPI_ID: '#ef4444', BANK_ACCOUNT: '#8b5cf6',
-  VEHICLE: '#06b6d4', DEVICE: '#f97316', LOCATION: '#ec4899',
-  ORGANIZATION: '#14b8a6', SOCIAL_ACCOUNT: '#a855f7', URL: '#64748b',
-  CASE_REFERENCE: '#6b7280',
+  PERSON: '#4a7fbf', PHONE: '#5a9e6f', EMAIL: '#8b6db5',
+  IP_ADDRESS: '#c0544f', UPI_ID: '#c49a3c', BANK_ACCOUNT: '#4aaa6a',
+  VEHICLE: '#c77840', DEVICE: '#3a9aa0', LOCATION: '#bf6b8a',
+  ORGANIZATION: '#6e7fbf', SOCIAL_ACCOUNT: '#8b6db5', URL: '#7a8a9a',
+  CASE_REFERENCE: '#6a7a8a',
 };
 
 const REL_COLORS: Record<string, string> = {
-  SHARED_IDENTIFIER: '#22c55e', STRUCTURED_RECORD: '#3b82f6',
-  TEXTUAL_CO_OCCURRENCE: '#94a3b8', CROSS_CASE_LINK: '#ef4444',
-  TEMPORAL_ASSOCIATION: '#f59e0b', MANUAL: '#8b5cf6',
+  SHARED_IDENTIFIER: '#27ae60', STRUCTURED_RECORD: '#2c6fbb',
+  TEXTUAL_CO_OCCURRENCE: '#7a8a9a', CROSS_CASE_LINK: '#c0392b',
+  TEMPORAL_ASSOCIATION: '#d4a853', MANUAL: '#8b6db5',
 };
 
 type EntityType = 'PERSON' | 'PHONE' | 'EMAIL' | 'IP_ADDRESS' | 'UPI_ID' | 'BANK_ACCOUNT' | 'VEHICLE' | 'DEVICE' | 'LOCATION' | 'ORGANIZATION' | 'SOCIAL_ACCOUNT' | 'URL' | 'CASE_REFERENCE';
@@ -151,9 +151,9 @@ export default function InvestigationPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-cream">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b px-4 py-3 flex items-center gap-4">
+      <div className="bg-white border-b border-mist-dark px-4 py-3 flex items-center gap-4">
         <Link to={`/cases/${caseId}`} className="text-gray-500 hover:text-gray-700">
           ← Back
         </Link>
@@ -179,7 +179,7 @@ export default function InvestigationPage() {
       <div className="flex-1 flex overflow-hidden">
         {/* Left sidebar — Filters */}
         {showFilters && (
-          <div className="w-64 bg-white dark:bg-gray-800 border-r p-4 overflow-y-auto flex-shrink-0">
+          <div className="w-64 bg-white border-r border-mist-dark p-4 overflow-y-auto flex-shrink-0">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold text-sm">Filters</h3>
               <button onClick={() => setShowFilters(false)} className="text-gray-400 hover:text-gray-600">
@@ -236,7 +236,7 @@ export default function InvestigationPage() {
             {(selectedEntityTypes.size > 0 || selectedRelTypes.size > 0 || searchQuery) && (
               <button
                 onClick={() => { setSelectedEntityTypes(new Set()); setSelectedRelTypes(new Set()); setSearchQuery(''); }}
-                className="text-xs text-blue-600 hover:underline"
+                className="text-xs text-crosscase hover:underline"
               >Clear all filters</button>
             )}
           </div>
@@ -295,7 +295,7 @@ export default function InvestigationPage() {
         </div>
 
         {/* Right sidebar — Inspector */}
-        <div className="w-80 bg-white dark:bg-gray-800 border-l overflow-y-auto flex-shrink-0">
+        <div className="w-80 bg-white border-l border-mist-dark overflow-y-auto flex-shrink-0">
           {/* Node inspection */}
           {selectedNodeId && entityDetail && (
             <div className="p-4">
@@ -464,18 +464,18 @@ export default function InvestigationPage() {
       </div>
 
       {/* Bottom panel — Timeline / Leads / Correlations */}
-      <div className="bg-white dark:bg-gray-800 border-t h-48 flex flex-col">
+      <div className="bg-white border-t border-mist-dark h-48 flex flex-col">
         <div className="flex border-b">
           {(['timeline', 'leads', 'correlations', 'patterns'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-2 text-xs font-medium capitalize border-b-2 transition ${
-                activeTab === tab ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+                activeTab === tab ? 'border-dossier text-dossier' : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
               {tab === 'patterns' && patterns && patterns.length > 0 && (
-                <span className="mr-1 bg-amber-500 text-white text-[10px] px-1 rounded-full">{patterns.length}</span>
+                <span className="mr-1 bg-dossier text-charcoal text-[10px] px-1 rounded-full font-mono">{patterns.length}</span>
               )}
               {tab}
             </button>

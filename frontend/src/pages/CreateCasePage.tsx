@@ -1,17 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { casesApi } from '@/api'
-import {
-  ArrowLeft,
-  Save,
-  FileText,
-  MapPin,
-  Calendar,
-  Tag,
-  AlertTriangle,
-  Loader2,
-} from 'lucide-react'
+import { ArrowLeft, Save, FileText, MapPin, Calendar, Tag, AlertTriangle, Loader2 } from 'lucide-react'
 
 const CATEGORIES = [
   { value: 'CYBER_FRAUD', label: 'Cyber Fraud' },
@@ -31,10 +22,10 @@ const CATEGORIES = [
 ]
 
 const PRIORITIES = [
-  { value: 'LOW', label: 'Low', color: 'text-green-600' },
-  { value: 'MEDIUM', label: 'Medium', color: 'text-yellow-600' },
-  { value: 'HIGH', label: 'High', color: 'text-orange-600' },
-  { value: 'CRITICAL', label: 'Critical', color: 'text-red-600' },
+  { value: 'LOW', label: 'Low', color: 'text-field' },
+  { value: 'MEDIUM', label: 'Medium', color: 'text-dossier-dim' },
+  { value: 'HIGH', label: 'High', color: 'text-dossier' },
+  { value: 'CRITICAL', label: 'Critical', color: 'text-alert' },
 ]
 
 interface CaseFormData {
@@ -78,7 +69,7 @@ export default function CreateCasePage() {
       navigate(`/cases/${res.data.id}`)
     },
     onError: (err: any) => {
-      const detail = err.response?.data?.detail || 'Failed to create case. Please try again.'
+      const detail = err.response?.data?.detail || 'Failed to create case.'
       setErrors({ title: detail })
     },
   })
@@ -95,138 +86,95 @@ export default function CreateCasePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (validate()) {
-      createMutation.mutate(form)
-    }
+    if (validate()) createMutation.mutate(form)
   }
 
   const updateField = (field: keyof CaseFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }))
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
-    }
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }))
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
+    <div className="max-w-3xl mx-auto space-y-5">
+      <div className="flex items-center gap-3 border-b border-mist-dark pb-3">
         <button
           onClick={() => navigate('/cases')}
-          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          className="rounded p-1 hover:bg-cream-dark transition-colors"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+          <ArrowLeft className="h-4 w-4 text-gray-500" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Case</h1>
-          <p className="text-sm text-gray-500">
-            Open a new investigation case. All fields can be updated after creation.
-          </p>
+          <h1 className="text-lg font-bold text-ink font-mono tracking-wide">NEW CASE</h1>
+          <p className="text-xs text-gray-400">Open a new investigation case.</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Case Title */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="card">
-          <div className="flex items-center gap-2 mb-4">
-            <FileText className="h-5 w-5 text-trace-600" />
-            <h2 className="text-lg font-semibold">Case Information</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <FileText className="h-4 w-4 text-dossier" />
+            <h2 className="text-sm font-bold font-mono text-ink">CASE INFORMATION</h2>
           </div>
-
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Case Title <span className="text-red-500">*</span>
-              </label>
+              <label className="text-label text-gray-500">Case Title <span className="text-alert">*</span></label>
               <input
                 type="text"
                 value={form.title}
                 onChange={(e) => updateField('title', e.target.value)}
-                className={`input-field ${errors.title ? 'border-red-500 focus:ring-red-500' : ''}`}
+                className={`input-field ${errors.title ? 'border-alert' : ''}`}
                 placeholder="e.g. Cyber Fraud Ring — Andheri Operations"
                 autoFocus
               />
-              {errors.title && (
-                <p className="mt-1 text-sm text-red-600">{errors.title}</p>
-              )}
-              <p className="mt-1 text-xs text-gray-400">
-                {form.title.length}/500 characters
-              </p>
+              {errors.title && <p className="mt-1 text-xs text-alert">{errors.title}</p>}
+              <p className="mt-0.5 text-[10px] text-gray-400 font-mono">{form.title.length}/500</p>
             </div>
-
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Description
-              </label>
+              <label className="text-label text-gray-500">Description</label>
               <textarea
                 value={form.description}
                 onChange={(e) => updateField('description', e.target.value)}
-                className={`input-field min-h-[120px] resize-y ${errors.description ? 'border-red-500' : ''}`}
-                placeholder="Provide a detailed description of the case, including initial observations, reported incidents, and scope of investigation..."
+                className={`input-field min-h-[100px] resize-y ${errors.description ? 'border-alert' : ''}`}
+                placeholder="Detailed description of the case..."
               />
-              {errors.description && (
-                <p className="mt-1 text-sm text-red-600">{errors.description}</p>
-              )}
-              <p className="mt-1 text-xs text-gray-400">
-                {form.description.length}/10,000 characters
-              </p>
+              {errors.description && <p className="mt-1 text-xs text-alert">{errors.description}</p>}
+              <p className="mt-0.5 text-[10px] text-gray-400 font-mono">{form.description.length}/10,000</p>
             </div>
           </div>
         </div>
 
-        {/* Classification */}
         <div className="card">
-          <div className="flex items-center gap-2 mb-4">
-            <Tag className="h-5 w-5 text-trace-600" />
-            <h2 className="text-lg font-semibold">Classification</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <Tag className="h-4 w-4 text-dossier" />
+            <h2 className="text-sm font-bold font-mono text-ink">CLASSIFICATION</h2>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Category <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={form.category}
-                onChange={(e) => updateField('category', e.target.value)}
-                className="input-field"
-              >
+              <label className="text-label text-gray-500">Category <span className="text-alert">*</span></label>
+              <select value={form.category} onChange={(e) => updateField('category', e.target.value)} className="input-field text-xs">
                 {CATEGORIES.map((cat) => (
-                  <option key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </option>
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
                 ))}
               </select>
             </div>
-
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Priority <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={form.priority}
-                onChange={(e) => updateField('priority', e.target.value)}
-                className="input-field"
-              >
+              <label className="text-label text-gray-500">Priority <span className="text-alert">*</span></label>
+              <select value={form.priority} onChange={(e) => updateField('priority', e.target.value)} className="input-field text-xs">
                 {PRIORITIES.map((p) => (
-                  <option key={p.value} value={p.value}>
-                    {p.label}
-                  </option>
+                  <option key={p.value} value={p.value}>{p.label}</option>
                 ))}
               </select>
             </div>
           </div>
-
-          {/* Priority indicator */}
-          <div className="mt-3 flex items-center gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-            <AlertTriangle className={`h-4 w-4 ${
-              form.priority === 'CRITICAL' ? 'text-red-500' :
-              form.priority === 'HIGH' ? 'text-orange-500' :
-              form.priority === 'MEDIUM' ? 'text-yellow-500' :
-              'text-green-500'
+          <div className="mt-2 flex items-center gap-2 p-2 rounded bg-cream-dark border border-mist-dark">
+            <AlertTriangle className={`h-3.5 w-3.5 ${
+              form.priority === 'CRITICAL' ? 'text-alert' :
+              form.priority === 'HIGH' ? 'text-dossier' :
+              form.priority === 'MEDIUM' ? 'text-dossier-dim' :
+              'text-field'
             }`} />
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              {form.priority === 'CRITICAL' && 'Immediate attention required. All available resources should be allocated.'}
+            <span className="text-xs text-gray-500">
+              {form.priority === 'CRITICAL' && 'Immediate attention required.'}
               {form.priority === 'HIGH' && 'Urgent investigation. Prioritize over routine cases.'}
               {form.priority === 'MEDIUM' && 'Standard investigation priority.'}
               {form.priority === 'LOW' && 'Low priority. Handle when higher priority cases are addressed.'}
@@ -234,73 +182,39 @@ export default function CreateCasePage() {
           </div>
         </div>
 
-        {/* Incident Details */}
         <div className="card">
-          <div className="flex items-center gap-2 mb-4">
-            <MapPin className="h-5 w-5 text-trace-600" />
-            <h2 className="text-lg font-semibold">Incident Details</h2>
+          <div className="flex items-center gap-2 mb-3">
+            <MapPin className="h-4 w-4 text-dossier" />
+            <h2 className="text-sm font-bold font-mono text-ink">INCIDENT DETAILS</h2>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                <Calendar className="inline h-3.5 w-3.5 mr-1" />
-                Incident Date
-              </label>
-              <input
-                type="date"
-                value={form.incident_date}
-                onChange={(e) => updateField('incident_date', e.target.value)}
-                className="input-field"
-              />
-              <p className="mt-1 text-xs text-gray-400">
-                When the incident was first reported or occurred.
-              </p>
+              <label className="text-label text-gray-500"><Calendar className="inline h-3 w-3 mr-1" />Incident Date</label>
+              <input type="date" value={form.incident_date} onChange={(e) => updateField('incident_date', e.target.value)} className="input-field text-xs" />
             </div>
-
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                <MapPin className="inline h-3.5 w-3.5 mr-1" />
-                Location
-              </label>
+              <label className="text-label text-gray-500"><MapPin className="inline h-3 w-3 mr-1" />Location</label>
               <input
                 type="text"
                 value={form.location}
                 onChange={(e) => updateField('location', e.target.value)}
-                className={`input-field ${errors.location ? 'border-red-500' : ''}`}
+                className={`input-field ${errors.location ? 'border-alert' : ''}`}
                 placeholder="e.g. Andheri West, Mumbai"
               />
-              {errors.location && (
-                <p className="mt-1 text-sm text-red-600">{errors.location}</p>
-              )}
+              {errors.location && <p className="mt-1 text-xs text-alert">{errors.location}</p>}
             </div>
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-3">
-          <button
-            type="button"
-            onClick={() => navigate('/cases')}
-            className="btn-secondary"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={createMutation.isPending}
-            className="btn-primary"
-          >
+        <div className="flex items-center justify-end gap-2">
+          <button type="button" onClick={() => navigate('/cases')} className="btn-secondary text-xs">Cancel</button>
+          <button type="submit" disabled={createMutation.isPending} className="btn-primary text-xs">
             {createMutation.isPending ? (
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Creating...
+              <span className="flex items-center gap-1.5">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Creating...
               </span>
             ) : (
-              <span className="flex items-center gap-2">
-                <Save className="h-4 w-4" />
-                Create Case
-              </span>
+              <span className="flex items-center gap-1.5"><Save className="h-3.5 w-3.5" /> Create Case</span>
             )}
           </button>
         </div>

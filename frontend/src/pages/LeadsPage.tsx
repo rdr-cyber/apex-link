@@ -1,11 +1,21 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { leadsApi } from '@/api'
-import { AlertTriangle, CheckCircle, XCircle, Eye } from 'lucide-react'
+import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react'
 
 const priorityBadge = (p: string) => {
   const classes: Record<string, string> = { CRITICAL: 'badge-critical', HIGH: 'badge-high', MEDIUM: 'badge-medium', LOW: 'badge-low' }
   return <span className={classes[p] || 'badge'}>{p}</span>
+}
+
+const statusStyle = (s: string) => {
+  const map: Record<string, string> = {
+    NEW: 'bg-crosscase/10 text-crosscase border border-crosscase/20',
+    REVIEWING: 'bg-dossier/10 text-dossier-dim border border-dossier/20',
+    CONFIRMED: 'bg-field/10 text-field border border-field/20',
+    DISMISSED: 'bg-gray-100 text-gray-500 border border-mist-dark',
+  }
+  return `badge ${map[s] || 'badge'}`
 }
 
 export function LeadsPage() {
@@ -36,17 +46,19 @@ export function LeadsPage() {
   })
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <AlertTriangle className="h-6 w-6 text-trace-600" />
-        <h1 className="text-2xl font-bold">Investigation Leads</h1>
+    <div className="space-y-5">
+      <div className="flex items-baseline justify-between border-b border-mist-dark pb-3">
+        <div className="flex items-center gap-2">
+          <h1 className="text-lg font-bold text-ink font-mono tracking-wide">LEADS</h1>
+          <AlertTriangle className="h-4 w-4 text-dossier" />
+        </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         <select
           value={statusFilter}
           onChange={(e) => { setStatusFilter(e.target.value); setPage(1) }}
-          className="input-field w-auto"
+          className="input-field w-auto text-xs"
         >
           <option value="">All Status</option>
           <option value="NEW">New</option>
@@ -57,7 +69,7 @@ export function LeadsPage() {
         <select
           value={priorityFilter}
           onChange={(e) => { setPriorityFilter(e.target.value); setPage(1) }}
-          className="input-field w-auto"
+          className="input-field w-auto text-xs"
         >
           <option value="">All Priority</option>
           <option value="CRITICAL">Critical</option>
@@ -68,47 +80,42 @@ export function LeadsPage() {
       </div>
 
       {isLoading ? (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="card animate-pulse h-32" />
+            <div key={i} className="card h-24 animate-pulse" />
           ))}
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {data?.items.map((lead) => (
             <div key={lead.id} className="card">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1.5">
                     {priorityBadge(lead.priority)}
-                    <span className={`badge ${
-                      lead.status === 'NEW' ? 'bg-blue-100 text-blue-800' :
-                      lead.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
-                      lead.status === 'DISMISSED' ? 'bg-gray-100 text-gray-600' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>{lead.status}</span>
-                    <span className="text-xs text-gray-400">{lead.lead_type.replace(/_/g, ' ')}</span>
+                    <span className={statusStyle(lead.status)}>{lead.status}</span>
+                    <span className="evidence-tag">{lead.lead_type.replace(/_/g, ' ')}</span>
                   </div>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">{lead.explanation}</p>
-                  <div className="flex items-center gap-4 text-xs text-gray-500">
-                    <span>Score: <strong className="text-gray-700 dark:text-gray-300">{lead.score}/100</strong></span>
-                    <span>Created: {new Date(lead.created_at).toLocaleDateString()}</span>
+                  <p className="text-sm text-gray-600 mb-1.5 leading-relaxed">{lead.explanation}</p>
+                  <div className="flex items-center gap-3 text-xs text-gray-400 font-mono">
+                    <span>Created {new Date(lead.created_at).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="flex flex-col items-end gap-2 ml-4">
-                  <p className="text-3xl font-bold text-trace-600">{lead.score}</p>
+                <div className="flex flex-col items-end gap-2 shrink-0">
+                  <div className="font-mono text-3xl font-extrabold text-dossier leading-none">{lead.score}</div>
+                  <span className="text-[9px] text-gray-400 font-mono">/100</span>
                   {lead.status === 'NEW' && (
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 mt-1">
                       <button
                         onClick={() => updateMutation.mutate({ leadId: lead.id, status: 'CONFIRMED' })}
-                        className="rounded-lg bg-green-50 p-1.5 text-green-600 hover:bg-green-100"
+                        className="rounded p-1.5 text-field hover:bg-field/10 transition-colors"
                         title="Confirm lead"
                       >
                         <CheckCircle className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => updateMutation.mutate({ leadId: lead.id, status: 'DISMISSED' })}
-                        className="rounded-lg bg-red-50 p-1.5 text-red-600 hover:bg-red-100"
+                        className="rounded p-1.5 text-alert hover:bg-alert/10 transition-colors"
                         title="Dismiss lead"
                       >
                         <XCircle className="h-4 w-4" />
@@ -121,7 +128,7 @@ export function LeadsPage() {
           ))}
           {data?.items.length === 0 && (
             <div className="card text-center py-12">
-              <p className="text-sm text-gray-500">No leads found. Run analysis on a case to generate leads.</p>
+              <p className="text-xs text-gray-400 font-mono">No leads found. Run analysis on a case to generate leads.</p>
             </div>
           )}
         </div>

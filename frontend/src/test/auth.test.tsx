@@ -70,7 +70,7 @@ describe('LoginPage', () => {
     await fillAndSubmit(user, 'admin', 'admin123')
 
     await waitFor(() => {
-      expect(screen.getByText(/signing in/i)).toBeDefined()
+      expect(screen.getByText(/authenticating/i)).toBeDefined()
     })
   })
 
@@ -157,7 +157,7 @@ describe('VerifyEmailPage', () => {
     mockApiPost.mockResolvedValue({ data: { message: 'Email verified successfully.' } })
     renderWithProviders(<VerifyEmailPage />, '/verify-email?token=valid-token')
     await waitFor(() => {
-      expect(screen.getByText('Email Verified!')).toBeDefined()
+      expect(screen.getByText('Email Verified')).toBeDefined()
     })
   })
 

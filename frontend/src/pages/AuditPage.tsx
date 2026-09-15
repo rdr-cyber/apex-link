@@ -13,10 +13,10 @@ export function AuditPage() {
 
   if (error) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Audit Log</h1>
+      <div className="space-y-5">
+        <h1 className="text-lg font-bold text-ink font-mono tracking-wide">AUDIT LOG</h1>
         <div className="card">
-          <p className="text-sm text-red-600">
+          <p className="text-xs text-alert font-mono">
             Access denied. Audit logs are available to administrators only.
           </p>
         </div>
@@ -25,52 +25,52 @@ export function AuditPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <ScrollText className="h-6 w-6 text-trace-600" />
-        <h1 className="text-2xl font-bold">Audit Log</h1>
+    <div className="space-y-5">
+      <div className="flex items-baseline justify-between border-b border-mist-dark pb-3">
+        <div className="flex items-center gap-2">
+          <h1 className="text-lg font-bold text-ink font-mono tracking-wide">AUDIT LOG</h1>
+          <ScrollText className="h-4 w-4 text-gray-400" />
+        </div>
       </div>
 
       {isLoading ? (
-        <div className="card animate-pulse space-y-3">
+        <div className="card space-y-2">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-12 rounded bg-gray-200 dark:bg-gray-700" />
+            <div key={i} className="h-10 rounded bg-mist" />
           ))}
         </div>
       ) : (
         <div className="card overflow-hidden p-0">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-800 text-left text-xs font-medium uppercase text-gray-500">
-                <th className="px-4 py-3">Timestamp</th>
-                <th className="px-4 py-3">Action</th>
-                <th className="px-4 py-3">Resource</th>
-                <th className="px-4 py-3">Details</th>
-                <th className="px-4 py-3">IP</th>
+              <tr className="border-b border-mist-dark text-left">
+                <th className="px-3 py-2 text-label text-gray-400">Timestamp</th>
+                <th className="px-3 py-2 text-label text-gray-400">Action</th>
+                <th className="px-3 py-2 text-label text-gray-400">Resource</th>
+                <th className="px-3 py-2 text-label text-gray-400">Details</th>
+                <th className="px-3 py-2 text-label text-gray-400">IP</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+            <tbody className="divide-y divide-mist">
               {data?.items?.map((log: any) => (
-                <tr key={log.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                  <td className="px-4 py-3 text-xs font-mono text-gray-500">
+                <tr key={log.id} className="table-row-hover">
+                  <td className="px-3 py-2 text-[11px] font-mono text-gray-500">
                     {log.timestamp ? new Date(log.timestamp).toLocaleString() : '—'}
                   </td>
-                  <td className="px-4 py-3">
-                    <span className="badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400">
-                      {log.action}
-                    </span>
+                  <td className="px-3 py-2">
+                    <span className="evidence-tag">{log.action}</span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-500">
+                  <td className="px-3 py-2 text-xs text-gray-500 font-mono">
                     {log.resource_type}
-                    {log.resource_id && <span className="font-mono text-xs ml-1">({log.resource_id.substring(0, 8)}...)</span>}
+                    {log.resource_id && <span className="text-gray-400 ml-1">({log.resource_id.substring(0, 8)}...)</span>}
                   </td>
-                  <td className="px-4 py-3 text-sm max-w-xs truncate">{log.details}</td>
-                  <td className="px-4 py-3 text-xs font-mono text-gray-400">{log.ip_address || '—'}</td>
+                  <td className="px-3 py-2 text-xs max-w-xs truncate text-gray-600">{log.details}</td>
+                  <td className="px-3 py-2 text-[11px] font-mono text-gray-400">{log.ip_address || '—'}</td>
                 </tr>
               ))}
               {data?.items?.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-sm text-gray-500">
+                  <td colSpan={5} className="px-3 py-12 text-center text-xs text-gray-400 font-mono">
                     No audit logs found.
                   </td>
                 </tr>
