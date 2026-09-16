@@ -2,8 +2,28 @@ import { useQuery } from '@tanstack/react-query'
 import { dashboardApi } from '@/api'
 import { FolderOpen, FileText, Network, Users, AlertTriangle, Activity } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { useCountUp } from '@/hooks/useCountUp'
 
 const CHART_COLORS = ['#d4a853', '#2c6fbb', '#c0392b', '#27ae60', '#8b6db5', '#bf6b8a']
+
+function StatCard({ stat, index }: { stat: { label: string; value: number; icon: any; accent: string }; index: number }) {
+  const displayValue = useCountUp(stat.value, 600 + index * 80)
+  return (
+    <div className="stat-card" style={{ animationDelay: `${index * 0.05}s` }}>
+      <div className="flex items-center gap-2.5">
+        <div className="flex h-9 w-9 items-center justify-center rounded bg-cream-dark">
+          <stat.icon className={`h-4 w-4 ${stat.accent}`} />
+        </div>
+        <div>
+          <p className="text-label text-gray-400">{stat.label}</p>
+          <p className="font-mono text-2xl font-extrabold text-ink tracking-tight leading-none mt-0.5">
+            {displayValue}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function DashboardPage() {
   const { data, isLoading, error } = useQuery({
@@ -65,20 +85,10 @@ export function DashboardPage() {
         <p className="text-[10px] text-gray-400 font-mono uppercase tracking-widest">TRACE-NET Intelligence</p>
       </div>
 
-      {/* Stat cards — monospace numbers, no gradients */}
+      {/* Stat cards — monospace numbers with count-up animation */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {statCards.map((stat, i) => (
-          <div key={stat.label} className={`stat-card animate-delay-${i + 1}`} style={{ animationDelay: `${i * 0.05}s` }}>
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded bg-cream-dark">
-                <stat.icon className={`h-4 w-4 ${stat.accent}`} />
-              </div>
-              <div>
-                <p className="text-label text-gray-400">{stat.label}</p>
-                <p className="font-mono text-2xl font-extrabold text-ink tracking-tight leading-none mt-0.5">{stat.value}</p>
-              </div>
-            </div>
-          </div>
+          <StatCard key={stat.label} stat={stat} index={i} />
         ))}
       </div>
 

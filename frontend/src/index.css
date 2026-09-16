@@ -37,6 +37,32 @@
   100% { background-position: 200% 0; }
 }
 
+/* ─── Scan-line sweep for login verification ─── */
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ─── Access-granted flash ─── */
+@keyframes accessGranted {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ─── Node glow pulse for selected graph nodes ─── */
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(212,168,83,0.3)); }
+  50% { filter: drop-shadow(0 0 10px rgba(212,168,83,0.6)); }
+}
+
+/* ─── Graph container fade-in on load ─── */
+@keyframes graphReveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* ═══════════════════════════════════════════
    COMPONENT CLASSES
    ═══════════════════════════════════════════ */
@@ -268,6 +294,48 @@
     @apply rounded-lg border border-mist-dark bg-charcoal overflow-hidden;
   }
 
+  /* ─── Graph Reveal (opacity-only, GPU-safe) ─── */
+  .graph-reveal {
+    animation: graphReveal 0.4s ease-out;
+  }
+
+  /* ─── Node Glow Pulse (applied via Cytoscape class) ─── */
+  .node-glow {
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  /* ─── Login Scan-line Overlay ─── */
+  .scan-line-overlay {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .scan-line-overlay::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212,168,83,0.6), transparent);
+    box-shadow: 0 0 12px rgba(212,168,83,0.4);
+    animation: scanLine 1.2s ease-in-out infinite;
+  }
+
+  /* ─── Access Granted Overlay ─── */
+  .access-granted-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 17, 23, 0.95);
+    animation: accessGranted 0.8s ease-out forwards;
+    pointer-events: none;
+  }
+
   /* ─── Status Dot ─── */
   .status-dot {
     @apply inline-block h-2 w-2 rounded-full;
@@ -293,5 +361,18 @@
   .stat-card:hover,
   .card-interactive:hover {
     transform: none;
+  }
+
+  .scan-line-overlay::after {
+    animation: none;
+  }
+
+  .access-granted-overlay {
+    animation: none;
+    display: none;
+  }
+
+  .node-glow {
+    animation: none;
   }
 }

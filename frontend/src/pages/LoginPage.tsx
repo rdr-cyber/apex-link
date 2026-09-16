@@ -4,7 +4,7 @@ import { useAuth } from '@/features/auth/AuthProvider'
 import { Shield, AlertCircle, MailCheck, Mail, Calculator } from 'lucide-react'
 import { api, authApi } from '@/api'
 
-type LoginPageStep = 'credentials' | 'challenge'
+type LoginPageStep = 'credentials' | 'challenge' | 'granted'
 
 export function LoginPage() {
   const { loginWithOtp } = useAuth()
@@ -22,6 +22,7 @@ export function LoginPage() {
   const [resendEmail, setResendEmail] = useState('')
   const [resendLoading, setResendLoading] = useState(false)
   const [resendMessage, setResendMessage] = useState('')
+  const [granting, setGranting] = useState(false)
 
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
@@ -74,7 +75,9 @@ export function LoginPage() {
       localStorage.setItem('access_token', data.access_token)
       localStorage.setItem('refresh_token', data.refresh_token)
       loginWithOtp(data.user)
-      navigate('/dashboard')
+      setStep('granted')
+      setGranting(true)
+      setTimeout(() => navigate('/dashboard'), 850)
     } catch (err: any) {
       const detail = err.response?.data?.detail || ''
       const challStatus = err.response?.status
@@ -120,6 +123,19 @@ export function LoginPage() {
 
   return (
     <div className="login-bg flex min-h-screen items-center justify-center px-4">
+      {/* Access Granted overlay — single deliberate moment, not looping */}
+      {granting && (
+        <div className="access-granted-overlay">
+          <div className="text-center">
+            <p className="text-dossier font-mono text-lg tracking-[0.3em] uppercase font-bold">
+              Access Granted
+            </p>
+            <p className="mt-2 text-gray-500 font-mono text-xs tracking-widest">
+              Initializing workspace…
+            </p>
+          </div>
+        </div>
+      )}
       <div className={`w-full max-w-sm transition-all duration-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         {/* Logo */}
         <div className="mb-8 text-center">
@@ -210,7 +226,7 @@ export function LoginPage() {
                 </p>
               </div>
 
-              <form onSubmit={handleChallengeSubmit} className="space-y-3">
+              <form onSubmit={handleChallengeSubmit} className="space-y-3 relative">
                 {error && (
                   <div className="alert-enter flex items-start gap-2 rounded bg-alert/10 p-3 text-sm text-alert border border-alert/20">
                     <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
@@ -231,7 +247,12 @@ export function LoginPage() {
                   />
                 </div>
 
-                <button type="submit" disabled={loading} className="btn-primary w-full">
+                {/* Scan-line overlay — visible only while verifying */}
+                {loading && (
+                  <div className="scan-line-overlay rounded" />
+                )}
+
+                <button type="submit" disabled={loading} className="btn-primary w-full relative overflow-hidden">
                   {loading ? (
                     <span className="flex items-center gap-2">
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-charcoal border-t-transparent" />

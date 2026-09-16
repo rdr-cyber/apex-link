@@ -115,8 +115,9 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
         {
           selector: 'edge',
           style: {
-            width: 1,
+            width: 1.2,
             'line-color': EDGE_COLOR,
+            'line-opacity': 0.7,
             'target-arrow-color': EDGE_COLOR,
             'target-arrow-shape': 'triangle',
             'curve-style': 'bezier',
@@ -127,7 +128,7 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
             'text-rotation': 'autorotate',
           } as any,
         },
-        // ─── Selected node ───
+        // ─── Selected node — gold glow pulse ───
         {
           selector: 'node:selected',
           style: {
@@ -135,6 +136,17 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
             'border-color': SELECTED_BORDER,
             'background-color': SELECTED_BORDER,
             color: '#0d1117',
+            'overlay-opacity': 0.08,
+            'overlay-color': '#d4a853',
+          } as any,
+        },
+        // ─── High-degree node (hub) — subtle outer glow ───
+        {
+          selector: 'node[degree >= 5]',
+          style: {
+            'border-width': 2,
+            'border-color': '#d4a85380',
+            'border-opacity': 0.5,
           } as any,
         },
         // ─── Hovered node ───
@@ -149,10 +161,14 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
       layout: {
         name: 'cose',
         animate: true,
-        nodeRepulsion: () => 8000,
-        idealEdgeLength: () => 120,
-        gravity: 0.3,
-        numIter: 500,
+        animationDuration: 800,
+        animationEasing: 'ease-out-cubic',
+        nodeRepulsion: () => 10000,
+        idealEdgeLength: () => 140,
+        gravity: 0.25,
+        numIter: 400,
+        padding: 40,
+        randomize: false,
       } as any,
       minZoom: 0.2,
       maxZoom: 3,
@@ -239,10 +255,10 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
         {graph.stats.node_count} nodes · {graph.stats.edge_count} edges · {graph.stats.connected_components || 1} component(s)
       </div>
 
-      {/* Graph container — dark canvas */}
+      {/* Graph container — dark canvas with fade-in reveal */}
       <div
         ref={containerRef}
-        className={`w-full rounded bg-charcoal ${expanded ? 'h-full' : 'h-[600px]'}`}
+        className={`w-full rounded bg-charcoal graph-reveal ${expanded ? 'h-full' : 'h-[600px]'}`}
       />
 
       {/* Node details panel */}
