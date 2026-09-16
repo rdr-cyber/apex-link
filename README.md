@@ -173,11 +173,13 @@ docker compose exec backend alembic downgrade -1
 The seed script creates synthetic demo data:
 - 3 users (admin, investigator, analyst)
 - 15 cases across different crime categories
-- 43 entities (phones, emails, IPs, UPIs, vehicles, persons, organizations)
-- 35+ relationships forming multiple clusters
+- 44 entities (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations)
+- 59 relationships forming multiple clusters
+- 18 evidence items with SHA-256 integrity hashes
 - 12 cross-case leads
 - Bridge entity connecting clusters
 - Fan-out pattern (one entity connecting to many phones)
+- TN-2026-0002 is a fully connected graph (12 nodes, 19 edges, 1 component)
 
 All data is entirely synthetic — no real personal data is used.
 
@@ -226,17 +228,19 @@ npm run build
 
 ## Demo Workflow
 
-1. **Login** with demo credentials
-2. **Dashboard** shows live statistics from backend
-3. **Open Case 001** — Cyber Fraud Ring
-4. **View Evidence** — See uploaded evidence with SHA-256 hashes
-5. **Run Analysis** — Extracts entities, generates relationships, creates leads
-6. **View Network** — Interactive graph with centrality metrics
-7. **Click Bridge Entity** — See how it connects different clusters
-8. **Check Correlations** — Cross-case relationship scores with explanations
-9. **Review Leads** — Score, priority, and explanation for each lead
-10. **View Timeline** — Chronological event history
+1. **Login** with demo credentials (challenge-response verification)
+2. **Dashboard** shows live statistics: 15 cases, 44 entities, 59 relationships, 12 leads
+3. **Open TN-2026-0002** — Suspicious Fund Transfers (money laundering, CRITICAL priority)
+4. **View Evidence** — Evidence items with SHA-256 integrity hashes
+5. **Network Graph** — Shape-encoded nodes (circles=person, diamonds=phone, stars=UPI, etc.) with centrality metrics. TN-2026-0002 shows a fully connected 12-node graph
+6. **Click a Node** — See entity details, degree, betweenness centrality, confidence score
+7. **Cross-Case Intelligence** — Explain Connection shows why two cases are correlated
+8. **Network Path Finder** — Find shortest path between any two entities across the network
+9. **Cross-Case Timeline** — Chronological event view across multiple cases
+10. **Review Leads** — Score, priority, explanation, and supporting evidence for each lead
 11. **Generate Report** — JSON report with fact/inference distinction
+
+> **Recommended demo case:** TN-2026-0002 (Suspicious Fund Transfers — Bandra Cluster) has a fully connected graph with 12 entities and 19 relationships, making it ideal for the network visualization and path-finder demos.
 
 ---
 
