@@ -162,7 +162,7 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
         name: 'cose',
         animate: true,
         animationDuration: 800,
-        animationEasing: 'ease-out-cubic',
+        animationEasing: 'cubic-bezier(0.16, 1, 0.3, 1)',
         nodeRepulsion: () => 10000,
         idealEdgeLength: () => 140,
         gravity: 0.25,

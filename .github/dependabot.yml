@@ -1,0 +1,43 @@
+# TRACE-NET — Dependabot configuration
+# Scans npm (frontend) and pip (backend) weekly.
+# Auth-related packages are NEVER auto-grouped — they always get individual PRs.
+
+version: 2
+updates:
+  # ─── Frontend (npm) ───
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      # Group non-security minor/patch bumps into one PR
+      general-deps:
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "frontend"
+
+  # ─── Backend (pip) ───
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      general-deps:
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          # Auth packages excluded — always individual review
+          - "python-jose*"
+          - "bcrypt*"
+          - "PyJWT"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "backend"

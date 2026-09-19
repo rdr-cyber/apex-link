@@ -77,7 +77,7 @@ export function LoginPage() {
       loginWithOtp(data.user)
       setStep('granted')
       setGranting(true)
-      setTimeout(() => navigate('/dashboard'), 850)
+      setTimeout(() => navigate('/dashboard'), 1050)
     } catch (err: any) {
       const detail = err.response?.data?.detail || ''
       const challStatus = err.response?.status

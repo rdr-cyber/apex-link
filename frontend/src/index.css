@@ -37,7 +37,25 @@
   100% { background-position: 200% 0; }
 }
 
-/* ─── Scan-line sweep for login verification ─── */
+/* ─── Unified motion signature: ease-out-cubic ─── */
+:root {
+  --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-micro: cubic-bezier(0.16, 1, 0.3, 1);
+  --gold-accent: #d4a853;
+  --gold-glow-30: rgba(212, 168, 83, 0.3);
+  --gold-glow-60: rgba(212, 168, 83, 0.6);
+  --gold-glow-80: rgba(212, 168, 83, 0.8);
+  /* Hero duration band: 600ms–1200ms */
+  --dur-graph-settle: 800ms;
+  --dur-graph-reveal: 600ms;
+  --dur-count-up: 800ms;
+  --dur-scan-line: 1200ms;
+  --dur-access-granted: 1000ms;
+  --dur-glow-pulse: 2000ms;
+  /* Micro duration band: under 200ms */
+  --dur-micro: 150ms;
+}
+
 @keyframes scanLine {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
@@ -53,8 +71,8 @@
 
 /* ─── Node glow pulse for selected graph nodes ─── */
 @keyframes glowPulse {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(212,168,83,0.3)); }
-  50% { filter: drop-shadow(0 0 10px rgba(212,168,83,0.6)); }
+  0%, 100% { filter: drop-shadow(0 0 4px var(--gold-glow-30)); }
+  50% { filter: drop-shadow(0 0 10px var(--gold-glow-60)); }
 }
 
 /* ─── Graph container fade-in on load ─── */
@@ -150,7 +168,7 @@
   /* ─── Stat Cards ─── */
   .stat-card {
     @apply card relative overflow-hidden;
-    animation: fadeIn 0.3s ease both;
+    animation: fadeIn var(--dur-micro) var(--ease-hero) both;
   }
 
   .stat-card:hover {
@@ -190,29 +208,29 @@
 
   /* ─── Page Transitions ─── */
   .page-enter {
-    animation: fadeIn 0.2s ease;
+    animation: fadeIn var(--dur-micro) var(--ease-hero);
   }
 
   /* ─── Loading Skeleton ─── */
   .skeleton {
     @apply relative overflow-hidden rounded bg-mist;
-    background: linear-gradient(90deg, transparent 0%, rgba(212, 168, 83, 0.06) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--gold-glow-30) 50%, transparent 100%);
     background-size: 200% 100%;
-    animation: shimmer 1.8s ease-in-out infinite;
+    animation: shimmer 1.8s var(--ease-hero) infinite;
   }
 
   /* ─── Modal/Drawer ─── */
   .modal-enter {
-    animation: fadeIn 0.15s ease;
+    animation: fadeIn var(--dur-micro) var(--ease-hero);
   }
 
   .drawer-enter {
-    animation: slideDown 0.2s ease;
+    animation: slideDown var(--dur-micro) var(--ease-hero);
   }
 
   /* ─── Alert Enter ─── */
   .alert-enter {
-    animation: slideDown 0.2s ease;
+    animation: slideDown var(--dur-micro) var(--ease-hero);
   }
 
   /* ─── Tab Bar ─── */
@@ -246,7 +264,7 @@
   }
 
   .progress-bar-fill {
-    @apply h-full rounded-full transition-all duration-700 ease-out bg-dossier;
+    @apply h-full rounded-full transition-all duration-700 bg-dossier;
   }
 
   /* ─── Notification Dot ─── */
@@ -296,12 +314,12 @@
 
   /* ─── Graph Reveal (opacity-only, GPU-safe) ─── */
   .graph-reveal {
-    animation: graphReveal 0.4s ease-out;
+    animation: graphReveal var(--dur-graph-reveal) var(--ease-hero);
   }
 
   /* ─── Node Glow Pulse (applied via Cytoscape class) ─── */
   .node-glow {
-    animation: glowPulse 2s ease-in-out infinite;
+    animation: glowPulse var(--dur-glow-pulse) var(--ease-hero) infinite;
   }
 
   /* ─── Login Scan-line Overlay ─── */
@@ -318,9 +336,9 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(212,168,83,0.6), transparent);
-    box-shadow: 0 0 12px rgba(212,168,83,0.4);
-    animation: scanLine 1.2s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, var(--gold-glow-60), transparent);
+    box-shadow: 0 0 12px var(--gold-glow-30);
+    animation: scanLine var(--dur-scan-line) var(--ease-hero) infinite;
   }
 
   /* ─── Access Granted Overlay ─── */
@@ -332,7 +350,7 @@
     align-items: center;
     justify-content: center;
     background: rgba(13, 17, 23, 0.95);
-    animation: accessGranted 0.8s ease-out forwards;
+    animation: accessGranted var(--dur-access-granted) var(--ease-hero) forwards;
     pointer-events: none;
   }
 

@@ -1,0 +1,32 @@
+# TRACE-NET — CODEOWNERS
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: single maintainer for the whole repo
+*                               @rdr-cyber
+
+# Authentication, security, and core middleware — extra scrutiny always
+backend/app/core/               @rdr-cyber
+backend/app/middleware/          @rdr-cyber
+
+# API routes — especially auth endpoints
+backend/app/api/                @rdr-cyber
+
+# Database models and migrations — schema changes affect everything
+backend/app/models/             @rdr-cyber
+backend/alembic/                @rdr-cyber
+
+# Intelligence engines — correlation, graph analysis, pattern detection
+backend/app/services/           @rdr-cyber
+
+# Frontend auth and layout
+frontend/src/features/auth/     @rdr-cyber
+frontend/src/layouts/           @rdr-cyber
+
+# CI/CD and deployment config — always flagged
+.github/                        @rdr-cyber
+render.yaml                     @rdr-cyber
+docker-compose.yml              @rdr-cyber
+
+# Tests — review if test changes mask real regressions
+backend/tests/                  @rdr-cyber
+frontend/src/test/              @rdr-cyber
