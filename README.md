@@ -1,61 +1,66 @@
 # TRACE-NET
 
-## Explanable Criminal Network & Investigation Intelligence Platform
+## Explainable Criminal Network & Investigation Intelligence Platform
 
 > **SIH26189 — AI-Powered Criminal Network Analysis System**
-> Ministry of Home Affairs | Theme: Blockchain & Cybersecurity | Type: Software
+> Ministry of Home Affairs · Theme: Blockchain & Cybersecurity · Type: Software
 
 ---
 
-## Project Overview
+## Problem
 
-TRACE-NET is a decision-support and intelligence-analysis system that helps authorized investigators analyze fragmented investigation data, construct interactive criminal-network graphs, surface influential entities, detect suspicious patterns, and present explainable intelligence.
+Law-enforcement investigations produce fragmented data across FIRs, call records, financial transactions, surveillance notes, and criminal-history records. Investigators must manually connect these fragments to identify relationships, detect patterns, and build actionable intelligence. This process is slow, error-prone, and difficult to explain to courts or oversight bodies.
 
-**Important:** This is a decision-support system, not an autonomous system. Every risk score, correlation, and recommendation is a **potential lead requiring human verification**.
+**The challenge:** Build a system that analyzes fragmented investigation information to identify relationships, construct an interactive criminal-network graph, surface influential entities, detect suspicious patterns, and present explainable intelligence to an investigator.
 
----
+## What TRACE-NET Does
 
-## Features
+TRACE-NET is a **decision-support and intelligence-analysis system**. It helps authorized investigators analyze fragmented data, construct interactive criminal-network graphs, surface influential entities, detect suspicious patterns, and present explainable intelligence.
 
-- 🔐 **Role-Based Authentication** — Admin, Investigator, Analyst roles with JWT tokens
-- 📁 **Case Management** — Create, manage, and track investigation cases
-- 📎 **Evidence Management** — Upload files with SHA-256 integrity verification
-- 🔍 **Entity Extraction** — Rule-based + NLP extraction from text (phones, emails, IPs, UPIs, vehicles)
-- 🧩 **Entity Resolution** — Intelligent deduplication and normalization
-- 🔗 **Relationship Engine** — Automatic relationship discovery from evidence
-- 📊 **Interactive Network Graph** — Cytoscape.js visualization with centrality analysis
-- 🔀 **Cross-Case Correlation** — Weighted scoring across cases
-- ⚡ **Suspicious Pattern Detection** — Bridge entities, fan-out, burst activity, multi-case identifiers
-- 📈 **Explainable Lead Scoring** — Transparent factors and supporting evidence
-- ⏱️ **Timeline Analysis** — Chronological event view
-- 📋 **Report Generation** — JSON reports distinguishing facts from inferences
-- 🛡️ **Audit Trail** — Complete audit logging of all actions
-- 🔎 **Global Search** — Search across cases, entities, and evidence
+**Important:** Every risk score, correlation, and recommendation is a **potential lead requiring human verification**. TRACE-NET does not declare anyone a criminal.
 
----
+### Working Features (Demoable Today)
 
-## Architecture
+| Feature | What It Does |
+|---------|-------------|
+| 🔐 **Challenge-Response Authentication** | JWT-based login with math-challenge verification, RBAC (Admin/Investigator/Analyst), rate limiting, email verification |
+| 📁 **Case Management** | Create, track, and manage investigation cases with status, priority, category, and location |
+| 📎 **Evidence Management** | Upload evidence files with SHA-256 integrity verification and chain-of-custody audit trail |
+| 🔍 **Entity Extraction** | Rule-based extraction of 9+ entity types: persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, devices, locations, organizations |
+| 🧩 **Entity Resolution** | Intelligent deduplication — deterministic matching for identifiers, similarity scoring for person names |
+| 🔗 **Relationship Discovery** | Automatic relationship generation from evidence co-occurrence with confidence scoring |
+| 📊 **Interactive Network Graph** | Cytoscape.js visualization with centrality analysis, community detection, and bridge identification. Shape+color encoding for colorblind accessibility |
+| 🔀 **Cross-Case Correlation** | Weighted multi-factor correlation across cases using shared identifiers |
+| ⚡ **Pattern Detection** | Bridge entities, fan-in/fan-out patterns, burst activity, multi-case identifiers — each with explanation |
+| 📈 **Explainable Lead Scoring** | Transparent scoring with supporting evidence, priority ranking, and review workflow |
+| 🗺️ **Network Path Finder** | Find shortest evidence-backed path between any two entities across the network |
+| 💡 **Explain Connection** | Structured reasoning for why two cases are analytically connected |
+| 📅 **Cross-Case Timeline** | Chronological event view across multiple authorized cases |
+| 📋 **Report Generation** | JSON and PDF reports distinguishing observed facts from algorithmic inferences |
+| 🛡️ **Audit Trail** | Complete audit logging of all actions |
+| 🔎 **Global Search** | Search across cases, entities, and evidence |
 
-```
-TRACE-NET
-    |
-+---+---+---+
-|       |       |
-Frontend Backend Storage
-|       |       |
-React  FastAPI  Files
-|       |
-|  Service Layer
-|       |
-+---+---+
-|       |       |
-NLP    Graph   Scoring
-|       |       |
-+---+---+       |
-|          PostgreSQL
-|
-Cytoscape.js
-```
+### Verified Test Baseline
+
+| Test Suite | Count | Status |
+|-----------|-------|--------|
+| Backend (pytest) | 235 | ✅ All passing |
+| Frontend (vitest) | 24 | ✅ All passing |
+| TypeScript | — | ✅ Clean |
+| Production build | — | ✅ Passing |
+
+### Demo Data
+
+The seed script creates a complete synthetic investigation dataset:
+- **15 cases** across fraud, cybercrime, drug trafficking, and financial crime categories
+- **44 entities** (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations)
+- **59 relationships** forming multiple clusters with bridge entities
+- **18 evidence items** with SHA-256 integrity hashes
+- **12 cross-case leads** with explainable scoring
+
+**All data is entirely synthetic. No real personal data is used.**
+
+> **Recommended demo case:** TN-2026-0002 (Suspicious Fund Transfers — Bandra Cluster) has a fully connected graph with 12 entities and 19 relationships.
 
 ---
 
@@ -63,125 +68,108 @@ Cytoscape.js
 
 ### Frontend
 - React 18 + TypeScript + Vite
-- Tailwind CSS
-- React Router v6
-- TanStack Query
+- Tailwind CSS (Investigation Workstation design system)
+- React Router v6 + TanStack Query
 - Cytoscape.js (network visualization)
 - Recharts (analytics charts)
+- Lucide React (icons)
 
 ### Backend
 - Python 3.12+ / FastAPI
-- SQLAlchemy 2.x (async)
-- PostgreSQL 16
+- SQLAlchemy 2.x (async) + PostgreSQL 16
 - NetworkX (graph analysis)
 - Alembic (migrations)
-- pytest + httpx
+- ReportLab (PDF generation)
+- pytest + httpx (testing)
 
 ### Infrastructure
 - Docker + Docker Compose
-- Nginx (frontend serving)
+- Render (free-tier deployment)
+- Supabase (free-tier PostgreSQL)
 
 ---
 
-## Prerequisites
+## Quick Start
 
-- Docker and Docker Compose
-- Node.js 20+ (for local frontend dev)
-- Python 3.12+ (for local backend dev)
-
----
-
-## Quick Start (Docker)
-
+### Docker (Recommended)
 ```bash
-# 1. Clone the repository
-git clone <repo-url>
+git clone https://github.com/rdr-cyber/trace-net.git
 cd trace-net
-
-# 2. Copy environment file
 cp .env.example .env
-
-# 3. Start all services
 docker compose up -d
-
-# 4. Wait for backend to be healthy, then run migrations
 docker compose exec backend alembic upgrade head
-
-# 5. Seed demo data
 docker compose exec backend python -m app.seed
-
-# 6. Access the application
 # Frontend: http://localhost:5173
-# Backend API: http://localhost:8000/api/docs
+# API docs: http://localhost:8000/api/docs
 ```
 
----
-
-## Demo Accounts
-
-| Username | Password | Role |
-|----------|----------|------|
-| admin | admin123 | ADMIN |
-| investigator | investigator123 | INVESTIGATOR |
-| analyst | analyst123 | ANALYST |
-
-> ⚠️ These are demo credentials only. Do not use in production.
-
----
-
-## Local Development
-
-### Backend
-
+### Local Development
 ```bash
+# Backend
 cd backend
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+python -m app.seed
 uvicorn app.main:app --reload --port 8000
-```
 
-### Frontend
-
-```bash
+# Frontend
 cd frontend
 npm install
 npm run dev
 ```
 
-The frontend dev server runs on port 5173 and proxies API calls to port 8000.
+### Demo Accounts
+
+| Username | Password | Role |
+|----------|----------|------|
+| `admin` | `admin123` | Admin |
+| `investigator` | `investigator123` | Investigator |
+| `analyst` | `analyst123` | Analyst |
+
+> ⚠️ Demo credentials only. Do not use in production.
 
 ---
 
-## Database Migrations
+## Responsible Use & Current Limitations
 
-```bash
-# Create a new migration
-docker compose exec backend alembic revision --autogenerate -m "description"
+### What TRACE-NET Is
+- A **working prototype** demonstrating criminal-network analysis concepts
+- A **decision-support tool** — all outputs are potential leads requiring human verification
+- A **Phase 1 implementation** of the broader NEXUS system architecture (see `docs/NEXUS_VS_TRACE-NET.md`)
 
-# Apply migrations
-docker compose exec backend alembic upgrade head
+### What TRACE-NET Is Not
+- It is **not** a production law-enforcement system
+- It does **not** make accusations or declare guilt
+- It does **not** integrate with real government databases
+- It does **not** use real investigation data
 
-# Rollback
-docker compose exec backend alembic downgrade -1
+### Known Limitations
+- Entity extraction uses rule-based methods; production would benefit from trained NLP models (spaCy, BERT)
+- Graph analysis is designed for demo-scale data (hundreds of entities)
+- Evidence storage on free-tier hosting is ephemeral (metadata persists, binary files do not)
+- Docker/PostgreSQL runtime verification deferred (Docker unavailable in current dev environment)
+- AI features are optional and use MockProvider by default
+
+### Deployment
+See [DEPLOYMENT.md](DEPLOYMENT.md) for free public deployment using Render + Supabase.
+
+### Future Roadmap
+See [docs/NEXUS_VS_TRACE-NET.md](docs/NEXUS_VS_TRACE-NET.md) for the full NEXUS system vision and TRACE-NET's phased implementation plan.
+
+---
+
+## Architecture
+
 ```
-
----
-
-## Seed Data
-
-The seed script creates synthetic demo data:
-- 3 users (admin, investigator, analyst)
-- 15 cases across different crime categories
-- 44 entities (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations)
-- 59 relationships forming multiple clusters
-- 18 evidence items with SHA-256 integrity hashes
-- 12 cross-case leads
-- Bridge entity connecting clusters
-- Fan-out pattern (one entity connecting to many phones)
-- TN-2026-0002 is a fully connected graph (12 nodes, 19 edges, 1 component)
-
-All data is entirely synthetic — no real personal data is used.
+Browser
+  ↓
+Render Static Site (React Frontend)
+  ↓  HTTPS API calls
+Render Web Service (FastAPI Backend)
+  ↓  PostgreSQL (SSL)
+Supabase Free PostgreSQL
+```
 
 ---
 
@@ -191,120 +179,66 @@ FastAPI auto-generates API documentation:
 - **Swagger UI**: http://localhost:8000/api/docs
 - **ReDoc**: http://localhost:8000/redoc
 
-### Key Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /api/v1/auth/login | Authenticate |
-| GET | /api/v1/auth/me | Current user info |
-| GET | /api/v1/dashboard | Dashboard statistics |
-| POST | /api/v1/cases | Create case |
-| GET | /api/v1/cases | List cases |
-| POST | /api/v1/cases/{id}/evidence | Upload evidence |
-| GET | /api/v1/cases/{id}/relationships/graph | Get network graph |
-| POST | /api/v1/cases/{id}/analysis/run | Run full analysis |
-| GET | /api/v1/cases/{id}/analysis/key-entities | Key entity analysis |
-| GET | /api/v1/cases/{id}/analysis/patterns | Suspicious patterns |
-| POST | /api/v1/cases/{id}/correlations | Cross-case correlation |
-| GET | /api/v1/leads | List leads |
-| POST | /api/v1/reports/case/{id} | Generate report |
-| GET | /api/v1/search | Global search |
-
 ---
 
 ## Testing
 
 ```bash
-# Backend tests
-cd backend
-pytest -v
+# Backend (235 tests)
+cd backend && python -m pytest tests/ -v
 
-# Frontend build check
-cd frontend
-npm run build
+# Frontend (24 tests)
+cd frontend && npx vitest run
+
+# TypeScript check
+cd frontend && npx tsc --noEmit
+
+# Production build
+cd frontend && npm run build
 ```
 
 ---
 
-## Demo Workflow
+## Demo Workflow (5-Minute Script)
 
-1. **Login** with demo credentials (challenge-response verification)
-2. **Dashboard** shows live statistics: 15 cases, 44 entities, 59 relationships, 12 leads
-3. **Open TN-2026-0002** — Suspicious Fund Transfers (money laundering, CRITICAL priority)
-4. **View Evidence** — Evidence items with SHA-256 integrity hashes
-5. **Network Graph** — Shape-encoded nodes (circles=person, diamonds=phone, stars=UPI, etc.) with centrality metrics. TN-2026-0002 shows a fully connected 12-node graph
-6. **Click a Node** — See entity details, degree, betweenness centrality, confidence score
-7. **Cross-Case Intelligence** — Explain Connection shows why two cases are correlated
-8. **Network Path Finder** — Find shortest path between any two entities across the network
-9. **Cross-Case Timeline** — Chronological event view across multiple cases
-10. **Review Leads** — Score, priority, explanation, and supporting evidence for each lead
-11. **Generate Report** — JSON report with fact/inference distinction
-
-> **Recommended demo case:** TN-2026-0002 (Suspicious Fund Transfers — Bandra Cluster) has a fully connected graph with 12 entities and 19 relationships, making it ideal for the network visualization and path-finder demos.
+1. **Login** → Challenge-response verification
+2. **Dashboard** → Live statistics: 15 cases, 44 entities, 59 relationships, 12 leads
+3. **Open TN-2026-0002** → Suspicious Fund Transfers (CRITICAL priority)
+4. **Evidence** → Items with SHA-256 integrity hashes
+5. **Network Graph** → 12 shape-encoded nodes, 19 edges, 1 component — fully connected
+6. **Click Node** → Entity details, centrality metrics, confidence score
+7. **Cross-Case Intelligence** → Explain Connection with structured reasoning
+8. **Network Path Finder** → Shortest path between entities
+9. **Cross-Case Timeline** → Chronological events across cases
+10. **Pattern Detection** → Bridge entity, fan-out, burst activity
+11. **Lead Review** → Score, explanation, supporting evidence
+12. **Generate Report** → JSON/PDF with fact/inference distinction
 
 ---
 
-## Security Considerations
+## Security
 
-- Passwords are hashed with bcrypt
+- Passwords hashed with bcrypt
 - JWT tokens with expiration
-- Role-based access control on backend
-- File type and size validation
+- Role-based access control (Admin, Investigator, Analyst)
+- Case-level authorization
+- Rate limiting (5 login/minute, 3 verification/15 minutes)
+- Production rejects weak JWT secrets and console email provider
+- CORS restricted to configured origins
 - SHA-256 evidence integrity verification
 - Audit logging of all important actions
 - No secrets in source code
-- CORS configured for development
 
 ---
 
-## Limitations
+## License
 
-- This prototype operates on synthetic/demo data
-- Real-world deployment would require approved government datasets, privacy controls, legal authorization, security accreditation, data-quality validation, and integration with authorized systems
-- Entity extraction uses rule-based methods; production would benefit from trained NLP models
-- Graph analysis is designed for demo-scale data (hundreds of entities)
-- AI features are optional and use MockProvider by default
+[MIT](LICENSE)
 
 ---
 
-## Free Public Deployment
-
-TRACE-NET can be deployed for free using:
-
-- **Render Free Static Site** (frontend)
-- **Render Free Web Service** (FastAPI backend)
-- **Supabase Free PostgreSQL** (database)
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for complete step-by-step instructions.
-
-**Free-tier limitations:**
-- Render services spin down after 15 minutes of inactivity (cold start takes ~30-60s)
-- Render free tier cannot send outbound SMTP email
-- Supabase free tier provides 500 MB database and pauses after 7 days of inactivity
-- Local file storage is ephemeral on Render (evidence uploads not durable)
-
-> The public deployment is intended for hackathon demonstration and educational use.
-
----
-
-## Responsible Use Disclaimer
+## Disclaimer
 
 > TRACE-NET is an investigative decision-support platform. Analytical scores, graph prominence, correlations, and detected patterns are potential leads generated from available data. They do not establish criminal responsibility and must be independently reviewed by an authorized investigator.
-
----
-
-## Future Enhancements
-
-- Production NLP models (spaCy, BERT) for entity extraction
-- S3-compatible storage (MinIO) integration
-- AI-powered narrative generation (OpenAI integration)
-- Real-time WebSocket updates
-- PDF report generation
-- Advanced community detection algorithms
-- Temporal graph analysis
-- Multi-tenancy support
-- Integration with authorized government databases
-
----
 
 **This prototype operates on synthetic/demo data. Real-world deployment would require approved government datasets, privacy controls, legal authorization, security accreditation, data-quality validation, and integration with authorized systems.**
