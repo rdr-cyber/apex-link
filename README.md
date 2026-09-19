@@ -53,7 +53,7 @@ TRACE-NET is a **decision-support and intelligence-analysis system**. It helps a
 
 The seed script creates a complete synthetic investigation dataset:
 - **15 cases** across fraud, cybercrime, drug trafficking, and financial crime categories
-- **44 entities** (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations)
+- **42 entities** (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations) linked across cases
 - **59 relationships** forming multiple clusters with bridge entities
 - **18 evidence items** with SHA-256 integrity hashes
 - **12 cross-case leads** with explainable scoring
@@ -202,7 +202,7 @@ cd frontend && npm run build
 ## Demo Workflow (5-Minute Script)
 
 1. **Login** → Challenge-response verification
-2. **Dashboard** → Live statistics: 15 cases, 44 entities, 59 relationships, 12 leads
+2. **Dashboard** → Live statistics: 15 cases, 42 entities, 59 relationships, 12 leads
 3. **Open TN-2026-0002** → Suspicious Fund Transfers (CRITICAL priority)
 4. **Evidence** → Items with SHA-256 integrity hashes
 5. **Network Graph** → 12 shape-encoded nodes, 19 edges, 1 component — fully connected

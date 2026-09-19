@@ -49,7 +49,7 @@
 ```
 TRACE-NET Login (challenge-response verification)
        ↓
-Dashboard (15 cases, 44 entities, 59 relationships, 12 leads)
+Dashboard (15 cases, 42 entities, 59 relationships, 12 leads)
        ↓
 Open Case TN-2026-0002 — Suspicious Fund Transfers (CRITICAL)
        ↓
