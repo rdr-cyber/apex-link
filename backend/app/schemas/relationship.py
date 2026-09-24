@@ -44,6 +44,9 @@ class GraphNode(BaseModel):
     betweenness: float = 0.0
     closeness: float = 0.0
     cases: list[str] = []
+    # Evidence provenance (case-scoped graphs only; None on the global graph)
+    source_evidence_number: str | None = None
+    mention_text: str | None = None
 
 
 class GraphEdge(BaseModel):

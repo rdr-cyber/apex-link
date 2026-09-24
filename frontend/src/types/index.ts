@@ -87,6 +87,8 @@ export interface GraphNode {
   betweenness: number
   closeness: number
   cases: string[]
+  source_evidence_number?: string | null
+  mention_text?: string | null
 }
 
 export interface GraphEdge {

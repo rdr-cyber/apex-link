@@ -63,6 +63,8 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
           confidence: n.confidence,
           degree: n.degree,
           betweenness: n.betweenness,
+          source_evidence_number: n.source_evidence_number ?? null,
+          mention_text: n.mention_text ?? null,
         },
       })),
       ...graph.edges.map((e) => ({
@@ -90,9 +92,9 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
             'text-valign': 'bottom',
             'text-halign': 'center',
             color: '#c8cad0',
-            'font-size': '9px',
+            'font-size': '10px',
             'font-family': '"JetBrains Mono", monospace',
-            'text-margin-y': 6,
+            'text-margin-y': 7,
             'text-wrap': 'ellipsis',
             'text-max-width': '80px',
             // Shape encodes entity type (colorblind-accessible)
@@ -105,8 +107,12 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
               const enc = ENTITY_ENCODING[ele.data('entity_type')] || FALLBACK_ENCODING
               return enc.color
             },
-            width: (ele: any) => Math.max(24, Math.min(56, 24 + ele.data('degree') * 2)),
-            height: (ele: any) => Math.max(24, Math.min(56, 24 + ele.data('degree') * 2)),
+            // Size encodes prominence on a REAL hierarchy: degree arrives
+            // normalized to 0-100, so map it across 26-52px (the old linear
+            // 24+degree*2 scale saturated at the 56px clamp for 11 of 13
+            // nodes on the demo case, collapsing the visual ranking).
+            width: (ele: any) => Math.round(26 + (Math.min(100, Math.max(0, ele.data('degree') || 0)) / 100) * 26),
+            height: (ele: any) => Math.round(26 + (Math.min(100, Math.max(0, ele.data('degree') || 0)) / 100) * 26),
             'border-width': 1.5,
             'border-color': NODE_BORDER,
           } as any,
@@ -145,7 +151,7 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
           selector: 'node[degree >= 5]',
           style: {
             'border-width': 2,
-            'border-color': '#d4a85380',
+            'border-color': 'rgba(212, 168, 83, 0.5)',
             'border-opacity': 0.5,
           } as any,
         },
@@ -278,6 +284,15 @@ export function CytoscapeComponent({ graph, onSelectNode, onSelectEdge }: Props)
             <p><span className="text-gray-500">Degree:</span> <span className="text-gray-300">{selectedNode.degree}</span></p>
             <p><span className="text-gray-500">Betweenness:</span> <span className="text-gray-300">{selectedNode.betweenness}</span></p>
             <p><span className="text-gray-500">Cases:</span> <span className="text-gray-300">{selectedNode.cases?.join(', ') || 'N/A'}</span></p>
+            {selectedNode.source_evidence_number && (
+              <p>
+                <span className="text-gray-500">Source:</span>{' '}
+                <span className="text-dossier">{selectedNode.source_evidence_number}</span>
+                {selectedNode.mention_text && (
+                  <span className="block pl-1 text-[10px] text-gray-500 italic">“{selectedNode.mention_text}”</span>
+                )}
+              </p>
+            )}
           </div>
           <p className="mt-2 text-[9px] text-dossier-dim leading-relaxed">
             Network prominence is an analytical indicator and does not establish criminal responsibility.

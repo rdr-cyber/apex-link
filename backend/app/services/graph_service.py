@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import KEY_ENTITY_WEIGHTS, SUSPICIOUS_PATTERNS
 from app.models.entity import Entity, CaseEntity
+from app.models.evidence import Evidence
 from app.models.relationship import Relationship
 from app.schemas.relationship import GraphNode, GraphEdge, GraphResponse
 
@@ -120,6 +121,8 @@ class GraphService:
 
         # Get case numbers for each entity
         entity_cases_map: dict[str, list[str]] = {}
+        entity_evidence_map: dict[str, str | None] = {}
+        entity_mention_map: dict[str, str] = {}
         if not case_id:
             ce_all_stmt = select(CaseEntity)
             ce_all_result = await self.db.execute(ce_all_stmt)
@@ -143,6 +146,26 @@ class GraphService:
             for node_id in G.nodes:
                 entity_cases_map[node_id] = [case_num]
 
+            # Evidence provenance: CaseEntity rows record the source evidence and
+            # mention context that produced each entity in this case.
+            ce_rows = (await self.db.execute(
+                select(CaseEntity.entity_id, CaseEntity.source_evidence_id, CaseEntity.mention_text)
+                .where(CaseEntity.case_id == case_id)
+            )).all()
+            ev_ids = {row.source_evidence_id for row in ce_rows if row.source_evidence_id is not None}
+            ev_numbers: dict[uuid.UUID, str] = {}
+            if ev_ids:
+                ev_rows = await self.db.execute(
+                    select(Evidence.id, Evidence.evidence_number).where(Evidence.id.in_(ev_ids))
+                )
+                ev_numbers = {row.id: row.evidence_number for row in ev_rows.all()}
+            for row in ce_rows:
+                ent_key = str(row.entity_id)
+                if row.source_evidence_id is not None:
+                    entity_evidence_map[ent_key] = ev_numbers.get(row.source_evidence_id)
+                if row.mention_text:
+                    entity_mention_map[ent_key] = row.mention_text
+
         # Build response
         graph_nodes = []
         for node_id in G.nodes:
@@ -159,6 +182,8 @@ class GraphService:
                     betweenness=round(metrics["betweenness"].get(node_id, 0) * 100, 1),
                     closeness=round(metrics["closeness"].get(node_id, 0) * 100, 1),
                     cases=entity_cases_map.get(node_id, []),
+                    source_evidence_number=entity_evidence_map.get(node_id),
+                    mention_text=entity_mention_map.get(node_id),
                 )
             )
 
