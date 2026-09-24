@@ -2,14 +2,44 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { casesApi, evidenceApi, graphApi, analysisApi, leadsApi, timelineApi, correlationsApi, reportsApi } from '@/api'
-import { Network, FileText, Clock, GitBranch, AlertTriangle, Play, Shield, ChevronRight } from 'lucide-react'
+import { Network, FileText, Clock, GitBranch, AlertTriangle, Play, Shield, ChevronRight, Map } from 'lucide-react'
+import type { GraphResponse } from '@/types'
 import { CytoscapeComponent } from '@/components/CytoscapeGraph'
+import { MapView } from '@/components/MapView'
 
 type Tab = 'overview' | 'evidence' | 'network' | 'leads' | 'timeline' | 'correlations' | 'reports'
 
 const priorityBadge = (p: string) => {
   const classes: Record<string, string> = { CRITICAL: 'badge-critical', HIGH: 'badge-high', MEDIUM: 'badge-medium', LOW: 'badge-low' }
   return <span className={classes[p] || 'badge'}>{p}</span>
+}
+
+/** Graph/Map segmented toggle. Graph stays the default and only mounts MapView
+ *  on demand — the two are independent rendering paths over the same data. */
+function NetworkViewToggle({ graph }: { graph: GraphResponse }) {
+  const [view, setView] = useState<'graph' | 'map'>('graph')
+  const btn = (active: boolean) =>
+    `flex items-center gap-1.5 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider transition-colors ${
+      active ? 'bg-dossier text-charcoal' : 'text-gray-400 hover:text-white hover:bg-charcoal-light'
+    }`
+  return (
+    <div>
+      <div className="flex items-center justify-between border-b border-mist-dark px-2 py-1.5">
+        <span className="px-1 font-mono text-[9px] uppercase tracking-[0.2em] text-gray-500">
+          Network Rendering
+        </span>
+        <div className="flex overflow-hidden rounded border border-mist-dark">
+          <button onClick={() => setView('graph')} className={btn(view === 'graph')} aria-pressed={view === 'graph'}>
+            <Network className="h-3 w-3" /> Graph View
+          </button>
+          <button onClick={() => setView('map')} className={btn(view === 'map')} aria-pressed={view === 'map'}>
+            <Map className="h-3 w-3" /> Map View
+          </button>
+        </div>
+      </div>
+      {view === 'graph' ? <CytoscapeComponent graph={graph} /> : <MapView graph={graph} />}
+    </div>
+  )
 }
 
 export function CaseDetailPage() {
@@ -200,7 +230,7 @@ export function CaseDetailPage() {
         {tab === 'network' && (
           <div className="card min-h-[500px] p-0">
             {graph ? (
-              <CytoscapeComponent graph={graph} />
+              <NetworkViewToggle graph={graph} />
             ) : (
               <p className="text-xs text-gray-400 text-center py-8">Loading graph...</p>
             )}
