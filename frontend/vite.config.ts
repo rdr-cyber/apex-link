@@ -11,6 +11,9 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // Allow preview-sharing tunnels (e.g. trycloudflare.com quick tunnels).
+    // Suffix form — survives tunnel URL rotation, no ephemeral URL committed.
+    allowedHosts: ['.trycloudflare.com'],
     proxy: {
       '/api': {
         target: 'http://localhost:8000',
