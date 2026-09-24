@@ -22,7 +22,7 @@ async def test_create_case(client: AsyncClient, auth_token):
     assert response.status_code == 201
     data = response.json()
     assert data["title"] == "Test Case"
-    assert data["case_number"].startswith("TN-")
+    assert data["case_number"].startswith("AL-")
     assert data["priority"] == "HIGH"
 
 

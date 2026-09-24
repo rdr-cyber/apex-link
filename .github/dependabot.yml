@@ -1,4 +1,4 @@
-# TRACE-NET — Dependabot configuration
+# APEX LINK — Dependabot configuration
 # Scans npm (frontend) and pip (backend) weekly.
 # Auth-related packages are NEVER auto-grouped — they always get individual PRs.
 

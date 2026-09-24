@@ -10,14 +10,14 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     # Application
-    APP_NAME: str = "TRACE-NET"
+    APP_NAME: str = "APEX LINK"
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = False
     PORT: int = 8000  # Render sets this via PORT env var
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://trace_user:trace_password@postgres:5432/trace_net"
-    DATABASE_URL_SYNC: str = "postgresql+psycopg2://trace_user:trace_password@postgres:5432/trace_net"
+    DATABASE_URL: str = "postgresql+asyncpg://apex_user:apex_password@postgres:5432/apex_link"
+    DATABASE_URL_SYNC: str = "postgresql+psycopg2://apex_user:apex_password@postgres:5432/apex_link"
 
     # Connection pool — conservative for free-tier managed PostgreSQL
     DB_POOL_SIZE: int = 5
@@ -40,7 +40,7 @@ class Settings(BaseSettings):
 
     # S3 (future)
     S3_ENDPOINT_URL: str = ""
-    S3_BUCKET: str = "trace-net-evidence"
+    S3_BUCKET: str = "apex-link-evidence"
     S3_ACCESS_KEY: str = ""
     S3_SECRET_KEY: str = ""
 
@@ -62,7 +62,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 587
     SMTP_USERNAME: str = ""
     SMTP_PASSWORD: str = ""
-    SMTP_FROM: str = "noreply@trace-net.local"
+    SMTP_FROM: str = "noreply@apex-link.local"
 
     # Login Challenge-Response
     CHALLENGE_EXPIRE_SECONDS: int = 120  # 2 minutes

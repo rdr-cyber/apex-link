@@ -15,16 +15,16 @@ class CaseService:
         self.repo = CaseRepository(db)
 
     async def _generate_case_number(self) -> str:
-        """Generate the next case number: TN-YYYY-NNNN."""
+        """Generate the next case number: AL-YYYY-NNNN."""
         import datetime
         year = datetime.datetime.now(datetime.timezone.utc).year
         # Count existing cases this year to generate next number
         from sqlalchemy import select, func
         result = await self.db.execute(
-            select(func.count(Case.id)).where(Case.case_number.like(f"TN-{year}-%"))
+            select(func.count(Case.id)).where(Case.case_number.like(f"AL-{year}-%"))
         )
         count = result.scalar_one()
-        return f"TN-{year}-{count + 1:04d}"
+        return f"AL-{year}-{count + 1:04d}"
 
     async def create_case(self, data: CaseCreate, created_by: uuid.UUID) -> CaseResponse:
         """Create a new case."""

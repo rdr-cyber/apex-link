@@ -1,4 +1,4 @@
-# TRACE-NET
+# APEX LINK
 
 ## Explainable Criminal Network & Investigation Intelligence Platform
 
@@ -13,11 +13,11 @@ Law-enforcement investigations produce fragmented data across FIRs, call records
 
 **The challenge:** Build a system that analyzes fragmented investigation information to identify relationships, construct an interactive criminal-network graph, surface influential entities, detect suspicious patterns, and present explainable intelligence to an investigator.
 
-## What TRACE-NET Does
+## What APEX LINK Does
 
-TRACE-NET is a **decision-support and intelligence-analysis system**. It helps authorized investigators analyze fragmented data, construct interactive criminal-network graphs, surface influential entities, detect suspicious patterns, and present explainable intelligence.
+APEX LINK is a **decision-support and intelligence-analysis system**. It helps authorized investigators analyze fragmented data, construct interactive criminal-network graphs, surface influential entities, detect suspicious patterns, and present explainable intelligence.
 
-**Important:** Every risk score, correlation, and recommendation is a **potential lead requiring human verification**. TRACE-NET does not declare anyone a criminal.
+**Important:** Every risk score, correlation, and recommendation is a **potential lead requiring human verification**. APEX LINK does not declare anyone a criminal.
 
 ### Working Features (Demoable Today)
 
@@ -53,14 +53,14 @@ TRACE-NET is a **decision-support and intelligence-analysis system**. It helps a
 
 The seed script creates a complete synthetic investigation dataset:
 - **15 cases** across fraud, cybercrime, drug trafficking, and financial crime categories
-- **42 entities** (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations) linked across cases
-- **59 relationships** forming multiple clusters with bridge entities
+- **43 entities** (persons, phones, emails, IPs, UPI IDs, bank accounts, vehicles, locations, organizations) linked across cases
+- **60 relationships** forming multiple clusters with bridge entities
 - **18 evidence items** with SHA-256 integrity hashes
 - **12 cross-case leads** with explainable scoring
 
 **All data is entirely synthetic. No real personal data is used.**
 
-> **Recommended demo case:** TN-2026-0002 (Suspicious Fund Transfers — Bandra Cluster) has a fully connected graph with 12 entities and 19 relationships.
+> **Recommended demo case:** AL-2026-0002 (Suspicious Fund Transfers — Bandra Cluster) has a fully connected graph with 13 entities and 20 relationships.
 
 ---
 
@@ -93,8 +93,8 @@ The seed script creates a complete synthetic investigation dataset:
 
 ### Docker (Recommended)
 ```bash
-git clone https://github.com/rdr-cyber/trace-net.git
-cd trace-net
+git clone https://github.com/rdr-cyber/apex-link.git
+cd apex-link
 cp .env.example .env
 docker compose up -d
 docker compose exec backend alembic upgrade head
@@ -133,12 +133,12 @@ npm run dev
 
 ## Responsible Use & Current Limitations
 
-### What TRACE-NET Is
+### What APEX LINK Is
 - A **working prototype** demonstrating criminal-network analysis concepts
 - A **decision-support tool** — all outputs are potential leads requiring human verification
-- A **Phase 1 implementation** of the broader NEXUS system architecture (see `docs/NEXUS_VS_TRACE-NET.md`)
+- A **Phase 1 implementation** of the broader NEXUS system architecture (see `docs/NEXUS_VS_APEX_LINK.md`)
 
-### What TRACE-NET Is Not
+### What APEX LINK Is Not
 - It is **not** a production law-enforcement system
 - It does **not** make accusations or declare guilt
 - It does **not** integrate with real government databases
@@ -155,7 +155,7 @@ npm run dev
 See [DEPLOYMENT.md](DEPLOYMENT.md) for free public deployment using Render + Supabase.
 
 ### Future Roadmap
-See [docs/NEXUS_VS_TRACE-NET.md](docs/NEXUS_VS_TRACE-NET.md) for the full NEXUS system vision and TRACE-NET's phased implementation plan.
+See [docs/NEXUS_VS_APEX_LINK.md](docs/NEXUS_VS_APEX_LINK.md) for the full NEXUS system vision and APEX LINK's phased implementation plan.
 
 ---
 
@@ -202,10 +202,10 @@ cd frontend && npm run build
 ## Demo Workflow (5-Minute Script)
 
 1. **Login** → Challenge-response verification
-2. **Dashboard** → Live statistics: 15 cases, 42 entities, 59 relationships, 12 leads
-3. **Open TN-2026-0002** → Suspicious Fund Transfers (CRITICAL priority)
+2. **Dashboard** → Live statistics: 15 cases, 43 entities, 60 relationships, 12 leads
+3. **Open AL-2026-0002** → Suspicious Fund Transfers (CRITICAL priority)
 4. **Evidence** → Items with SHA-256 integrity hashes
-5. **Network Graph** → 12 shape-encoded nodes, 19 edges, 1 component — fully connected
+5. **Network Graph** → 13 shape-encoded nodes, 20 edges, 1 component — fully connected. Toggle **Map View** to plot the geocoded locations (Bandra East, Cyber Hub) on a Leaflet map
 6. **Click Node** → Entity details, centrality metrics, confidence score
 7. **Cross-Case Intelligence** → Explain Connection with structured reasoning
 8. **Network Path Finder** → Shortest path between entities
@@ -239,6 +239,6 @@ cd frontend && npm run build
 
 ## Disclaimer
 
-> TRACE-NET is an investigative decision-support platform. Analytical scores, graph prominence, correlations, and detected patterns are potential leads generated from available data. They do not establish criminal responsibility and must be independently reviewed by an authorized investigator.
+> APEX LINK is an investigative decision-support platform. Analytical scores, graph prominence, correlations, and detected patterns are potential leads generated from available data. They do not establish criminal responsibility and must be independently reviewed by an authorized investigator.
 
 **This prototype operates on synthetic/demo data. Real-world deployment would require approved government datasets, privacy controls, legal authorization, security accreditation, data-quality validation, and integration with authorized systems.**

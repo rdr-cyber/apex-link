@@ -4,15 +4,15 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-trace_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-trace_password}
-      POSTGRES_DB: ${POSTGRES_DB:-trace_net}
+      POSTGRES_USER: ${POSTGRES_USER:-apex_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-apex_password}
+      POSTGRES_DB: ${POSTGRES_DB:-apex_link}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-trace_user} -d ${POSTGRES_DB:-trace_net}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-apex_user} -d ${POSTGRES_DB:-apex_link}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -43,8 +43,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-trace_user}:${POSTGRES_PASSWORD:-trace_password}@postgres:5432/${POSTGRES_DB:-trace_net}
-      - DATABASE_URL_SYNC=postgresql+psycopg2://${POSTGRES_USER:-trace_user}:${POSTGRES_PASSWORD:-trace_password}@postgres:5432/${POSTGRES_DB:-trace_net}
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-apex_user}:${POSTGRES_PASSWORD:-apex_password}@postgres:5432/${POSTGRES_DB:-apex_link}
+      - DATABASE_URL_SYNC=postgresql+psycopg2://${POSTGRES_USER:-apex_user}:${POSTGRES_PASSWORD:-apex_password}@postgres:5432/${POSTGRES_DB:-apex_link}
       - SECRET_KEY=${SECRET_KEY:-change-me-to-a-random-secret-key}
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:5173,http://localhost:3000}
       - LOCAL_STORAGE_PATH=/app/storage/evidence

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { Shield, CheckCircle, XCircle, AlertCircle, Loader2, Mail } from 'lucide-react'
+import { CheckCircle, XCircle, AlertCircle, Loader2, Mail } from 'lucide-react'
 import { api } from '@/api'
 
 type VerifyStatus = 'loading' | 'success' | 'expired' | 'used' | 'invalid' | 'missing' | 'error'
@@ -70,10 +70,8 @@ export function VerifyEmailPage() {
     <div className="login-bg flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-dossier text-charcoal">
-            <Shield className="h-6 w-6" />
-          </div>
-          <h1 className="text-lg font-extrabold text-white font-mono tracking-wider">TRACE-NET</h1>
+          <img src="/logo-mark-white.svg" alt="APEX LINK logo" className="mx-auto mb-3 h-12 w-12" />
+          <h1 className="text-lg font-extrabold text-white font-mono tracking-wider">APEX LINK</h1>
           <p className="mt-0.5 text-xs text-gray-400 font-mono">Email Verification</p>
         </div>
 

@@ -1,4 +1,4 @@
-"""Email provider abstraction for TRACE-NET.
+"""Email provider abstraction for APEX LINK.
 
 Provides a common interface for sending emails, with implementations
 for development (console output) and production (SMTP).
@@ -43,7 +43,7 @@ class ConsoleEmailProvider:
 
         message = f"""
 {'=' * 60}
-TRACE-NET EMAIL VERIFICATION
+APEX LINK EMAIL VERIFICATION
 {'=' * 60}
 Recipient: {to_email}
 Verification URL: {verification_url}
@@ -77,14 +77,14 @@ class SMTPEmailProvider:
         verification_url = f"{base_url}/verify-email?token={token}"
 
         msg = MIMEText(
-            f"You requested email verification for TRACE-NET.\n\n"
+            f"You requested email verification for APEX LINK.\n\n"
             f"Please verify your email by clicking the link below:\n\n"
             f"{verification_url}\n\n"
             f"This link expires at {expires_at.strftime('%Y-%m-%d %H:%M:%S UTC')}.\n\n"
             f"If you did not request this verification, please ignore this email.\n",
             "plain",
         )
-        msg["Subject"] = "TRACE-NET — Verify Your Email"
+        msg["Subject"] = "APEX LINK — Verify Your Email"
         msg["From"] = settings.SMTP_FROM
         msg["To"] = to_email
 

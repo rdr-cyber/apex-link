@@ -47,28 +47,28 @@ if settings.ADMIN_PASSWORD in _weak_passwords:
     )
 
 DEMO_USERS = [
-    {"username": settings.ADMIN_USERNAME, "email": "admin@trace-net-demo.local", "password": settings.ADMIN_PASSWORD, "full_name": "Rajdip Routh", "role": UserRole.ADMIN},
-    {"username": settings.INVESTIGATOR_USERNAME, "email": "investigator@trace-net-demo.local", "password": settings.INVESTIGATOR_PASSWORD, "full_name": "Rajdip Routh", "role": UserRole.INVESTIGATOR},
-    {"username": settings.ANALYST_USERNAME, "email": "analyst@trace-net-demo.local", "password": settings.ANALYST_PASSWORD, "full_name": "Rajdip Routh", "role": UserRole.ANALYST},
+    {"username": settings.ADMIN_USERNAME, "email": "admin@apex-link-demo.local", "password": settings.ADMIN_PASSWORD, "full_name": "Rajdip Routh", "role": UserRole.ADMIN},
+    {"username": settings.INVESTIGATOR_USERNAME, "email": "investigator@apex-link-demo.local", "password": settings.INVESTIGATOR_PASSWORD, "full_name": "Rajdip Routh", "role": UserRole.INVESTIGATOR},
+    {"username": settings.ANALYST_USERNAME, "email": "analyst@apex-link-demo.local", "password": settings.ANALYST_PASSWORD, "full_name": "Rajdip Routh", "role": UserRole.ANALYST},
 ]
 
 # --- Cases ---
 DEMO_CASES = [
-    {"case_number": "TN-2026-0001", "title": "Cyber Fraud Ring — Andheri Operations", "description": "Multiple reports of online financial fraud originating from Andheri West area. Victims report unauthorized UPI transactions.", "category": "CYBER_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.ANALYSIS, "incident_date": datetime(2026, 1, 15, tzinfo=timezone.utc), "location": "Andheri West, Mumbai"},
-    {"case_number": "TN-2026-0002", "title": "Suspicious Fund Transfers — Bandra Cluster", "description": "Pattern of suspicious fund transfers through multiple accounts linked to Bandra East.", "category": "MONEY_LAUNDERING", "priority": CasePriority.CRITICAL, "status": CaseStatus.ANALYSIS, "incident_date": datetime(2026, 2, 3, tzinfo=timezone.utc), "location": "Bandra East, Mumbai"},
-    {"case_number": "TN-2026-0003", "title": "Drug Trafficking Intelligence — Delhi Network", "description": "Intelligence report indicating a drug distribution network operating from Connaught Place.", "category": "DRUG_TRAFFICKING", "priority": CasePriority.HIGH, "status": CaseStatus.UNDER_REVIEW, "incident_date": datetime(2026, 2, 20, tzinfo=timezone.utc), "location": "Connaught Place, Delhi"},
-    {"case_number": "TN-2026-0004", "title": "Phishing Campaign — Banking Credentials", "description": "Coordinated phishing campaign targeting banking customers via SMS and email.", "category": "CYBER_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 1, tzinfo=timezone.utc), "location": "Mumbai"},
-    {"case_number": "TN-2026-0005", "title": "Identity Theft Ring — Maharashtra", "description": "Multiple identity theft reports linked to a common set of identifiers.", "category": "IDENTITY_THEFT", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 10, tzinfo=timezone.utc), "location": "Pune, Maharashtra"},
-    {"case_number": "TN-2026-0006", "title": "Counterfeit Currency — Gurgaon", "description": "Reports of counterfeit currency circulating in Gurgaon markets.", "category": "COUNTERFEIT", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 15, tzinfo=timezone.utc), "location": "Gurgaon, Haryana"},
-    {"case_number": "TN-2026-0007", "title": "Vehicle Theft Network — South Delhi", "description": "Organized vehicle theft ring operating across South Delhi.", "category": "VEHICLE_THEFT", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 20, tzinfo=timezone.utc), "location": "South Delhi"},
-    {"case_number": "TN-2026-0008", "title": "Extortion Calls — Bandra", "description": "Series of extortion calls targeting local business owners in Bandra.", "category": "EXTORTION", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 1, tzinfo=timezone.utc), "location": "Bandra, Mumbai"},
-    {"case_number": "TN-2026-0009", "title": "Data Breach — QuickTrade Solutions", "description": "Suspected data breach at QuickTrade Solutions exposing customer information.", "category": "CYBER_FRAUD", "priority": CasePriority.CRITICAL, "status": CaseStatus.ANALYSIS, "incident_date": datetime(2026, 4, 5, tzinfo=timezone.utc), "location": "Mumbai"},
-    {"case_number": "TN-2026-0010", "title": "Wire Fraud — International Pattern", "description": "Wire fraud pattern involving international money transfers.", "category": "WIRE_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 10, tzinfo=timezone.utc), "location": "Mumbai"},
-    {"case_number": "TN-2026-0011", "title": "Loan Shark Operations — Pune", "description": "Illegal lending operations with predatory practices.", "category": "FINANCIAL_CRIME", "priority": CasePriority.LOW, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 15, tzinfo=timezone.utc), "location": "Pune, Maharashtra"},
-    {"case_number": "TN-2026-0012", "title": "SIM Swap Fraud — Delhi", "description": "Series of SIM swap attacks leading to unauthorized fund transfers.", "category": "CYBER_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 20, tzinfo=timezone.utc), "location": "Delhi"},
-    {"case_number": "TN-2026-0013", "title": "Cryptocurrency Scam — Gurgaon", "description": "Fraudulent cryptocurrency investment scheme targeting retail investors.", "category": "CYBER_FRAUD", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 5, 1, tzinfo=timezone.utc), "location": "Gurgaon, Haryana"},
-    {"case_number": "TN-2026-0014", "title": "Illegal Gambling Ring — Mumbai", "description": "Online gambling operation using proxy servers.", "category": "ILLEGAL_GAMBLING", "priority": CasePriority.LOW, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 5, 5, tzinfo=timezone.utc), "location": "Mumbai"},
-    {"case_number": "TN-2026-0015", "title": "Human Trafficking Intelligence — Border Route", "description": "Intelligence report about a suspected human trafficking operation.", "category": "HUMAN_TRAFFICKING", "priority": CasePriority.CRITICAL, "status": CaseStatus.UNDER_REVIEW, "incident_date": datetime(2026, 5, 10, tzinfo=timezone.utc), "location": "Rajasthan Border"},
+    {"case_number": "AL-2026-0001", "title": "Cyber Fraud Ring — Andheri Operations", "description": "Multiple reports of online financial fraud originating from Andheri West area. Victims report unauthorized UPI transactions.", "category": "CYBER_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.ANALYSIS, "incident_date": datetime(2026, 1, 15, tzinfo=timezone.utc), "location": "Andheri West, Mumbai"},
+    {"case_number": "AL-2026-0002", "title": "Suspicious Fund Transfers — Bandra Cluster", "description": "Pattern of suspicious fund transfers through multiple accounts linked to Bandra East.", "category": "MONEY_LAUNDERING", "priority": CasePriority.CRITICAL, "status": CaseStatus.ANALYSIS, "incident_date": datetime(2026, 2, 3, tzinfo=timezone.utc), "location": "Bandra East, Mumbai"},
+    {"case_number": "AL-2026-0003", "title": "Drug Trafficking Intelligence — Delhi Network", "description": "Intelligence report indicating a drug distribution network operating from Connaught Place.", "category": "DRUG_TRAFFICKING", "priority": CasePriority.HIGH, "status": CaseStatus.UNDER_REVIEW, "incident_date": datetime(2026, 2, 20, tzinfo=timezone.utc), "location": "Connaught Place, Delhi"},
+    {"case_number": "AL-2026-0004", "title": "Phishing Campaign — Banking Credentials", "description": "Coordinated phishing campaign targeting banking customers via SMS and email.", "category": "CYBER_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 1, tzinfo=timezone.utc), "location": "Mumbai"},
+    {"case_number": "AL-2026-0005", "title": "Identity Theft Ring — Maharashtra", "description": "Multiple identity theft reports linked to a common set of identifiers.", "category": "IDENTITY_THEFT", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 10, tzinfo=timezone.utc), "location": "Pune, Maharashtra"},
+    {"case_number": "AL-2026-0006", "title": "Counterfeit Currency — Gurgaon", "description": "Reports of counterfeit currency circulating in Gurgaon markets.", "category": "COUNTERFEIT", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 15, tzinfo=timezone.utc), "location": "Gurgaon, Haryana"},
+    {"case_number": "AL-2026-0007", "title": "Vehicle Theft Network — South Delhi", "description": "Organized vehicle theft ring operating across South Delhi.", "category": "VEHICLE_THEFT", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 3, 20, tzinfo=timezone.utc), "location": "South Delhi"},
+    {"case_number": "AL-2026-0008", "title": "Extortion Calls — Bandra", "description": "Series of extortion calls targeting local business owners in Bandra.", "category": "EXTORTION", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 1, tzinfo=timezone.utc), "location": "Bandra, Mumbai"},
+    {"case_number": "AL-2026-0009", "title": "Data Breach — QuickTrade Solutions", "description": "Suspected data breach at QuickTrade Solutions exposing customer information.", "category": "CYBER_FRAUD", "priority": CasePriority.CRITICAL, "status": CaseStatus.ANALYSIS, "incident_date": datetime(2026, 4, 5, tzinfo=timezone.utc), "location": "Mumbai"},
+    {"case_number": "AL-2026-0010", "title": "Wire Fraud — International Pattern", "description": "Wire fraud pattern involving international money transfers.", "category": "WIRE_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 10, tzinfo=timezone.utc), "location": "Mumbai"},
+    {"case_number": "AL-2026-0011", "title": "Loan Shark Operations — Pune", "description": "Illegal lending operations with predatory practices.", "category": "FINANCIAL_CRIME", "priority": CasePriority.LOW, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 15, tzinfo=timezone.utc), "location": "Pune, Maharashtra"},
+    {"case_number": "AL-2026-0012", "title": "SIM Swap Fraud — Delhi", "description": "Series of SIM swap attacks leading to unauthorized fund transfers.", "category": "CYBER_FRAUD", "priority": CasePriority.HIGH, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 4, 20, tzinfo=timezone.utc), "location": "Delhi"},
+    {"case_number": "AL-2026-0013", "title": "Cryptocurrency Scam — Gurgaon", "description": "Fraudulent cryptocurrency investment scheme targeting retail investors.", "category": "CYBER_FRAUD", "priority": CasePriority.MEDIUM, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 5, 1, tzinfo=timezone.utc), "location": "Gurgaon, Haryana"},
+    {"case_number": "AL-2026-0014", "title": "Illegal Gambling Ring — Mumbai", "description": "Online gambling operation using proxy servers.", "category": "ILLEGAL_GAMBLING", "priority": CasePriority.LOW, "status": CaseStatus.OPEN, "incident_date": datetime(2026, 5, 5, tzinfo=timezone.utc), "location": "Mumbai"},
+    {"case_number": "AL-2026-0015", "title": "Human Trafficking Intelligence — Border Route", "description": "Intelligence report about a suspected human trafficking operation.", "category": "HUMAN_TRAFFICKING", "priority": CasePriority.CRITICAL, "status": CaseStatus.UNDER_REVIEW, "incident_date": datetime(2026, 5, 10, tzinfo=timezone.utc), "location": "Rajasthan Border"},
 ]
 
 # --- Entities ---
@@ -134,7 +134,7 @@ EVIDENCE_TEXTS = [
     "Contact Vikram Patel at +91 98765 43210 or vikram.p@demo-mail.com. UPI: vikram.p@upibank. IP logged: 192.168.1.105. Vehicle MH 12 AB 1234 spotted near Andheri West.",
     "Call records show frequent communication between 9876543210 and 8765432109. Anita Desai (anita.d@demo-mail.com) was also contacted. Amounts of ₹50,000 and ₹75,000 transferred via UPI.",
     "Fund transfers traced from vikram.p@upibank to sunil.m@upibank. Amount: ₹2,50,000. Meera Joshi (meera.j@demo-mail.com) linked via Bank Account HDFC-1234567890. IP 10.0.0.55 involved.",
-    "Suresh Nair (suresh.n@demo-mail.com) connected to QuickTrade Solutions. Phone 6543210987 and 5432109876 both active in Bandra East transactions.",
+    "Suresh Nair (suresh.n@demo-mail.com) connected to QuickTrade Solutions. Phone 6543210987 and 5432109876 both active in Bandra East transactions. Transaction trail corroborated for Bandra East, Mumbai and a linked transfer at Cyber Hub, Gurgaon.",
     "Ravi Gupta (ravi.g@demo-mail.com) linked to vehicle DL 03 CD 5678 operating from Connaught Place, Delhi. Phone 4321098765 and 3210987654 detected.",
     "Deepa Menon (deepa.m@demo-mail.com) connected to Metro Logistics Pvt Ltd. IP 172.16.0.99 used for communications.",
     "Phishing messages traced to phone 7654321098 (same as bridge entity). UPI sunil.m@upibank used in multiple fraud transactions. Emails sent from vikram.p@demo-mail.com.",
@@ -186,6 +186,7 @@ ENTITY_CASE_MAP = {
     30: [2, 6, 7],         # Metro Logistics
     31: [2],               # IP 172.16.0.99
     32: [12],              # Amit Verma (fan-out)
+    42: [1],               # Location Cyber Hub, Gurgaon (map-view demo node in case 1)
 }
 
 # Add fan-out phones to case 12
@@ -433,6 +434,7 @@ async def seed():
             (20, 16, "MENTIONED_WITH", "QuickTrade Solutions linked to IP 10.0.0.55"),
             (21, 12, "LOCATED_AT", "Meera Joshi located at Bandra East"),
             (21, 18, "LOCATED_AT", "Suresh Nair located at Bandra East"),
+            (21, 42, "CONNECTED_TO", "Transaction trail links Bandra East to a related transfer at Cyber Hub, Gurgaon"),
 
             # ── Cluster C: Ravi Gupta's network ──
             (22, 23, "OWNS_PHONE", "Ravi owns phone 4321098765"),

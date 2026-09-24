@@ -1,4 +1,4 @@
-"""Performance benchmarks for TRACE-NET graph analytics."""
+"""Performance benchmarks for APEX LINK graph analytics."""
 
 import time
 import pytest

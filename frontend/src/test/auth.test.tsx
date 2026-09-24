@@ -51,14 +51,14 @@ describe('LoginPage', () => {
 
   it('renders login form elements', () => {
     renderWithProviders(<LoginPage />)
-    expect(screen.getByText('TRACE-NET')).toBeDefined()
+    expect(screen.getByText('APEX LINK')).toBeDefined()
     expect(screen.getByRole('button', { name: /sign in/i })).toBeDefined()
     expect(screen.getByText(/demo accounts/i)).toBeDefined()
   })
 
-  it('renders TRACE-NET branding', () => {
+  it('renders APEX LINK branding', () => {
     renderWithProviders(<LoginPage />)
-    expect(screen.getByText('TRACE-NET')).toBeDefined()
+    expect(screen.getByText('APEX LINK')).toBeDefined()
     expect(screen.getByText(/investigation intelligence platform/i)).toBeDefined()
   })
 
@@ -203,9 +203,9 @@ describe('VerifyEmailPage', () => {
     })
   })
 
-  it('renders TRACE-NET branding', () => {
+  it('renders APEX LINK branding', () => {
     renderWithProviders(<VerifyEmailPage />, '/verify-email')
-    expect(screen.getByText('TRACE-NET')).toBeDefined()
+    expect(screen.getByText('APEX LINK')).toBeDefined()
     expect(screen.getByText(/email verification/i)).toBeDefined()
   })
 

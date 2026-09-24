@@ -15,10 +15,10 @@ function Wrapper({ children }: { children: React.ReactNode }) {
   )
 }
 
-describe('TRACE-NET Frontend', () => {
+describe('APEX LINK Frontend', () => {
   it('renders a basic component without crashing', () => {
-    render(<div data-testid="app">TRACE-NET</div>, { wrapper: Wrapper })
-    expect(screen.getByTestId('app')).toHaveTextContent('TRACE-NET')
+    render(<div data-testid="app">APEX LINK</div>, { wrapper: Wrapper })
+    expect(screen.getByTestId('app')).toHaveTextContent('APEX LINK')
   })
 
   it('can import ProtectedRoute', async () => {

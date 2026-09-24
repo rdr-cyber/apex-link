@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 /**
  * Cubic-bezier evaluator — matches CSS cubic-bezier(0.16, 1, 0.3, 1).
- * All hero animations in TRACE-NET use this same curve.
+ * All hero animations in APEX LINK use this same curve.
  */
 function cubicBezier(t: number): number {
   // Approximation of cubic-bezier(0.16, 1, 0.3, 1)

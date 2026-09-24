@@ -1,4 +1,4 @@
-"""TRACE-NET — Main FastAPI application."""
+"""APEX LINK — Main FastAPI application."""
 
 import os
 import logging
@@ -19,16 +19,16 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     """Application lifespan — startup/shutdown events."""
     # Startup diagnostics — safe for production logs (no secrets)
-    db_configured = bool(settings.DATABASE_URL and not settings.DATABASE_URL.startswith("postgresql://trace_user"))
+    db_configured = bool(settings.DATABASE_URL and not settings.DATABASE_URL.startswith("postgresql://apex_user"))
     logger.info(
-        "TRACE-NET %s starting | env=%s | db=%s | email=%s",
+        "APEX LINK %s starting | env=%s | db=%s | email=%s",
         settings.APP_VERSION,
         "production" if not settings.DEBUG else "development",
         "configured" if db_configured else "NOT CONFIGURED (using defaults)",
         settings.EMAIL_PROVIDER,
     )
     yield
-    logger.info("TRACE-NET shutting down")
+    logger.info("APEX LINK shutting down")
 
 
 app = FastAPI(

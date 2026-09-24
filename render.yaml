@@ -1,4 +1,4 @@
-# TRACE-NET — Render Deployment Configuration (Blueprint)
+# APEX LINK — Render Deployment Configuration (Blueprint)
 #
 # This file describes the services for Render Blueprint deployment.
 # Secrets (DATABASE_URL, SECRET_KEY, etc.) must be set manually in the
@@ -15,7 +15,7 @@
 services:
   # ── Backend ──────────────────────────────────────────────
   - type: web
-    name: trace-net-backend
+    name: apex-link-backend
     runtime: python
     plan: free
     rootDir: backend
@@ -51,7 +51,7 @@ services:
 
   # ── Frontend ─────────────────────────────────────────────
   - type: web
-    name: trace-net-frontend
+    name: apex-link-frontend
     runtime: static
     plan: free
     buildCommand: cd frontend && npm ci && npm run build

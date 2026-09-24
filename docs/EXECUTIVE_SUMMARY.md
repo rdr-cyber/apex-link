@@ -1,4 +1,4 @@
-# TRACE-NET — Executive Summary
+# APEX LINK — Executive Summary
 
 **Explainable Criminal Network & Investigation Intelligence Platform**
 SIH26189 · Ministry of Home Affairs · Blockchain & Cybersecurity
@@ -11,7 +11,7 @@ Indian law-enforcement investigations produce fragmented data across FIRs, call 
 
 ## The Solution
 
-TRACE-NET is a **decision-support system** that ingests fragmented investigation data, extracts entities and relationships, constructs interactive criminal-network graphs, detects suspicious patterns, and presents explainable intelligence — with every analytical output clearly marked as a **potential lead requiring human verification**.
+APEX LINK is a **decision-support system** that ingests fragmented investigation data, extracts entities and relationships, constructs interactive criminal-network graphs, detects suspicious patterns, and presents explainable intelligence — with every analytical output clearly marked as a **potential lead requiring human verification**.
 
 It is not an autonomous system. It does not declare anyone a criminal. It makes the investigator faster and the analysis auditable.
 
@@ -46,7 +46,7 @@ React 18 + TypeScript · FastAPI + Python 3.12 · PostgreSQL · NetworkX · Cyto
 
 ## Architecture Readiness
 
-TRACE-NET is Phase 1 of a deliberately-scoped implementation of the NEXUS system architecture. Each subsystem has clean interfaces designed for upgrade:
+APEX LINK is Phase 1 of a deliberately-scoped implementation of the NEXUS system architecture. Each subsystem has clean interfaces designed for upgrade:
 
 - Rule-based extraction → NLP models (spaCy/BERT) plug into the same API
 - NetworkX graph → Neo4j or distributed graph if scale requires
@@ -62,9 +62,9 @@ Free public deployment on Render (frontend + backend) + Supabase (PostgreSQL). Z
 ```
 Login (challenge-response)
   → Dashboard (live stats)
-    → Open Case TN-2026-0002 (CRITICAL)
+    → Open Case AL-2026-0002 (CRITICAL)
       → Evidence (SHA-256 verified)
-        → Network Graph (12 nodes, 19 edges, 1 component)
+        → Network Graph (13 nodes, 20 edges, 1 component)
           → Click Node (centrality, confidence)
             → Explain Connection (structured reasoning)
               → Path Finder (shortest path)
@@ -74,6 +74,6 @@ Login (challenge-response)
 
 ---
 
-**Repository:** https://github.com/rdr-cyber/trace-net
+**Repository:** https://github.com/rdr-cyber/apex-link
 **License:** MIT
 **Status:** Working prototype · Synthetic data only · All analytical outputs require human verification

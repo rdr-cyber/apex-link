@@ -1,4 +1,4 @@
-"""Centralized configuration for TRACE-NET."""
+"""Centralized configuration for APEX LINK."""
 
 from typing import Literal
 

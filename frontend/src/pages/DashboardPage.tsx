@@ -82,7 +82,7 @@ export function DashboardPage() {
     <div className="space-y-5">
       <div className="flex items-baseline justify-between border-b border-mist-dark pb-3">
         <h1 className="text-lg font-bold text-ink font-mono tracking-wide">DASHBOARD</h1>
-        <p className="text-[10px] text-gray-400 font-mono uppercase tracking-widest">TRACE-NET Intelligence</p>
+        <p className="text-[10px] text-gray-400 font-mono uppercase tracking-widest">APEX LINK Intelligence</p>
       </div>
 
       {/* Stat cards — monospace numbers with count-up animation */}

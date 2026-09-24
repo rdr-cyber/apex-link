@@ -68,5 +68,5 @@ async def generate_pdf_report(
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",
-        headers={"Content-Disposition": f"attachment; filename=trace-net-report-{case_id}.pdf"},
+        headers={"Content-Disposition": f"attachment; filename=apex-link-report-{case_id}.pdf"},
     )

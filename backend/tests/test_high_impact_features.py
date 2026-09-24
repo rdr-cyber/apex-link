@@ -43,7 +43,7 @@ async def _setup_cases_with_shared_entities(client, db_session=None):
 
         # Create Case A
         case_a = Case(
-            case_number="TN-TEST-001", title="Test Case A",
+            case_number="AL-TEST-001", title="Test Case A",
             description="Path test case A", category="CYBER_FRAUD",
             priority=CasePriority.HIGH, status=CaseStatus.OPEN,
             created_by=user_id,
@@ -53,7 +53,7 @@ async def _setup_cases_with_shared_entities(client, db_session=None):
 
         # Create Case B
         case_b = Case(
-            case_number="TN-TEST-002", title="Test Case B",
+            case_number="AL-TEST-002", title="Test Case B",
             description="Path test case B", category="WIRE_FRAUD",
             priority=CasePriority.MEDIUM, status=CaseStatus.OPEN,
             created_by=user_id,
@@ -298,8 +298,8 @@ async def test_cross_case_timeline_preserves_case_labels(client: AsyncClient, te
     })
     data = r.json()
     case_numbers = set(e.get("case_number") for e in data["events"])
-    assert "TN-TEST-001" in case_numbers
-    assert "TN-TEST-002" in case_numbers
+    assert "AL-TEST-001" in case_numbers
+    assert "AL-TEST-002" in case_numbers
 
 
 @pytest.mark.asyncio

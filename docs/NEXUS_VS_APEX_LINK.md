@@ -1,8 +1,8 @@
-# TRACE-NET — Current Implementation vs. Full NEXUS Vision
+# APEX LINK — Current Implementation vs. Full NEXUS Vision
 
 > **Positioning Document** · SIH26189 · Ministry of Home Affairs · Blockchain & Cybersecurity
 >
-> This document maps TRACE-NET's working demo against the full NEXUS High-Level Design
+> This document maps APEX LINK's working demo against the full NEXUS High-Level Design
 > (HLD) to show that the prototype is Phase 1 of a deliberately-scoped, credible system —
 > not an incomplete attempt at the full 172-page specification.
 
@@ -47,17 +47,17 @@
 ## What a Judge Sees Today (The 5-Minute Demo)
 
 ```
-TRACE-NET Login (challenge-response verification)
+APEX LINK Login (challenge-response verification)
        ↓
-Dashboard (15 cases, 42 entities, 59 relationships, 12 leads)
+Dashboard (15 cases, 43 entities, 60 relationships, 12 leads)
        ↓
-Open Case TN-2026-0002 — Suspicious Fund Transfers (CRITICAL)
+Open Case AL-2026-0002 — Suspicious Fund Transfers (CRITICAL)
        ↓
 Evidence Items (SHA-256 integrity verified)
        ↓
 Entity Extraction (9 entity types, normalized & deduplicated)
        ↓
-Network Graph (12 nodes, 19 edges, 1 component — fully connected)
+Network Graph (13 nodes, 20 edges, 1 component — fully connected)
        ↓
 Click Node → See centrality, confidence, degree, cases
        ↓
@@ -78,14 +78,14 @@ Generate Report → JSON/PDF with fact/inference distinction
 
 ## Honest Assessment: What This Is and What It Isn't
 
-### What TRACE-NET is:
+### What APEX LINK is:
 - A **working, demonstrable** criminal-network analysis prototype
 - A **Phase 1 implementation** of a larger, deliberately-scoped vision
 - An **architecture that supports extension** — each subsystem has clean interfaces
 - A **decision-support tool** that makes its reasoning transparent
 - A system that **respects the constraint**: every score is a potential lead, not a verdict
 
-### What TRACE-NET isn't:
+### What APEX LINK isn't:
 - It is **not** a production law-enforcement system
 - It does **not** replace human investigators
 - It does **not** make accusations or declare guilt
@@ -107,7 +107,7 @@ Generate Report → JSON/PDF with fact/inference distinction
 
 ## Architecture Readiness
 
-TRACE-NET's architecture is designed to absorb the Phase 2+ features without redesign:
+APEX LINK's architecture is designed to absorb the Phase 2+ features without redesign:
 
 ```
 Phase 1 (DONE)              Phase 2 (DESIGNED)           Phase 3+ (FUTURE)
@@ -130,7 +130,7 @@ Each row is a **deliberate upgrade path**, not a rewrite. The interfaces between
 > **"Why didn't you build the full system?"**
 >
 > The NEXUS HLD is a 172-page enterprise specification designed for multi-year,
-> multi-agency deployment. TRACE-NET is Phase 1 — the core intelligence engine
+> multi-agency deployment. APEX LINK is Phase 1 — the core intelligence engine
 > that proves the concept works. We deliberately scoped to what a team can build,
 > test, and demonstrate in a hackathon timeline.
 
@@ -161,4 +161,4 @@ Each row is a **deliberate upgrade path**, not a rewrite. The interfaces between
 ---
 
 *Document prepared for SIH26189 hackathon submission.*
-*TRACE-NET — Explainable Criminal Network & Investigation Intelligence Platform.*
+*APEX LINK — Explainable Criminal Network & Investigation Intelligence Platform.*

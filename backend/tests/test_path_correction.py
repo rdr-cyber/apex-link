@@ -50,13 +50,13 @@ async def _setup_multi_entity_dataset(client):
 
         # Cases
         case_a = Case(
-            case_number="TN-PATH-001", title="Path Test A",
+            case_number="AL-PATH-001", title="Path Test A",
             description="Test case A", category="CYBER_FRAUD",
             priority=CasePriority.HIGH, status=CaseStatus.OPEN,
             created_by=user_id,
         )
         case_b = Case(
-            case_number="TN-PATH-002", title="Path Test B",
+            case_number="AL-PATH-002", title="Path Test B",
             description="Test case B", category="WIRE_FRAUD",
             priority=CasePriority.MEDIUM, status=CaseStatus.OPEN,
             created_by=user_id,
@@ -217,7 +217,7 @@ async def test_no_path_between_disconnected_cases(client: AsyncClient, test_user
         from sqlalchemy import select
         user = (await session.execute(select(User).where(User.username == "testuser"))).scalar_one()
         case_c = Case(
-            case_number="TN-PATH-003", title="Isolated",
+            case_number="AL-PATH-003", title="Isolated",
             description="Isolated case", category="OTHER",
             priority=CasePriority.LOW, status=CaseStatus.OPEN,
             created_by=user.id,

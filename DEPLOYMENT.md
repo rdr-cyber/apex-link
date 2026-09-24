@@ -1,6 +1,6 @@
-# TRACE-NET — Free Public Deployment Guide
+# APEX LINK — Free Public Deployment Guide
 
-> **TRACE-NET is a prototype intended for demonstration and educational use.**
+> **APEX LINK is a prototype intended for demonstration and educational use.**
 > The public deployment uses synthetic data and free-tier infrastructure.
 > It is not a production law-enforcement system.
 
@@ -27,11 +27,11 @@ Supabase Free PostgreSQL
 ## Step 1: Push to GitHub
 
 ```bash
-cd trace-net
+cd apex-link
 git init
 git add .
-git commit -m "TRACE-NET release candidate"
-git remote add origin https://github.com/<your-username>/trace-net.git
+git commit -m "APEX LINK release candidate"
+git remote add origin https://github.com/<your-username>/apex-link.git
 git push -u origin main
 ```
 
@@ -40,7 +40,7 @@ git push -u origin main
 ## Step 2: Create Supabase Project
 
 1. Go to https://supabase.com → Sign in → **New Project**
-2. Project name: `trace-net`
+2. Project name: `apex-link`
 3. Set a strong database password (save it)
 4. Wait for project to initialize
 5. Go to **Settings → Database → Connection string → URI**
@@ -66,7 +66,7 @@ Supabase enforces SSL. If your connection string doesn't include `sslmode=requir
 
 | Field | Value |
 |-------|-------|
-| **Name** | `trace-net-backend` |
+| **Name** | `apex-link-backend` |
 | **Runtime** | Python |
 | **Plan** | Free |
 | **Build Command** | `pip install -r requirements.txt` |
@@ -90,7 +90,7 @@ Supabase enforces SSL. If your connection string doesn't include `sslmode=requir
 | `INVESTIGATOR_PASSWORD` | *(choose strong password)* | |
 | `ANALYST_PASSWORD` | *(choose strong password)* | |
 
-5. Deploy. Note the backend URL: `https://trace-net-backend.onrender.com`
+5. Deploy. Note the backend URL: `https://apex-link-backend.onrender.com`
 
 ---
 
@@ -112,10 +112,10 @@ python -m app.seed
 3. Verify:
 
 ```bash
-curl https://trace-net-backend.onrender.com/api/health
-# Expected: {"status":"healthy","app":"TRACE-NET","version":"0.1.0"}
+curl https://apex-link-backend.onrender.com/api/health
+# Expected: {"status":"healthy","app":"APEX LINK","version":"0.1.0"}
 
-curl https://trace-net-backend.onrender.com/api/ready
+curl https://apex-link-backend.onrender.com/api/ready
 # Expected: {"status":"ready","database":"connected"}
 ```
 
@@ -129,7 +129,7 @@ curl https://trace-net-backend.onrender.com/api/ready
 
 | Field | Value |
 |-------|-------|
-| **Name** | `trace-net-frontend` |
+| **Name** | `apex-link-frontend` |
 | **Plan** | Free |
 | **Build Command** | `cd frontend && npm ci && npm run build` |
 | **Publish Directory** | `frontend/dist` |
@@ -138,12 +138,12 @@ curl https://trace-net-backend.onrender.com/api/ready
 
 | Variable | Value |
 |----------|-------|
-| `VITE_API_BASE_URL` | `https://trace-net-backend.onrender.com` |
+| `VITE_API_BASE_URL` | `https://apex-link-backend.onrender.com` |
 
 > **Important:** `VITE_API_BASE_URL` is set at **build time**.
 > If you change it, trigger a new deploy.
 
-5. Deploy. Note the frontend URL: `https://trace-net-frontend.onrender.com`
+5. Deploy. Note the frontend URL: `https://apex-link-frontend.onrender.com`
 
 ---
 
@@ -153,8 +153,8 @@ Go back to the **backend** service → **Environment** and update:
 
 | Variable | Value |
 |----------|-------|
-| `CORS_ORIGINS` | `https://trace-net-frontend.onrender.com` |
-| `FRONTEND_BASE_URL` | `https://trace-net-frontend.onrender.com` |
+| `CORS_ORIGINS` | `https://apex-link-frontend.onrender.com` |
+| `FRONTEND_BASE_URL` | `https://apex-link-frontend.onrender.com` |
 
 Trigger a **redeploy** of the backend service.
 
@@ -177,20 +177,20 @@ If deep links (`/login`, `/cases`, `/intelligence`, etc.) return 404 on browser 
 ### Health Check
 
 ```bash
-curl https://trace-net-backend.onrender.com/api/health
-# Expected: {"status":"healthy","app":"TRACE-NET","version":"0.1.0"}
+curl https://apex-link-backend.onrender.com/api/health
+# Expected: {"status":"healthy","app":"APEX LINK","version":"0.1.0"}
 ```
 
 ### Readiness Check
 
 ```bash
-curl https://trace-net-backend.onrender.com/api/ready
+curl https://apex-link-backend.onrender.com/api/ready
 # Expected: {"status":"ready","database":"connected"}
 ```
 
 ### Frontend
 
-Open `https://trace-net-frontend.onrender.com` in a browser.
+Open `https://apex-link-frontend.onrender.com` in a browser.
 
 > **Note:** Free-tier Render services spin down after 15 minutes of inactivity.
 > The first request may take 30-60 seconds as the service wakes up.
@@ -372,7 +372,7 @@ cd frontend && npm run build
 
 ## Disclaimer
 
-TRACE-NET is a decision-support and intelligence-analysis prototype.
+APEX LINK is a decision-support and intelligence-analysis prototype.
 Every risk score, correlation, and recommendation must be independently
 reviewed by a qualified investigator. The system does not declare anyone
 a criminal. Network paths describe graph connectivity, not legal responsibility.

@@ -83,7 +83,7 @@ class OTPService:
             # Build a simple message for OTP delivery
             from datetime import timezone as tz
             message = (
-                f"Your TRACE-NET login verification code is: {raw_otp}\n\n"
+                f"Your APEX LINK login verification code is: {raw_otp}\n\n"
                 f"This code expires in {settings.OTP_EXPIRE_MINUTES} minutes.\n"
                 f"If you did not request this code, please ignore this message."
             )
