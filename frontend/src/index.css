@@ -165,6 +165,58 @@
       radial-gradient(ellipse at 70% 60%, rgba(44, 111, 187, 0.04) 0%, transparent 50%);
   }
 
+  /* ─── Login exhibit panel: graph-paper dot grid ─── */
+  .login-graphic-grid {
+    background-image: radial-gradient(circle, rgba(156, 163, 175, 0.18) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 90% 85% at 45% 50%, black 55%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 85% at 45% 50%, black 55%, transparent 100%);
+  }
+
+  /* ─── Login constellation: CSS-3D layered network (graph motif, not map) ── */
+  .constellation-stage {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 400ms var(--ease-hero);
+    /* resting pose: slight tilt so the depth reads even in a static frame */
+    transform: rotateX(5deg) rotateY(-5deg);
+  }
+
+  .constellation-settle {
+    animation: constellationSettle 900ms var(--ease-hero) both;
+  }
+
+  .constellation-frame {
+    position: relative;
+    aspect-ratio: 520 / 560;
+    width: min(100%, 520px);
+    max-height: 100%;
+    margin: auto;
+    transform-style: preserve-3d;
+  }
+
+  .constellation-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  .constellation-bridge {
+    position: absolute;
+    transform-style: preserve-3d;
+  }
+
+  @keyframes constellationSettle {
+    from {
+      transform: rotateX(17deg) rotateY(-14deg) translateZ(-60px);
+    }
+    to {
+      transform: rotateX(5deg) rotateY(-5deg) translateZ(0);
+    }
+  }
+
   /* ─── Stat Cards ─── */
   .stat-card {
     @apply card relative overflow-hidden;
@@ -188,13 +240,14 @@
     @apply relative transition-colors duration-150;
   }
 
-  .sidebar-active {
-    @apply relative bg-charcoal-light text-dossier;
+  /* Hide scrollbars on horizontally-scrolling nav strips (still scrollable) */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  .sidebar-active::before {
-    content: '';
-    @apply absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-r bg-dossier;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 
   /* ─── Table Rows ─── */
@@ -384,10 +437,17 @@
   .scan-line-overlay::after {
     animation: none;
   }
-
   .access-granted-overlay {
     animation: none;
     display: none;
+  }
+
+  .constellation-settle {
+    animation: none;
+  }
+
+  .constellation-stage {
+    transition: none;
   }
 
   .node-glow {
