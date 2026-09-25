@@ -267,52 +267,135 @@
     text-shadow: 0 0 14px var(--alert-glow-50);
   }
 
-  /* ─── Full-dark dashboard page ──────────────────────────────
-     Extends the status band to the whole page: black gradient base, dark
-     chart panels, dark-axis charts. The gold/blue/red glow system stays
-     exactly as scoped above — dark base makes the semantics read harder,
-     it does not add new colors.
+  /* ─── Dark console pages ────────────────────────────────────
+     Route-scoped by MainLayout (dashboard, cases, leads): black gradient
+     base, dark panels, dark table/input chrome. The gold/blue/red glow
+     system stays exactly as scoped — dark base makes the semantics read
+     harder, it does not add new colors.
 
-     WCAG ledger (vs page bg #14171f→#0c0e14, effective chart-panel bg
+     WCAG ledger (vs page bg #14171f→#0c0e14, effective panel bg
      ≈ #10131a — worst case is the panel, not the page):
        page title      gray-50  #f9fafb   ≈ 17:1  AAA
        captions/labels gray-400 #9ca3af   ≈  7.3:1 AAA
        pie labels      #d1d5db            ≈ 11.9:1 AAA
-       error text      #e87465             6.4:1  AAA
-       disclaimer gold #d4a853             8.1:1  AAA
+       row titles      #f9fafb            ≈ 17:1  AAA
+       category cells  #9ca3af            ≈  7.3:1 AAA
+       case numbers    #4a8fd4            ≈  5.5:1 AA
+       CRITICAL badge  #e87465             6.4:1  AA
+       HIGH badge      #b8933f             6.5:1  AA (fails on cream, inverts fine)
+       MEDIUM badge    #fcd34d            ≈ 10:1  AAA
+       LOW badge       #6fcf97            ≈  7:1  AAA
+       lead score      #d4a853             8.1:1  AAA
+       error text      #e87465             6.4:1  AA
        tooltip text    #f9fafb on rgba(20,23,31,.95) ≈ 16:1 AAA
+       input text      #ffffff on rgba(20,23,31,.85) ≈ 15:1 AAA
        axis lines      #5b6472             3.1:1  (WCAG 1.4.11 non-text)
-     */
-  .dashboard-page-dark {
+     Selects additionally set color-scheme: dark so native option lists
+     render legibly. */
+  .page-dark {
     background:
       radial-gradient(ellipse at 18% 0%, rgba(212, 168, 83, 0.04) 0%, transparent 45%),
       radial-gradient(ellipse at 85% 100%, rgba(44, 111, 187, 0.03) 0%, transparent 45%),
       linear-gradient(180deg, #14171f 0%, #0c0e14 100%);
   }
 
-  .dashboard-page-dark .card {
+  .page-dark .card {
     @apply border-white/10;
     background: rgba(20, 23, 31, 0.65);
   }
 
-  .dashboard-page-dark .section-header {
+  .page-dark .section-header {
     @apply text-gray-400 border-white/10;
   }
 
-  .dashboard-page-dark .stat-card {
+  .page-dark h1 {
+    color: #f9fafb;
+  }
+
+  .page-dark .stat-card {
     @apply border-white/10;
     background: rgba(20, 23, 31, 0.65);
   }
 
-  .dashboard-page-dark .stat-card:hover {
+  .page-dark .stat-card:hover {
     @apply border-white/20;
   }
 
   /* The stat tray's own gradient is redundant on a dark page — keep it as a
      hairline grouping border around the six tiles. */
-  .dashboard-page-dark .dashboard-dark {
+  .page-dark .dashboard-dark {
     background: transparent;
     border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  /* Tables — case-file rows on dark */
+  .page-dark .case-number {
+    @apply text-[#4a8fd4];
+  }
+
+  .page-dark thead tr {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .page-dark tbody tr {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .page-dark .table-row-hover:hover {
+    @apply bg-white/[0.04];
+  }
+
+  /* Inputs — same recipe as the frosted login fields */
+  .page-dark .input-field {
+    @apply border-white/15 text-white placeholder-gray-400;
+    background: rgba(20, 23, 31, 0.85);
+  }
+
+  .page-dark .input-field:focus {
+    @apply border-dossier/70;
+  }
+
+  .page-dark select.input-field {
+    color-scheme: dark;
+  }
+
+  .page-dark select.input-field option {
+    background: #14171f;
+    color: #e5e7eb;
+  }
+
+  /* Secondary buttons (pagination) invert cleanly */
+  .page-dark .btn-secondary {
+    @apply border-white/15 bg-white/[0.06] text-gray-200;
+  }
+
+  .page-dark .btn-secondary:hover {
+    @apply bg-white/10;
+  }
+
+  .page-dark .btn-secondary:active {
+    @apply bg-white/[0.04];
+  }
+
+  /* Badges: glow pairs already work on dark except where noted */
+  .page-dark .badge-critical {
+    @apply text-[#e87465];
+  }
+
+  .page-dark .badge-medium {
+    @apply bg-amber-500/10 text-amber-300 border-amber-500/25;
+  }
+
+  .page-dark .badge-low {
+    @apply bg-field/10 text-[#6fcf97] border-field/25;
+  }
+
+  .page-dark .evidence-tag {
+    @apply border-white/15 bg-white/[0.04] text-gray-400;
+  }
+
+  .page-dark .skeleton {
+    @apply bg-white/[0.06];
   }
 
   /* ─── Login Background ─── */
@@ -585,6 +668,18 @@
 /* ═══════════════════════════════════════════
    REDUCED MOTION SUPPORT
    ═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   DARK CONSOLE TEXT OVERRIDES (unlayered on purpose)
+   Utility-named selectors must not appear inside @layer components
+   (Tailwind circular-dependency crash — see .challenge-field note), and
+   unlayered CSS outranks the utilities layer in the cascade, so these
+   scoped bumps win over .text-ink/.text-gray-500 without JSX edits.
+   ═══════════════════════════════════════════ */
+.page-dark .text-ink { color: #f9fafb; }
+.page-dark .text-gray-500 { color: #9ca3af; }
+.page-dark .text-gray-600 { color: #9ca3af; }
+.page-dark .text-dossier-dim { color: #d4a853; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

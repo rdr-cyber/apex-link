@@ -9,11 +9,14 @@ const priorityBadge = (p: string) => {
 }
 
 const statusStyle = (s: string) => {
+  // Colors chosen for the dark console surface (ledger in index.css):
+  // raw field/crosscase green/blue fall below AA on dark — use lightened
+  // variants; DISMISSED inverts to a quiet glass chip instead of gray-100.
   const map: Record<string, string> = {
-    NEW: 'bg-crosscase/10 text-crosscase border border-crosscase/20',
-    REVIEWING: 'bg-dossier/10 text-dossier-dim border border-dossier/20',
-    CONFIRMED: 'bg-field/10 text-field border border-field/20',
-    DISMISSED: 'bg-gray-100 text-gray-500 border border-mist-dark',
+    NEW: 'bg-crosscase/10 text-[#8fb3de] border border-crosscase/25',
+    REVIEWING: 'bg-dossier/10 text-dossier border border-dossier/20',
+    CONFIRMED: 'bg-field/10 text-[#6fcf97] border border-field/25',
+    DISMISSED: 'bg-white/[0.06] text-gray-400 border border-white/15',
   }
   return `badge ${map[s] || 'badge'}`
 }

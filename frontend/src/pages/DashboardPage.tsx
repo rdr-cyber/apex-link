@@ -6,7 +6,7 @@ import { useCountUp } from '@/hooks/useCountUp'
 
 const CHART_COLORS = ['#d4a853', '#2c6fbb', '#c0392b', '#27ae60', '#8b6db5', '#bf6b8a']
 
-/* Dark-surface chart chrome (see WCAG ledger in index.css .dashboard-page-dark):
+/* Dark-surface chart chrome (see WCAG ledger in index.css .page-dark):
    axis/tick text ≥ 7:1, gridlines/axis lines pass the 1.4.11 3:1 non-text bar.
    Series colors are unchanged — mid-luminance tones hold ≥ 3:1 on the dark
    panel, and gold stays the first pie color to keep the identity. */
@@ -127,7 +127,7 @@ export function DashboardPage() {
     .map(([name, value]) => ({ name, value }))
   const entityTypeData = Object.entries(data.entity_type_distribution).map(([name, value]) => ({ name, value }))
 
-  return (      <div className="dashboard-page-dark min-h-[calc(100vh-8.5rem)] space-y-5 rounded-lg p-4">
+  return (      <div className="space-y-5">
       <div className="flex items-baseline justify-between border-b border-white/10 pb-3">
         <h1 className="text-lg font-bold text-gray-50 font-mono tracking-wide">DASHBOARD</h1>
         <p className="text-[10px] text-gray-400 font-mono uppercase tracking-widest">APEX LINK Intelligence</p>

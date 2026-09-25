@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { DemoBanner } from '@/components/DemoBanner'
 import { LogOut } from 'lucide-react'
@@ -25,9 +25,16 @@ const roleDot: Record<string, string> = {
   ANALYST: 'bg-field',
 }
 
+/* Routes that render as the dark "analyst console" surface. Exact matches
+   only — /cases/new, /cases/:id and /leads/:id keep the cream document
+   layout on purpose (forms and long-form reading read better on paper). */
+const DARK_CONSOLE_ROUTES = ['/dashboard', '/cases', '/leads']
+
 export function MainLayout() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const isDarkConsole = DARK_CONSOLE_ROUTES.includes(pathname)
 
   const handleLogout = () => {
     logout()
@@ -91,11 +98,14 @@ export function MainLayout() {
         </div>
       </header>
 
-      {/* Main content — cream paper surface, full width below the bar */}
-      <main className="min-h-0 flex-1 overflow-y-auto bg-cream">
-        <DemoBanner />
-        <div className="mx-auto max-w-[1500px] p-5 page-enter">
-          <Outlet />
+      {/* Main content — dark console surface on list/dashboard routes,
+          cream paper everywhere else */}
+      <main className={`min-h-0 flex-1 overflow-y-auto ${isDarkConsole ? '' : 'bg-cream'}`}>
+        <div className={isDarkConsole ? 'page-dark min-h-full' : ''}>
+          <DemoBanner />
+          <div className="mx-auto max-w-[1500px] p-5 page-enter">
+            <Outlet />
+          </div>
         </div>
       </main>
     </div>
