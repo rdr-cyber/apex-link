@@ -66,6 +66,16 @@
   --dur-micro: 150ms;
 }
 
+@keyframes pageEnterPaper {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pageEnterConsole {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes scanLine {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
@@ -516,6 +526,21 @@
   /* ─── Page Transitions ─── */
   .page-enter {
     animation: fadeIn var(--dur-micro) var(--ease-hero);
+  }
+
+  /* ─── Surface-swap page transitions ───
+     Console (dark) and paper (cream) routes ease in differently, so moving
+     between the tiers reads as a deliberate mode switch instead of a flash:
+     paper sheets rise into place; console content settles down. 240ms —
+     above the micro band so the cue registers, far below anything sluggish.
+     Applied per navigation via a keyed wrapper in MainLayout; the global
+     reduced-motion override collapses both to a near-instant fade. */
+  .page-enter-paper {
+    animation: pageEnterPaper 240ms var(--ease-hero) both;
+  }
+
+  .page-enter-console {
+    animation: pageEnterConsole 240ms var(--ease-hero) both;
   }
 
   /* ─── Loading Skeleton ─── */

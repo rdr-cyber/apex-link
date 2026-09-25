@@ -1,4 +1,5 @@
 import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { DemoBanner } from '@/components/DemoBanner'
 import { LogOut } from 'lucide-react'
@@ -35,11 +36,20 @@ export function MainLayout() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const isDarkConsole = DARK_CONSOLE_ROUTES.includes(pathname)
+  const mainRef = useRef<HTMLElement>(null)
 
   const handleLogout = () => {
     logout()
     navigate('/login')
   }
+
+  /* Route change bookkeeping: reset the persistent <main> scroll (it survives
+     navigations, so deep-scrolled list → form would land mid-scroll), and
+     retrigger the tier-appropriate enter animation. Keyed div: remounts on
+     pathname, replaying the animation without remounting the page itself. */
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0 })
+  }, [pathname])
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-cream">
@@ -99,11 +109,12 @@ export function MainLayout() {
       </header>
 
       {/* Main content — dark console surface on list/dashboard routes,
-          cream paper everywhere else */}
-      <main className={`min-h-0 flex-1 overflow-y-auto ${isDarkConsole ? '' : 'bg-cream'}`}>
-        <div className={isDarkConsole ? 'page-dark min-h-full' : ''}>
+          cream paper everywhere else; keyed wrapper replays the tier's
+          enter animation on every navigation */}
+      <main ref={mainRef} className={`min-h-0 flex-1 overflow-y-auto ${isDarkConsole ? '' : 'bg-cream'}`}>
+        <div key={pathname} className={isDarkConsole ? 'page-dark min-h-full' : ''}>
           <DemoBanner />
-          <div className="mx-auto max-w-[1500px] p-5 page-enter">
+          <div className={`mx-auto max-w-[1500px] p-5 ${isDarkConsole ? 'page-enter-console' : 'page-enter-paper'}`}>
             <Outlet />
           </div>
         </div>
