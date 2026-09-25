@@ -157,8 +157,8 @@
      If a future backdrop is brighter than mid-gray, raise blur() first,
      opacity last. */
   .login-bg .card-glass {
-    @apply border border-white/10;
-    background: rgba(28, 32, 48, 0.78);
+    @apply border border-white/15;
+    background: rgba(28, 32, 48, 0.82);
     backdrop-filter: blur(14px) saturate(1.1);
     -webkit-backdrop-filter: blur(14px) saturate(1.1);
     /* note: base .card-glass border-mist-dark/60 is fully overridden by the
@@ -230,8 +230,15 @@
   }
 
   /* Neutral/positive metrics keep the dossier-gold identity; the gold now
-     carries a soft glow so it holds its own against the blue/red states. */
+     carries a soft glow so it holds its own against the blue/red states.
+     Targets .stat-value explicitly (same as info/critical) — a utility class
+     on the value element would otherwise beat an inherited card-level color. */
   .dashboard-dark .glow-neutral {
+    color: var(--gold-accent);
+    text-shadow: 0 0 12px var(--gold-glow-30);
+  }
+
+  .dashboard-dark .glow-neutral .stat-value {
     color: var(--gold-accent);
     text-shadow: 0 0 12px var(--gold-glow-30);
   }
@@ -258,6 +265,54 @@
   .dashboard-dark .glow-critical .stat-value {
     color: #e0604f;
     text-shadow: 0 0 14px var(--alert-glow-50);
+  }
+
+  /* ─── Full-dark dashboard page ──────────────────────────────
+     Extends the status band to the whole page: black gradient base, dark
+     chart panels, dark-axis charts. The gold/blue/red glow system stays
+     exactly as scoped above — dark base makes the semantics read harder,
+     it does not add new colors.
+
+     WCAG ledger (vs page bg #14171f→#0c0e14, effective chart-panel bg
+     ≈ #10131a — worst case is the panel, not the page):
+       page title      gray-50  #f9fafb   ≈ 17:1  AAA
+       captions/labels gray-400 #9ca3af   ≈  7.3:1 AAA
+       pie labels      #d1d5db            ≈ 11.9:1 AAA
+       error text      #e87465             6.4:1  AAA
+       disclaimer gold #d4a853             8.1:1  AAA
+       tooltip text    #f9fafb on rgba(20,23,31,.95) ≈ 16:1 AAA
+       axis lines      #5b6472             3.1:1  (WCAG 1.4.11 non-text)
+     */
+  .dashboard-page-dark {
+    background:
+      radial-gradient(ellipse at 18% 0%, rgba(212, 168, 83, 0.04) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 100%, rgba(44, 111, 187, 0.03) 0%, transparent 45%),
+      linear-gradient(180deg, #14171f 0%, #0c0e14 100%);
+  }
+
+  .dashboard-page-dark .card {
+    @apply border-white/10;
+    background: rgba(20, 23, 31, 0.65);
+  }
+
+  .dashboard-page-dark .section-header {
+    @apply text-gray-400 border-white/10;
+  }
+
+  .dashboard-page-dark .stat-card {
+    @apply border-white/10;
+    background: rgba(20, 23, 31, 0.65);
+  }
+
+  .dashboard-page-dark .stat-card:hover {
+    @apply border-white/20;
+  }
+
+  /* The stat tray's own gradient is redundant on a dark page — keep it as a
+     hairline grouping border around the six tiles. */
+  .dashboard-page-dark .dashboard-dark {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.06);
   }
 
   /* ─── Login Background ─── */

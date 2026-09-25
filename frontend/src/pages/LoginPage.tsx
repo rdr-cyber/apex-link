@@ -291,7 +291,12 @@ export function LoginPage() {
   }
 
   return (
-    <div className="login-bg flex min-h-screen flex-col lg:flex-row">
+    /* One unified dark composition: full-bleed exhibit art behind, one
+       content column in front. The card keeps its frosted backing (contrast
+       ledger in index.css); the old right-column box and seam are gone.
+       pointer-events: the art layer stays interactive (3D tilt) while the
+       content wrapper passes gaps through to it. */
+    <div className="login-bg relative min-h-screen overflow-hidden">
       {/* Access Granted overlay — single deliberate moment, not looping */}
       {granting && (
         <div className="access-granted-overlay">
@@ -306,44 +311,28 @@ export function LoginPage() {
         </div>
       )}
 
-      {/* ── LEFT: case-file exhibit panel (desktop only) ── */}
-      <div className="relative hidden flex-col justify-between overflow-hidden p-10 lg:flex lg:w-[55%] xl:p-14">
-        {/* graph-paper dot grid */}
+      {/* ── BACKGROUND: full-bleed case-file exhibit art (decorative, tiltable) ── */}
+      <div className="absolute inset-0 z-0">
         <div className="login-graphic-grid pointer-events-none absolute inset-0" aria-hidden />
-        {/* corner crop marks */}
-        <span aria-hidden className="absolute left-5 top-5 h-4 w-4 border-l border-t border-white/25" />
-        <span aria-hidden className="absolute right-5 top-5 h-4 w-4 border-r border-t border-white/25" />
-        <span aria-hidden className="absolute bottom-5 left-5 h-4 w-4 border-b border-l border-white/25" />
-        <span aria-hidden className="absolute bottom-5 right-5 h-4 w-4 border-b border-r border-white/25" />
-
-        {/* top case-file strip */}
-        <div className="relative font-mono text-[10px] uppercase tracking-[0.25em]">
-          <p className="text-gray-400">Case file <span className="text-dossier">//</span> Apex Link</p>
-          <p className="mt-1.5 text-gray-600">Exhibit A — Network Overview</p>
-        </div>
-
-        {/* constellation */}
-        <div className="relative flex flex-1 items-center justify-center py-8">
-          <CaseConstellation />
-        </div>
-
-        {/* bottom ledger line — real demo-dataset numbers */}
-        <div className="relative font-mono text-[10px] tracking-[0.2em]">
-          <p className="text-gray-500">
-            15 CASES <span className="text-gray-700">·</span> 43 ENTITIES{' '}
-            <span className="text-gray-700">·</span> 60 RELATIONSHIPS{' '}
-            <span className="text-gray-700">·</span> 12 LEADS
-          </p>
-          <p className="mt-1.5 text-gray-600">Every score is a lead — not a verdict.</p>
+        {/* corner crop marks — now page corners, not panel corners */}
+        <span aria-hidden className="pointer-events-none absolute left-5 top-5 h-4 w-4 border-l border-t border-white/25" />
+        <span aria-hidden className="pointer-events-none absolute right-5 top-5 h-4 w-4 border-r border-t border-white/25" />
+        <span aria-hidden className="pointer-events-none absolute bottom-5 left-5 h-4 w-4 border-b border-l border-white/25" />
+        <span aria-hidden className="pointer-events-none absolute bottom-5 right-5 h-4 w-4 border-b border-r border-white/25" />
+        {/* constellation — right-weighted on desktop, softly centered under
+            the content on mobile; single instance, keeps the 3D tilt */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-40 lg:justify-end lg:opacity-100">
+          <div className="h-full w-full lg:w-[62%]">
+            <CaseConstellation />
+          </div>
         </div>
       </div>
 
-      {/* ── RIGHT: offset form column — three-zone rhythm mirroring the exhibit panel ── */}
-      <div className="flex w-full flex-1 flex-col border-white/10 bg-charcoal-light/70 px-6 py-6 sm:px-10 lg:w-[45%] lg:border-l xl:px-14 xl:py-8">
-        {/* top zone — identity header pinned to the top edge */}
-        <div className={`shrink-0 transition-opacity duration-300 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
-          {/* identity header — left-aligned, not centered */}
-          <div className="border-b border-white/10 pb-6">
+      {/* ── CONTENT: one column over the art ── */}
+      <div className="pointer-events-none relative z-10 flex min-h-screen flex-col">
+        {/* top zone — identity left, case-file strip right, one ruled band */}
+        <div className={`pointer-events-auto shrink-0 border-b border-white/10 transition-opacity duration-300 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-6 px-6 pt-5 sm:px-10">
             <div className="flex items-center gap-3">
               <img src="/logo-mark-white.svg" alt="APEX LINK logo" className="h-14 w-14" />
               <div>
@@ -355,15 +344,20 @@ export function LoginPage() {
                 </p>
               </div>
             </div>
-            <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.3em] text-dossier">
-              Authorized personnel only
-            </p>
+            <div className="hidden text-right font-mono text-[10px] uppercase tracking-[0.25em] sm:block">
+              <p className="text-gray-400">Case file <span className="text-dossier">//</span> Apex Link</p>
+              <p className="mt-1.5 text-gray-500">Exhibit A — Network Overview</p>
+            </div>
           </div>
+          <p className="mx-auto w-full max-w-5xl px-6 pb-4 pt-3 font-mono text-[9px] uppercase tracking-[0.3em] text-dossier sm:px-10">
+            Authorized personnel only
+          </p>
         </div>
 
-        {/* middle zone — card centered in the remaining height */}
+        {/* middle zone — frosted card centered over the art; the card keeps
+            its frosted backing + contrast ledger (index.css) for legibility */}
         <div className="flex flex-1 items-center justify-center py-10">
-        <div className={`w-full max-w-sm transition-all duration-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <div className={`pointer-events-auto w-full max-w-sm transition-all duration-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
         {/* Card — frosted: the exhibit constellation reads faintly through the
             blur; text colors below are contrast-bumped per the ledger in
             index.css (gray-500, ink and #c0392b red all fail on dark frost). */}
@@ -546,17 +540,32 @@ export function LoginPage() {
         </div>
         </div>
 
-        {/* bottom zone — honest footer strip pinned to the bottom edge */}
+        {/* bottom zone — exhibit ledger + honest footer strip, merged into
+            one ruled band (counts left, SIH/version/credit right) */}
         <div
-          className={`shrink-0 border-t border-white/10 pt-4 transition-opacity duration-300 ${
+          className={`pointer-events-auto shrink-0 border-t border-white/10 transition-opacity duration-300 ${
             mounted ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-gray-400">
-            SIH26189 <span className="text-gray-500">·</span> v{pkg.version}{' '}
-            <span className="text-gray-500">·</span> Synthetic data only — not for production use{' '}
-            <span className="text-gray-500">·</span> Built by Team Mavericks
-          </p>
+          <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-4 font-mono sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-10">
+            <div className="shrink-0">
+              <p className="whitespace-nowrap text-[10px] uppercase tracking-[0.15em] text-gray-400">
+                15 CASES <span className="text-gray-600">·</span> 43 ENTITIES{' '}
+                <span className="text-gray-600">·</span> 60 RELATIONSHIPS{' '}
+                <span className="text-gray-600">·</span> 12 LEADS
+              </p>
+              <p className="mt-0.5 text-[10px] text-gray-500">Every score is a lead — not a verdict.</p>
+            </div>
+            <div className="sm:text-right">
+              <p className="text-[9px] uppercase tracking-[0.2em] text-gray-400">
+                SIH26189 <span className="text-gray-500">·</span> v{pkg.version}{' '}
+                <span className="text-gray-500">·</span> Synthetic data only — not for production use
+              </p>
+              <p className="mt-0.5 text-[9px] uppercase tracking-[0.25em] text-gray-400">
+                Built by Team Mavericks
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
