@@ -345,17 +345,17 @@ export function LoginPage() {
           {/* identity header — left-aligned, not centered */}
           <div className="border-b border-white/10 pb-6">
             <div className="flex items-center gap-3">
-              <img src="/logo-mark-white.svg" alt="APEX LINK logo" className="h-10 w-10" />
+              <img src="/logo-mark-white.svg" alt="APEX LINK logo" className="h-14 w-14" />
               <div>
                 <h1 className="text-lg font-extrabold font-mono tracking-wider text-white">
                   APEX LINK
                 </h1>
-                <p className="mt-0.5 text-[10px] font-mono uppercase tracking-[0.18em] text-gray-500">
+                <p className="mt-0.5 text-[10px] font-mono uppercase tracking-[0.18em] text-gray-400">
                   Investigation Intelligence Platform
                 </p>
               </div>
             </div>
-            <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.3em] text-dossier/70">
+            <p className="mt-4 font-mono text-[9px] uppercase tracking-[0.3em] text-dossier">
               Authorized personnel only
             </p>
           </div>
@@ -364,17 +364,19 @@ export function LoginPage() {
         {/* middle zone — card centered in the remaining height */}
         <div className="flex flex-1 items-center justify-center py-10">
         <div className={`w-full max-w-sm transition-all duration-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-        {/* Card */}
+        {/* Card — frosted: the exhibit constellation reads faintly through the
+            blur; text colors below are contrast-bumped per the ledger in
+            index.css (gray-500, ink and #c0392b red all fail on dark frost). */}
         <div className="card-glass shadow-xl">
           {step === 'credentials' ? (
             <form onSubmit={handleCredentialsSubmit} className="space-y-4" key="credentials">
               {error && (
                 <div className={`alert-enter flex items-start gap-2 rounded p-3 text-sm ${
                   errorCode === 'EMAIL_NOT_VERIFIED'
-                    ? 'bg-dossier/10 text-dossier-dim border border-dossier/20'
+                    ? 'bg-dossier/10 text-dossier border border-dossier/20'
                     : errorCode === 'ACCOUNT_INACTIVE'
-                    ? 'bg-gray-100 text-gray-600 border border-mist-dark'
-                    : 'bg-alert/10 text-alert border border-alert/20'
+                    ? 'bg-white/[0.08] text-gray-400 border border-white/15'
+                    : 'bg-alert/10 text-[#e87465] border border-alert/20'
                 }`}>
                   {errorCode === 'EMAIL_NOT_VERIFIED' ? (
                     <MailCheck className="h-4 w-4 shrink-0 mt-0.5" />
@@ -386,7 +388,7 @@ export function LoginPage() {
               )}
 
               <div className="space-y-1">
-                <label className="block text-label text-gray-500">Username</label>
+                <label className="block text-label text-gray-400">Username</label>
                 <input
                   type="text"
                   value={username}
@@ -399,7 +401,7 @@ export function LoginPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-label text-gray-500">Password</label>
+                <label className="block text-label text-gray-400">Password</label>
                 <input
                   type="password"
                   value={password}
@@ -427,29 +429,29 @@ export function LoginPage() {
                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded bg-dossier/10 text-dossier">
                   <Calculator className="h-5 w-5" />
                 </div>
-                <h2 className="text-sm font-bold text-ink">Identity Verification</h2>
-                <p className="mt-0.5 text-xs text-gray-500">Solve to continue</p>
+                <h2 className="text-sm font-bold text-gray-50">Identity Verification</h2>
+                <p className="mt-0.5 text-xs text-gray-400">Solve to continue</p>
               </div>
 
-              <div className="mb-4 p-4 rounded bg-charcoal text-center border border-charcoal-light">
+              <div className="challenge-field mb-4 p-4 rounded text-center border">
                 <p className="text-xl font-extrabold font-mono text-dossier tracking-wider">
                   {challengeQuestion}
                 </p>
-                <p className="mt-2 text-[10px] text-gray-500 font-mono">
+                <p className="mt-2 text-[10px] text-gray-400 font-mono">
                   Expires in {Math.floor(challengeExpiresIn / 60)}m {challengeExpiresIn % 60}s
                 </p>
               </div>
 
               <form onSubmit={handleChallengeSubmit} className="space-y-3 relative">
                 {error && (
-                  <div className="alert-enter flex items-start gap-2 rounded bg-alert/10 p-3 text-sm text-alert border border-alert/20">
+                  <div className="alert-enter flex items-start gap-2 rounded bg-alert/10 p-3 text-sm text-[#e87465] border border-alert/20">
                     <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                     <span>{error}</span>
                   </div>
                 )}
 
                 <div className="space-y-1">
-                  <label className="block text-label text-gray-500">Answer</label>
+                  <label className="block text-label text-gray-400">Answer</label>
                   <input
                     type="text"
                     name="challenge-answer"
@@ -478,8 +480,8 @@ export function LoginPage() {
                 </button>
               </form>
 
-              <div className="mt-3 pt-3 border-t border-mist-dark text-center">
-                <button onClick={handleBackToCredentials} className="btn-ghost text-xs">
+              <div className="mt-3 pt-3 border-t border-white/15 text-center">
+                <button onClick={handleBackToCredentials} className="btn-ghost text-xs text-gray-300 hover:bg-white/10 hover:text-white">
                   ← Back to Sign In
                 </button>
               </div>
@@ -488,26 +490,26 @@ export function LoginPage() {
 
           {/* Demo accounts */}
           {step === 'credentials' && (
-            <div className="mt-4 pt-4 border-t border-mist-dark">
+            <div className="mt-4 pt-4 border-t border-white/15">
               <p className="mb-2 text-label text-gray-400">Demo Accounts</p>
-              <div className="space-y-1 text-xs text-gray-500">
+              <div className="space-y-1 text-xs text-gray-400">
                 <p className="flex items-center gap-2">
                   <span className="status-dot status-dot-critical" />
-                  <span className="font-mono font-semibold text-ink">admin</span>
+                  <span className="font-mono font-semibold text-gray-50">admin</span>
                   <span className="text-gray-400">/</span>
                   <span className="font-mono">admin123</span>
                   <span className="text-gray-400 ml-auto">Admin</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="status-dot bg-crosscase" />
-                  <span className="font-mono font-semibold text-ink">investigator</span>
+                  <span className="font-mono font-semibold text-gray-50">investigator</span>
                   <span className="text-gray-400">/</span>
                   <span className="font-mono">investigator123</span>
                   <span className="text-gray-400 ml-auto">Investigator</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="status-dot status-dot-active" />
-                  <span className="font-mono font-semibold text-ink">analyst</span>
+                  <span className="font-mono font-semibold text-gray-50">analyst</span>
                   <span className="text-gray-400">/</span>
                   <span className="font-mono">analyst123</span>
                   <span className="text-gray-400 ml-auto">Analyst</span>
@@ -518,7 +520,7 @@ export function LoginPage() {
 
           {/* Email verification resend */}
           {errorCode === 'EMAIL_NOT_VERIFIED' && (
-            <div className="mt-4 pt-4 border-t border-mist-dark">
+            <div className="mt-4 pt-4 border-t border-white/15">
               <form onSubmit={handleResendVerification} className="space-y-2">
                 <p className="text-label text-gray-400 flex items-center gap-1.5">
                   <Mail className="h-3 w-3" /> Resend Verification
@@ -536,7 +538,7 @@ export function LoginPage() {
                 </button>
               </form>
               {resendMessage && (
-                <p className="mt-2 text-xs text-gray-500">{resendMessage}</p>
+                <p className="mt-2 text-xs text-gray-400">{resendMessage}</p>
               )}
             </div>
           )}
@@ -550,9 +552,10 @@ export function LoginPage() {
             mounted ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-gray-600">
-            SIH26189 <span className="text-gray-700">·</span> v{pkg.version}{' '}
-            <span className="text-gray-700">·</span> Synthetic data only — not for production use
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-gray-400">
+            SIH26189 <span className="text-gray-500">·</span> v{pkg.version}{' '}
+            <span className="text-gray-500">·</span> Synthetic data only — not for production use{' '}
+            <span className="text-gray-500">·</span> Built by Team Mavericks
           </p>
         </div>
       </div>

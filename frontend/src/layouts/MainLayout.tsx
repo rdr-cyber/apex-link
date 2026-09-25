@@ -39,9 +39,10 @@ export function MainLayout() {
       {/* ── Top bar: logo left · drawer-label nav centered · user right ── */}
       <header className="shrink-0 bg-charcoal border-b border-charcoal-light">
         <div className="flex h-14 items-center gap-6 pl-4 pr-4 xl:pr-6">
-          {/* Logo / wordmark */}
-          <NavLink to="/dashboard" className="flex shrink-0 items-center gap-2.5">
-            <img src="/logo-mark-white.svg" alt="APEX LINK logo" className="h-7 w-7" />
+          {/* Logo / wordmark — enlarged mark, gap/wrapping tuned so the
+              centered nav keeps clear air (verified at 1440px + 1024px) */}
+          <NavLink to="/dashboard" className="flex shrink-0 items-center gap-3">
+            <img src="/logo-mark-white.svg" alt="APEX LINK logo" className="h-10 w-10" />
             <div>
               <h1 className="text-sm font-extrabold text-white tracking-wider font-mono leading-none">APEX LINK</h1>
               <p className="mt-0.5 text-[9px] text-gray-500 font-mono uppercase tracking-[0.15em]">Investigation Intelligence</p>

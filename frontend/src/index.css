@@ -45,6 +45,16 @@
   --gold-glow-30: rgba(212, 168, 83, 0.3);
   --gold-glow-60: rgba(212, 168, 83, 0.6);
   --gold-glow-80: rgba(212, 168, 83, 0.8);
+  /* Status-language glows — semantic urgency only (traffic-light rule):
+     blue = informational/active, red = critical/alert, gold stays the neutral
+     accent. Applied exclusively as low-opacity box/text-shadow blur (GPU-cheap
+     compositing, no repaint of layout), never as fills or new libraries. */
+  --info-glow-20: rgba(44, 111, 187, 0.2);
+  --info-glow-30: rgba(44, 111, 187, 0.3);
+  --info-glow-50: rgba(44, 111, 187, 0.5);
+  --alert-glow-20: rgba(192, 57, 43, 0.2);
+  --alert-glow-30: rgba(192, 57, 43, 0.3);
+  --alert-glow-50: rgba(192, 57, 43, 0.5);
   /* Hero duration band: 600ms–1200ms */
   --dur-graph-settle: 800ms;
   --dur-graph-reveal: 600ms;
@@ -127,8 +137,49 @@
     @apply rounded-lg border border-mist-dark bg-white p-5 transition-colors duration-150;
   }
 
-  .card-glass {
-    @apply rounded-lg border border-mist-dark/60 bg-white/95 p-5 backdrop-blur-sm;
+  /* Frosted glass — dark stage only (login-bg / constellation behind it):
+     78% charcoal over backdrop blur lets the exhibit constellation read
+     through while every text/input layer keeps ≥ 4.6:1 measured contrast.
+
+     Contrast ledger (WCAG relative-luminance, worst-case composite = 78%
+     #1c202f frost over a mid-gray ≈ #4a4d55 backdrop — bounds the real
+     backdrop, whose brightest behind-card element is a 40%-alpha edge):
+       white body text   #ffffff          12.3:1  AAA
+       input text        #ffffff on rgba(20,23,31,.85)  ≥ 11:1  AAA
+       gold accents      #d4a853           7.4:1  AAA
+       gray-400 labels   #9ca3af           5.2:1  AA
+       error text        #e87465           5.1:1  AA
+       failed colors found by this audit and fixed in the JSX instead:
+       gray-500 #6b7280 (3.3:1), gray-600 (2.3:1), ink #1a1a2e on dark
+       (1.5:1), alert #c0392b (3.2:1). Utility-named selectors (e.g.
+       .bg-charcoal) must NOT be reused inside @layer components — Tailwind
+       circular-dependency error — hence JSX-level bumps.
+     If a future backdrop is brighter than mid-gray, raise blur() first,
+     opacity last. */
+  .login-bg .card-glass {
+    @apply border border-white/10;
+    background: rgba(28, 32, 48, 0.78);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    /* note: base .card-glass border-mist-dark/60 is fully overridden by the
+       border-white/10 above — no mist-dark residue on the dark stage */
+  }
+
+  .login-bg .card-glass .input-field {
+    @apply border-white/15 text-white placeholder-gray-400;
+    background: rgba(20, 23, 31, 0.85);
+  }
+
+  .login-bg .card-glass .input-field:focus {
+    @apply border-dossier/70 ring-dossier/40;
+  }
+
+  /* Challenge question panel — dark field on the frosted stage, gold answer
+     (own class: a `bg-charcoal` utility name can't appear in a scoped
+     selector inside @layer components). */
+  .login-bg .card-glass .challenge-field {
+    background: rgba(13, 17, 23, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .card-interactive {
@@ -146,15 +197,67 @@
 
   .badge-critical {
     @apply badge bg-alert/10 text-alert border border-alert/20;
+    /* CRITICAL = red urgency glow (status language, not decoration) */
+    box-shadow: 0 0 8px var(--alert-glow-20), inset 0 0 4px rgba(192, 57, 43, 0.08);
+    text-shadow: 0 0 6px var(--alert-glow-30);
   }
   .badge-high {
     @apply badge bg-dossier/15 text-dossier-dim border border-dossier/20;
+    /* HIGH = informational blue glow (same traffic-light scale) */
+    box-shadow: 0 0 8px var(--info-glow-20), inset 0 0 4px rgba(44, 111, 187, 0.08);
+    text-shadow: 0 0 6px var(--info-glow-30);
   }
   .badge-medium {
     @apply badge bg-amber-100 text-amber-700 border border-amber-200;
   }
   .badge-low {
     @apply badge bg-field/10 text-field border border-field/20;
+  }
+
+  /* ─── Dashboard dark status layer ───────────────────────────
+     Scoped to the dashboard only. The charcoal top-bar chrome is the app's
+     existing dark anchor; stat cards flip to a black-based panel so the
+     status glows (blue=info, red=critical, gold=neutral/positive) read as a
+     deliberate urgency language. Charts below stay on cream — only status
+     surfaces change. */
+  .dashboard-dark {
+    background: linear-gradient(180deg, #14171f 0%, #0c0e14 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .dashboard-dark .stat-icon {
+    @apply bg-charcoal-light;
+  }
+
+  /* Neutral/positive metrics keep the dossier-gold identity; the gold now
+     carries a soft glow so it holds its own against the blue/red states. */
+  .dashboard-dark .glow-neutral {
+    color: var(--gold-accent);
+    text-shadow: 0 0 12px var(--gold-glow-30);
+  }
+
+  .dashboard-dark .glow-neutral .stat-icon {
+    box-shadow: 0 0 10px var(--gold-glow-30);
+  }
+
+  /* Informational/active — glowing blue */
+  .dashboard-dark .glow-info .stat-icon {
+    box-shadow: 0 0 10px var(--info-glow-30), inset 0 0 4px var(--info-glow-20);
+  }
+
+  .dashboard-dark .glow-info .stat-value {
+    color: #4a8fd4;
+    text-shadow: 0 0 14px var(--info-glow-50);
+  }
+
+  /* Critical/alert — glowing red */
+  .dashboard-dark .glow-critical .stat-icon {
+    box-shadow: 0 0 10px var(--alert-glow-30), inset 0 0 4px var(--alert-glow-20);
+  }
+
+  .dashboard-dark .glow-critical .stat-value {
+    color: #e0604f;
+    text-shadow: 0 0 14px var(--alert-glow-50);
   }
 
   /* ─── Login Background ─── */
@@ -171,6 +274,13 @@
     background-size: 26px 26px;
     mask-image: radial-gradient(ellipse 90% 85% at 45% 50%, black 55%, transparent 100%);
     -webkit-mask-image: radial-gradient(ellipse 90% 85% at 45% 50%, black 55%, transparent 100%);
+  }
+
+  /* Login page (dark stage only): gold bridge nodes get the same soft glow
+     language as the dashboard's neutral accent — the exhibit panel keeps its
+     own restraint. Cream-side usage of .card-glass is unaffected. */
+  .login-bg .constellation-bridge > span:first-child {
+    box-shadow: 0 0 10px var(--gold-glow-30);
   }
 
   /* ─── Login constellation: CSS-3D layered network (graph motif, not map) ── */

@@ -57,11 +57,11 @@ export function VerifyEmailPage() {
   const statusConfig: Record<string, { icon: React.ReactNode; color: string; title: string }> = {
     loading: { icon: <Loader2 className="h-10 w-10 animate-spin" />, color: 'text-dossier', title: 'Verifying your email...' },
     success: { icon: <CheckCircle className="h-10 w-10" />, color: 'text-field', title: 'Email Verified' },
-    expired: { icon: <AlertCircle className="h-10 w-10" />, color: 'text-dossier-dim', title: 'Link Expired' },
-    used: { icon: <CheckCircle className="h-10 w-10" />, color: 'text-crosscase', title: 'Already Verified' },
-    invalid: { icon: <XCircle className="h-10 w-10" />, color: 'text-alert', title: 'Invalid Link' },
-    missing: { icon: <XCircle className="h-10 w-10" />, color: 'text-alert', title: 'Missing Verification Link' },
-    error: { icon: <XCircle className="h-10 w-10" />, color: 'text-alert', title: 'Verification Failed' },
+    expired: { icon: <AlertCircle className="h-10 w-10" />, color: 'text-dossier', title: 'Link Expired' },
+    used: { icon: <CheckCircle className="h-10 w-10" />, color: 'text-[#8fb3de]', title: 'Already Verified' },
+    invalid: { icon: <XCircle className="h-10 w-10" />, color: 'text-[#e87465]', title: 'Invalid Link' },
+    missing: { icon: <XCircle className="h-10 w-10" />, color: 'text-[#e87465]', title: 'Missing Verification Link' },
+    error: { icon: <XCircle className="h-10 w-10" />, color: 'text-[#e87465]', title: 'Verification Failed' },
   }
 
   const config = statusConfig[status]
@@ -78,8 +78,8 @@ export function VerifyEmailPage() {
         <div className="card-glass shadow-xl">
           <div className="flex flex-col items-center text-center p-4">
             <div className={`mb-3 ${config.color}`}>{config.icon}</div>
-            <h2 className="text-sm font-bold text-ink mb-1">{config.title}</h2>
-            {message && <p className="text-xs text-gray-500 mb-3">{message}</p>}
+            <h2 className="text-sm font-bold text-gray-50 mb-1">{config.title}</h2>
+            {message && <p className="text-xs text-gray-400 mb-3">{message}</p>}
 
             {(status === 'success' || status === 'used') && (
               <Link to="/login" className="btn-primary mt-3 text-xs">Sign In</Link>
@@ -87,7 +87,7 @@ export function VerifyEmailPage() {
 
             {(status === 'expired' || status === 'invalid' || status === 'missing' || status === 'error') && (
               <div className="w-full mt-3">
-                <div className="border-t border-mist-dark pt-3">
+                <div className="border-t border-white/15 pt-3">
                   <p className="text-xs font-mono text-gray-400 mb-2 flex items-center gap-1">
                     <Mail className="h-3 w-3" /> Resend verification
                   </p>
@@ -104,7 +104,7 @@ export function VerifyEmailPage() {
                       {resendLoading ? 'Sending...' : 'Send Verification Email'}
                     </button>
                   </form>
-                  {resendMessage && <p className="mt-2 text-xs text-gray-500">{resendMessage}</p>}
+                  {resendMessage && <p className="mt-2 text-xs text-gray-400">{resendMessage}</p>}
                 </div>
               </div>
             )}
@@ -114,8 +114,8 @@ export function VerifyEmailPage() {
             )}
           </div>
 
-          <div className="border-t border-mist-dark p-3 text-center">
-            <Link to="/login" className="text-xs text-crosscase hover:text-crosscase-dim font-mono">
+          <div className="border-t border-white/15 p-3 text-center">
+            <Link to="/login" className="text-xs text-[#8fb3de] hover:text-[#a9c4e8] font-mono">
               ← Back to Sign In
             </Link>
           </div>
