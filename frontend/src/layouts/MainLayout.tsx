@@ -28,7 +28,7 @@ const roleDot: Record<string, string> = {
 /* Routes that render as the dark "analyst console" surface. Exact matches
    only — /cases/new, /cases/:id and /leads/:id keep the cream document
    layout on purpose (forms and long-form reading read better on paper). */
-const DARK_CONSOLE_ROUTES = ['/dashboard', '/cases', '/leads']
+const DARK_CONSOLE_ROUTES = ['/dashboard', '/cases', '/leads', '/entities', '/search', '/audit']
 
 export function MainLayout() {
   const { user, logout } = useAuth()

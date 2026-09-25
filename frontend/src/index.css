@@ -290,6 +290,12 @@
        tooltip text    #f9fafb on rgba(20,23,31,.95) ≈ 16:1 AAA
        input text      #ffffff on rgba(20,23,31,.85) ≈ 15:1 AAA
        axis lines      #5b6472             3.1:1  (WCAG 1.4.11 non-text)
+     Entity/search chip text (bumped from the graph-node palette, whose
+     darker members — #4a7fbf, #8b6db5, #c0544f, #6e7fbf — sit at 3.5–4.1:1
+     on dark; slices keep the graph colors, chips get the AA variants):
+       all ten chip variants               ≥ 5.5:1 AA
+       CASE badge / icons #8fb3de          ≈ 5.2:1 AA
+       ENTITY badge      #7fa8d4          ≈  5.5:1 AA
      Selects additionally set color-scheme: dark so native option lists
      render legibly. */
   .page-dark {
@@ -680,6 +686,15 @@
 .page-dark .text-gray-500 { color: #9ca3af; }
 .page-dark .text-gray-600 { color: #9ca3af; }
 .page-dark .text-dossier-dim { color: #d4a853; }
+.page-dark .text-alert { color: #e87465; }
+.page-dark .text-crosscase { color: #8fb3de; }
+.page-dark .bg-gray-100 { background: rgba(255, 255, 255, 0.06); }
+.page-dark .bg-mist { background: rgba(255, 255, 255, 0.06); }
+.page-dark .border-mist-dark { border-color: rgba(255, 255, 255, 0.12); }
+.page-dark .card-interactive:hover {
+  border-color: rgba(212, 168, 83, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

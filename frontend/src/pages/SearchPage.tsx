@@ -4,21 +4,22 @@ import { useNavigate } from 'react-router-dom'
 import { searchApi } from '@/api'
 import { Search as SearchIcon, FolderOpen, Network, FileText } from 'lucide-react'
 
+/* Badge/icon text uses dark-AA variants (ledger in index.css .page-dark). */
 const typeIcon = (type: string) => {
   switch (type) {
-    case 'CASE': return <FolderOpen className="h-4 w-4 text-crosscase" />
+    case 'CASE': return <FolderOpen className="h-4 w-4 text-[#8fb3de]" />
     case 'EVIDENCE': return <FileText className="h-4 w-4 text-dossier" />
-    default: return <Network className="h-4 w-4 text-node-person" />
+    default: return <Network className="h-4 w-4 text-[#7fa8d4]" />
   }
 }
 
 const typeBadge = (type: string) => {
   const map: Record<string, string> = {
-    CASE: 'bg-crosscase/10 text-crosscase border border-crosscase/20',
-    EVIDENCE: 'bg-dossier/10 text-dossier-dim border border-dossier/20',
-    ENTITY: 'bg-node-person/10 text-node-person border border-node-person/20',
+    CASE: 'bg-crosscase/10 text-[#8fb3de] border border-crosscase/25',
+    EVIDENCE: 'bg-dossier/10 text-dossier border border-dossier/20',
+    ENTITY: 'bg-node-person/10 text-[#7fa8d4] border border-node-person/25',
   }
-  return `badge text-[10px] ${map[type] || 'bg-gray-100 text-gray-600 border border-mist-dark'}`
+  return `badge text-[10px] ${map[type] || 'bg-white/[0.06] text-gray-400 border border-white/15'}`
 }
 
 export function SearchPage() {

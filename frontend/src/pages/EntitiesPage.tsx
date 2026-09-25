@@ -3,17 +3,21 @@ import { useQuery } from '@tanstack/react-query'
 import { entitiesApi } from '@/api'
 import { Search, Network } from 'lucide-react'
 
+/* Chip text uses dark-AA variants of the graph-node palette (ledger in
+   index.css .page-dark): darker members like #4a7fbf/#8b6db5 sit at
+   3.5–4.1:1 on the console surface. Slices in the graph view keep the
+   original colors — only chip text is lifted. */
 const entityTypeColors: Record<string, string> = {
-  PERSON: 'bg-node-person/15 text-node-person border border-node-person/20',
-  PHONE: 'bg-node-phone/15 text-node-phone border border-node-phone/20',
-  EMAIL: 'bg-node-email/15 text-node-email border border-node-email/20',
-  IP_ADDRESS: 'bg-node-ip/15 text-node-ip border border-node-ip/20',
-  UPI_ID: 'bg-node-upi/15 text-node-upi border border-node-upi/20',
-  VEHICLE: 'bg-node-vehicle/15 text-node-vehicle border border-node-vehicle/20',
-  DEVICE: 'bg-node-device/15 text-node-device border border-node-device/20',
-  LOCATION: 'bg-node-location/15 text-node-location border border-node-location/20',
-  ORGANIZATION: 'bg-node-org/15 text-node-org border border-node-org/20',
-  BANK_ACCOUNT: 'bg-node-bank/15 text-node-bank border border-node-bank/20',
+  PERSON: 'bg-node-person/15 text-[#7fa8d4] border border-node-person/25',
+  PHONE: 'bg-node-phone/15 text-[#8ec9a1] border border-node-phone/25',
+  EMAIL: 'bg-node-email/15 text-[#b39ddb] border border-node-email/25',
+  IP_ADDRESS: 'bg-node-ip/15 text-[#e08a85] border border-node-ip/25',
+  UPI_ID: 'bg-node-upi/15 text-[#d9b866] border border-node-upi/25',
+  VEHICLE: 'bg-node-vehicle/15 text-[#dca173] border border-node-vehicle/25',
+  DEVICE: 'bg-node-device/15 text-[#6fc3ca] border border-node-device/25',
+  LOCATION: 'bg-node-location/15 text-[#d995b0] border border-node-location/25',
+  ORGANIZATION: 'bg-node-org/15 text-[#9aa6db] border border-node-org/25',
+  BANK_ACCOUNT: 'bg-node-bank/15 text-[#84c996] border border-node-bank/25',
 }
 
 export function EntitiesPage() {
@@ -83,7 +87,7 @@ export function EntitiesPage() {
             <div key={entity.id} className="card">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className={`badge text-[10px] ${entityTypeColors[entity.entity_type] || 'bg-gray-100 text-gray-600 border border-mist-dark'}`}>
+                  <span className={`badge text-[10px] ${entityTypeColors[entity.entity_type] || 'bg-white/[0.06] text-gray-400 border border-white/15'}`}>
                     {entity.entity_type}
                   </span>
                   <p className="mt-1.5 text-sm font-semibold text-ink">{entity.display_value}</p>
