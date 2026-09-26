@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://apex_user:apex_password@postgres:5432/apex_link"
     DATABASE_URL_SYNC: str = "postgresql+psycopg2://apex_user:apex_password@postgres:5432/apex_link"
+    DB_SSL: bool = True
 
     # Connection pool — conservative for free-tier managed PostgreSQL
     DB_POOL_SIZE: int = 5

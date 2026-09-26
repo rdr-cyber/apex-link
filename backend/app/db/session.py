@@ -15,7 +15,7 @@ is_postgres = db_url.startswith("postgresql")
 # asyncpg uses 'ssl' connect_arg; add it if DATABASE_URL doesn't already include sslmode.
 import ssl as _ssl
 _connect_args = {}
-if is_postgres and "sslmode" not in db_url and "ssl" not in db_url:
+if is_postgres and settings.DB_SSL and "sslmode" not in db_url and "ssl" not in db_url:
     # asyncpg expects ssl=True or ssl=SSLContext, not the string "require"
     _connect_args["ssl"] = True
 
