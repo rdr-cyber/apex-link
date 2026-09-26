@@ -62,6 +62,10 @@ The seed script creates a complete synthetic investigation dataset:
 
 > **Recommended demo case:** AL-2026-0002 (Suspicious Fund Transfers — Bandra Cluster) has a fully connected graph with 13 entities and 20 relationships.
 
+## Live Demo
+
+**[Open APEX LINK](https://apex-link-frontend.onrender.com)** — free-tier service may take 30–60 seconds to wake after inactivity. The free Render PostgreSQL database expires after 30 days unless upgraded, so demo data is temporary.
+
 ---
 
 ## Tech Stack
@@ -200,6 +204,8 @@ cd frontend && npm run build
 ---
 
 ## Demo Workflow (5-Minute Script)
+
+Run this walkthrough at [apex-link-frontend.onrender.com](https://apex-link-frontend.onrender.com). Free-tier wake-up can take 30–60 seconds after inactivity.
 
 1. **Login** → Challenge-response verification
 2. **Dashboard** → Live statistics: 15 cases, 43 entities, 60 relationships, 12 leads

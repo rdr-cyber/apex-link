@@ -55,9 +55,11 @@ APEX LINK is Phase 1 of a deliberately-scoped implementation of the NEXUS system
 
 ## Deployment
 
-Free public deployment on Render (frontend + backend) + Supabase (PostgreSQL). Zero hosting cost for hackathon demonstration.
+**Live demo:** https://apex-link-frontend.onrender.com. The free-tier web service may take 30–60 seconds to wake after inactivity. Its free PostgreSQL database expires after 30 days unless upgraded, so seeded demo data is temporary.
 
 ## Demo Path (60 Seconds)
+
+Open the live demo at https://apex-link-frontend.onrender.com. Free-tier wake-up may take 30–60 seconds after inactivity; the free PostgreSQL database expires after 30 days unless upgraded.
 
 ```
 Login (challenge-response)
