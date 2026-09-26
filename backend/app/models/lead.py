@@ -37,9 +37,9 @@ class Lead(Base):
     )
     lead_type: Mapped[str] = mapped_column(String(50), nullable=False)
     score: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
-    priority: Mapped[LeadPriority] = mapped_column(Enum(LeadPriority), default=LeadPriority.LOW)
+    priority: Mapped[LeadPriority] = mapped_column(Enum(LeadPriority, native_enum=False), default=LeadPriority.LOW)
     explanation: Mapped[str] = mapped_column(Text, nullable=False, default="")
-    status: Mapped[LeadStatus] = mapped_column(Enum(LeadStatus), default=LeadStatus.NEW)
+    status: Mapped[LeadStatus] = mapped_column(Enum(LeadStatus, native_enum=False), default=LeadStatus.NEW)
     factors: Mapped[str] = mapped_column(Text, nullable=False, default="[]")  # JSON string
     analysis_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("analysis_results.id", ondelete="SET NULL"), nullable=True

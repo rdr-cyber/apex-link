@@ -47,7 +47,7 @@ class Relationship(Base):
     target_entity_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("entities.id", ondelete="CASCADE"), index=True
     )
-    relationship_type: Mapped[RelationshipType] = mapped_column(Enum(RelationshipType), nullable=False)
+    relationship_type: Mapped[RelationshipType] = mapped_column(Enum(RelationshipType, native_enum=False), nullable=False)
     confidence: Mapped[float] = mapped_column(Float, nullable=False, default=1.0)
     relationship_basis: Mapped[str] = mapped_column(
         String(30), nullable=False, default=RelationshipBasis.TEXTUAL_CO_OCCURRENCE.value

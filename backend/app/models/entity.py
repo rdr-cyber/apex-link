@@ -31,7 +31,7 @@ class Entity(Base):
     __tablename__ = "entities"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    entity_type: Mapped[EntityType] = mapped_column(Enum(EntityType), nullable=False, index=True)
+    entity_type: Mapped[EntityType] = mapped_column(Enum(EntityType, native_enum=False), nullable=False, index=True)
     canonical_value: Mapped[str] = mapped_column(String(1000), nullable=False)
     display_value: Mapped[str] = mapped_column(String(1000), nullable=False)
     normalized_value: Mapped[str] = mapped_column(String(1000), nullable=False, index=True)

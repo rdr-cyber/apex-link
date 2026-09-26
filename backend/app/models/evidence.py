@@ -29,7 +29,7 @@ class Evidence(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     case_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("cases.id", ondelete="CASCADE"), index=True)
     evidence_number: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
-    evidence_type: Mapped[EvidenceType] = mapped_column(Enum(EvidenceType), nullable=False)
+    evidence_type: Mapped[EvidenceType] = mapped_column(Enum(EvidenceType, native_enum=False), nullable=False)
     filename: Mapped[str] = mapped_column(String(500), nullable=False)
     mime_type: Mapped[str] = mapped_column(String(100), nullable=False)
     size_bytes: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
